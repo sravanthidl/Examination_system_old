@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+
+.head_bar {
+	background-color:#0a2081;
+	color: white;
+	height:180px;
+}
+.head1_bar{
+	font-size:28px;
+	padding-left:530px;
+	padding-top:24px;
+}
+.head2_bar{
+	font-size:15px;
+	padding-left:665px;
+	padding-top:3px;
+}
+.head3_bar{
+	font-size:25px;
+	padding-left:600px;
+	padding-top:20px;
+}
+.body_bar{
+	background-color:#f0f0f0;
+	height:650px;
+	width:90%;
+	position:absolute;
+	top:180px;
+	left:5%;
+}
+
+</style>
+
+<body>
+	<div class="head_bar">
+		<div class="head1_bar">XYZ Institute of Technology</div>
+		<div class="head2_bar">(Autonomous)</div>
+		<div class="head3_bar">Examination Corner</div>
+	</div>
+	
+	<div class="body_bar">
+	
+		<div style="height:580px;width:50%;position:absolute;top:30px;left:25%;background-color:#d0d7fb;border-radius:10px;">
+
+			<p style="font-size:23px;top:0px;left:220px;position:absolute"><strong>Teacher Sign-up</strong></p>
+			<form action="TeacherRegister" method="post" name="thisForm" onsubmit="return validateForm()">
+				<p style="left:120px;top:90px;position:absolute">Full Name<p>
+				<input style="left:300px;top:100px;position:absolute" size="25" type="text" name="name" required>
+				<p style="left:120px;top:140px;position:absolute">Teacher Id<p>
+				<input style="left:300px;top:150px;position:absolute" size="25" type="text" name="teacherId" required>			
+				<p style="left:120px;top:190px;position:absolute">Password<p>
+				<input style="left:300px;top:200px;position:absolute" size="25" type="password" name="password" required>			
+				<p style="left:120px;top:240px;position:absolute">Confirm Password<p>
+				<input style="left:300px;top:250px;position:absolute" size="25" type="password" name="rePassword" required>
+				<p style="left:120px;top:290px;position:absolute">Branch<p>
+				<select style="left:300px;top:300px;position:absolute;width:240px;height:28px" name="branch" required>
+				    <option value="BS">Basic Science</option>
+				    <option value="CE">CE</option>
+				    <option value="CSE">CSE</option>
+				    <option value="ECE">ECE</option>
+				    <option value="EEE">EEE</option>
+				    <option value="IT">IT</option>
+				    <option value="ME">ME</option>
+			  	</select>			
+				<p style="left:120px;top:340px;position:absolute">Designation<p>
+				<input style="left:300px;top:350px;position:absolute" size="25" type="text" name="designation" required>			
+				<p style="left:120px;top:390px;position:absolute">Mobile<p>
+				<input style="left:300px;top:400px;position:absolute" size="25" type="tel" name="mobile" pattern="[0-9]{10}" required>			
+				<p style="left:120px;top:440px;position:absolute">Email<p>
+				<input style="left:300px;top:450px;position:absolute" size="25" type="email" name="email" required>			  
+				<input style="left:290px;top:515px;position:absolute" type="submit" value="Submit">
+			</form>
+			
+		</div>
+		
+	</div>
+	
+</body>
+<script>
+
+function validateForm(){
+	var name = document.forms["thisForm"]["name"].value;
+	var teacherId = document.forms["thisForm"]["teacherId"].value;
+	var password = document.forms["thisForm"]["password"].value;
+	var rePassword = document.forms["thisForm"]["rePassword"].value;
+	var branch = document.forms["thisForm"]["branch"].value;
+	var designation = document.forms["thisForm"]["designation"].value;
+	var mobile = document.forms["thisForm"]["mobile"].value;
+	var email = document.forms["thisForm"]["email"].value;
+	if(password.localeCompare(rePassword) != 0){
+		  alert("Passwords did not match!\nPlease try again!");
+		  return false;
+	 }
+	if(name.length() > 30){
+		alert("Name should not be more than 30 characters!");
+		return false;
+	}
+	if(teacherId.length() > 15){
+		alert("TeacherId should not be more than 15 characters!");
+		return false;
+	}
+	if(password.length() > 15){
+		alert("Password should not be more than 15 characters!");
+		return false;
+	}
+	if(designation.length() > 30){
+		alert("Designation should not be more than 30 characters!");
+		return false;
+	}
+	if(email.length() > 40){
+		alert("Email should not be more than 40 characters!");
+		return false;
+	}
+	
+}
+</script>
+
+</html>

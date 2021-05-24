@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+
+.head_bar {
+	background-color:#0a2081;
+	color: white;
+	height:180px;
+}
+.head1_bar{
+	font-size:28px;
+	padding-left:530px;
+	padding-top:24px;
+}
+.head2_bar{
+	font-size:15px;
+	padding-left:665px;
+	padding-top:3px;
+}
+.head3_bar{
+	font-size:25px;
+	padding-left:600px;
+	padding-top:20px;
+}
+.body_bar{
+	background-color:#f0f0f0;
+	height:650px;
+	width:90%;
+	position:absolute;
+	top:180px;
+	left:5%;
+}
+
+
+
+</style>
+
+<body>
+
+	<div class="head_bar">
+		<div class="head1_bar">XYZ Institute of Technology</div>
+		<div class="head2_bar">(Autonomous)</div>
+		<div class="head3_bar">Examination Corner</div>
+	</div>
+	
+	<div class="body_bar">
+		<p style="font-size:23px;top:60px;left:160px;position:absolute"><strong>Student Login</strong></p>
+		<div style="height:300px;width:25%;position:absolute;top:160px;left:90px;background-color:#d0d7fb;border-radius:10px;">
+			<form action="/action_page.php">
+				<p style="left:70px;top:20px;position:absolute">Student Id<p>
+				<input style="left:70px;top:67px;position:absolute" size="20" type="text" name="browser">  
+				<p style="left:70px;top:100px;position:absolute">Password<p>
+				<input style="left:70px;top:147px;position:absolute" size="20" type="password" name="browser">
+				<a style="left:80px;top:190px;position:absolute" href="#">New User? Signup here</a>
+				<input style="left:120px;top:230px;position:absolute" type="submit" value="Submit">
+			</form>
+		</div>
+			
+		<p style="font-size:23px;top:60px;left:560px;position:absolute"><strong>Teacher Login</strong></p>
+		<div style="height:300px;width:25%;position:absolute;top:160px;left:490px;background-color:#d0d7fb;border-radius:10px;">
+			<form action="TeacherLogin" method="post">
+				<p style="left:70px;top:20px;position:absolute">Teacher Id<p>
+				<input style="left:70px;top:67px;position:absolute" size="20" type="text" name="teacherId">  
+				<p style="left:70px;top:100px;position:absolute">Password<p>
+				<input style="left:70px;top:147px;position:absolute" size="20" type="password" name="password">
+				<a style="left:80px;top:190px;position:absolute" href="TeacherRegister.html">New User? Signup here</a>
+				<input style="left:120px;top:230px;position:absolute" type="submit" value="Submit">
+			</form>
+		</div>	
+			
+		<p style="font-size:23px;top:60px;left:940px;position:absolute"><strong>Controller Login</strong></p>
+		 <div style="height:300px;width:25%;position:absolute;top:160px;left:890px;background-color:#d0d7fb;border-radius:10px;">
+			<form action="ControllerLogin" method="post">
+				<p style="left:70px;top:20px;position:absolute">Controller Id<p>
+				<input style="left:70px;top:67px;position:absolute" size="20" type="text" name="controllerId">  
+				<p style="left:70px;top:100px;position:absolute">Password<p>
+				<input style="left:70px;top:147px;position:absolute" size="20" type="password" name="password">
+				<a style="left:80px;top:190px;position:absolute" href="ControllerRegister.html">New User? Signup here</a>
+				<input style="left:120px;top:230px;position:absolute" type="submit" value="Submit">
+			</form>
+		</div>
+		
+	</div>
+	
+</body>
+</html>
