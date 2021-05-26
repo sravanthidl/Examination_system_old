@@ -9,7 +9,7 @@ public class DescriptiveDao {
 		return HibernateTemplate.addObject(descriptive);
 	}
 	
-	public Descriptive getDescriptiveByYBSIdAndExamType(String YBSId, String examType) {
+	public Descriptive getDescriptive(String YBSId, String examType) {
 		return HibernateTemplate.getDescriptiveByYBSIdAndExamType(YBSId, examType);
 	}
 	
@@ -21,11 +21,11 @@ public class DescriptiveDao {
 		return HibernateTemplate.updateExamTimeStamp(YBSId, examType, examDate, openTime, closeTime);
 	}
 	
-	public int updateQPaperPath(String YBSId, String examType, String QPaperPath) {
-		return HibernateTemplate.updateQPaperPath(YBSId, examType, QPaperPath);
+	public int updateQPaperPath(String YBSId, String examType, String teacherId, String QPaperPath) {
+		return HibernateTemplate.updateQPaperPath(YBSId, examType, teacherId, QPaperPath);
 	}
 	
-	public int updateAsgnPaperPath(String YBSId, String examType, String asgnPaperPath, String asgnOpenDate, String asgnCloseDate) {
-		return HibernateTemplate.updateAsgnPaperPath(YBSId, examType, asgnPaperPath, asgnOpenDate, asgnCloseDate);
+	public int updateAsgnPaperPath(String YBSId, String examType, String teacherId, String asgnPaperPath, String asgnOpenDate, String asgnCloseDate) {
+		return HibernateTemplate.updateAsgnPaperPath(YBSId, examType, teacherId, asgnPaperPath, asgnOpenDate, asgnCloseDate);
 	}
 }

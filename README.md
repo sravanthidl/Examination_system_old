@@ -29,3 +29,9 @@ Table Name : ExamTask
 
 Schema :
 > | **year(int) | examType(5)** | settingOpenDate(12) | settingCloseDate(12) | evaluationOpenDate(12) | evaluationCloseDate(12) | resultOpenDate(12) |
+
+Table Name : ScriptsAndMarks
+
+Schema:
+> | **studentId(20) | BSId(12)** | desc1Script(40) | desc1Marks(int) | quiz1Script(40) | quiz1Marks(int) | asgn1Script(40) | asgn1Marks(int) | mid1Marks(int) | desc2Script(40) | desc2Marks(int) | quiz2Script(40) | quiz2Marks(int) | asgn2Script(40) | asgn2Marks(int) | mid2Marks(int) | midNetMarks(int) | semScript(40) | semMarks(40) | semNetMarks(40) |
+

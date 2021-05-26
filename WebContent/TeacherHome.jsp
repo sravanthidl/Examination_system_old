@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="java.time.LocalDate"%>
 <!DOCTYPE html>
 <html>
 <title>W3.CSS</title>
@@ -107,31 +107,48 @@
 	
 	<div class="menu_bar">
 	
-	<div class="dropdown" style="left:190px">
-			<a style="text-decoration:none" href="#" >Courses</a>
+		<div class="dropdown" style="left:190px">
+			<a style="text-decoration:none">Courses</a>
 			<div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:188px" href="TeacherSubjectsDashboard.jsp">Register to Courses</a></br>
+		    	<a class="dropdown_content_options" style="min-width:188px" href="TeacherSubjectsDashboard.jsp">Register to Courses</a></br>
 		    </div>
 		</div>
 		
 		<div class="dropdown" style="left:460px">
-			<a style="text-decoration:none" href="#" >Set Papers</a>
+			<a style="text-decoration:none" >Set Papers</a>
 		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:212px" href="TeacherSettingDashboard.jsp">Setting Dashboard</a></br>
-		      <a class="dropdown_content_options" style="min-width:212px;top:40px" href="#">Setting Status</a></br>
+		    	<%		
+				String teacherId = (String)session.getAttribute("teacherId");
+				SubjectDao subjectDao = new SubjectDao();
+				List<Subject> subjects = subjectDao.getAllSubjectsByTeacherId(teacherId);
+				Subject firstSubject = subjects.get(0);
+				%>
+				<form action="TeacherPaperSetting.jsp">
+		    		<input type="hidden" name="YBSId" value="<%=firstSubject.getYBSId()%>">
+		      		<input class="dropdown_content_options" style="min-width:212px;border:none;cursor:pointer" type="Submit" value="Setting Dashboard"></br>
+		      	</form>
+		      	<form action="#">
+		      		<input class="dropdown_content_options" style="min-width:212px;border:none;cursor:pointer;top:40px" type="submit" value="Setting Status"></br>
+		    	</form>
 		    </div>
 		</div>
 
 		<div class="dropdown" style="left:750px">
-			<a style="text-decoration:none" href="#" >Evaluation & Marks</a>
+			<a style="text-decoration:none">Evaluation & Marks</a>
 		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:257px" href="TeacherEvaluationDashboard.jsp">Evaluation Dashboard</a></br>
-		      <a class="dropdown_content_options" style="min-width:257px;top:40px" href="#">Evaluation Status</a></br>
+		    	
+		    	<form action="TeacherEvaluation.jsp">
+		    		<input type="hidden" name="YBSId" value="<%=firstSubject.getYBSId()%>">
+		      		<input class="dropdown_content_options" style="min-width:284px;border:none;cursor:pointer" type="Submit" value="Evaluation Dashboard"></br>
+		      	</form>
+		      	<form action="#">
+		      		<input class="dropdown_content_options" style="min-width:284px;border:none;cursor:pointer;top:40px" type="submit" value="Evaluation Status"></br>
+		    	</form>
 		    </div>
 		</div>
 
 		<div class="dropdown" style="left:1090px">
-			<a style="text-decoration:none" href="#" >Profile</a>
+			<a style="text-decoration:none" >Profile</a>
 		    <div class="dropdown_content_box" style="left:0px">
 		      <a class="dropdown_content_options" style="min-width:173px"href="TeacherViewProfile.jsp">View Profile</a></br>
 		       <a class="dropdown_content_options" style="min-width:173px;top:40px" href="AllLoginPage.html">Logout</a></br>
@@ -142,7 +159,7 @@
 	
 	
 	<div class="body_bar">
-		<% String teacherId = (String)session.getAttribute("teacherId"); 
+		<% 
 		System.out.println(teacherId);
 		%>	
 		<p style="font-size:23px;top:150px;left:400px;position:absolute">Hi!</br>Your notifications...</p>

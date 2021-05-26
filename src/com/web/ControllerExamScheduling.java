@@ -50,7 +50,7 @@ public class ControllerExamScheduling extends HttpServlet {
             	descriptive.setExamCloseTime(closeTime);
             	if(!examDate.equals("")) {
             		DescriptiveDao descriptiveDao = new DescriptiveDao();
-                	Descriptive descriptiveExists = descriptiveDao.getDescriptiveByYBSIdAndExamType(YBSId, examType);
+                	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
                 	if(descriptiveExists == null) {
                 		int status = descriptiveDao.addTimeStamp(descriptive);
                 		//System.out.println("HERE");

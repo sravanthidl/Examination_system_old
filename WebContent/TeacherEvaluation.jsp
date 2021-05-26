@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="com.dto.Descriptive" import="com.dao.DescriptiveDao" import="java.util.List" import="com.dao.Today"%>
 <!DOCTYPE html>
 <html>
 <title>W3.CSS</title>
@@ -37,14 +37,13 @@
 }
 .vertical_menu_bar{
 	position:absolute;
-	background-color:#0a2081;
-	height:92%;
+	background-color:#b9c4f9;
+	height:78%;
 	width:13%;
 	text-decoration:none;
 	font-size:17px;
-	top:130px;
+	top:180px;
 	left:0px;
-	z-index:1;
 }
 
 .body_bar{
@@ -55,7 +54,6 @@
 	top:180px;
 	left:13%;
 }
-
 .dropdown {
 	position:absolute;
 	padding:12.5px 60px;
@@ -182,11 +180,13 @@
 		<%! int topAttr = 100; %>
 		<%! void initTopAttr(){ topAttr = 100; } %>
 		<%! void updateTopAttr(){ topAttr += 120; } %>
-		<%
+		<%		
+		System.out.println("T:"+teacherId);
 		initTopAttr();
-		for(Subject subject : subjects){	
+		for(Subject subject : subjects){
+			System.out.println("Y:" + subject.getYBSId());
 		%>
-		<form action="TeacherPaperSetting.jsp" method="Post"">
+		<form action="TeacherEvaluation.jsp">
 			<input type="hidden" name="YBSId" value="<%=subject.getYBSId()%>">
 			<input style="left:40px;top:<%=topAttr%>px;position:absolute" type="submit" value="<%=subject.getYear()%>-<%=subject.getBranch()%>-<%=subject.getSubjectName()%>">
 		</form>
@@ -194,13 +194,14 @@
 	</div>
 	
 	
- 	<div class="body_bar">
-		
-	  	<%		
+	<div class="body_bar">
+		<%		
 			//System.out.println(teacherId);
 	  		//System.out.println("YOO:" + YBSId);
 	  		String mid1OpenDate = "TBA", mid1CloseDate = "TBA", mid1Status = "TBA";
+	  		String asgn1OpenDate = "TBA", asgn1CloseDate = "TBA", asgn1Status = "TBA";
 			String mid2OpenDate = "TBA", mid2CloseDate = "TBA", mid2Status = "TBA";
+			String asgn2OpenDate = "TBA", asgn2CloseDate = "TBA", asgn2Status = "TBA";
 			String semOpenDate = "TBA", semCloseDate = "TBA", semStatus = "TBA";
 			String today = new Today().getToday();
 			
@@ -211,51 +212,86 @@
 			ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
 			ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
 			ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");
+			DescriptiveDao descriptiveDao = new DescriptiveDao();
+			Descriptive mid1Desc = descriptiveDao.getDescriptive(YBSId, "mid1");
+			Descriptive mid2Desc = descriptiveDao.getDescriptive(YBSId, "mid2");
 
 			if(mid1ExamTask != null){
 				System.out.println("HERE");
-				mid1OpenDate = mid1ExamTask.getSettingOpenDate();
-				mid1CloseDate = mid1ExamTask.getSettingCloseDate();
+				mid1OpenDate = mid1ExamTask.getEvaluationOpenDate();
+				mid1CloseDate = mid1ExamTask.getEvaluationCloseDate();
 				if(mid1OpenDate != null && mid1CloseDate != null){
 					if(today.compareTo(mid1CloseDate) > 0) mid1Status = "Expired";
 					else if(today.compareTo(mid1OpenDate) >= 0 && today.compareTo(mid1CloseDate) <= 0) mid1Status = "Active";
 					else if(today.compareTo(mid1OpenDate) < 0) mid1Status = "Opens Soon";
+				}else{
+					mid1OpenDate = "TBA";
+					mid1CloseDate = "TBA";
 				}
+				
 			}
 			if(mid2ExamTask != null){
-				mid2OpenDate = mid2ExamTask.getSettingOpenDate();
-				mid2CloseDate = mid2ExamTask.getSettingCloseDate();
+				mid2OpenDate = mid2ExamTask.getEvaluationOpenDate();
+				mid2CloseDate = mid2ExamTask.getEvaluationCloseDate();
 				if(mid2OpenDate != null && mid2CloseDate != null){
 					if(today.compareTo(mid2CloseDate) > 0) mid2Status = "Expired";
 					else if(today.compareTo(mid2OpenDate) >= 0 && today.compareTo(mid2CloseDate) <= 0) mid2Status = "Active";
 					else if(today.compareTo(mid2OpenDate) < 0) mid2Status = "Opens Soon";
+				}else{
+					mid2OpenDate = "TBA";
+					mid2CloseDate = "TBA";
 				}
-				
+			}
+			if(mid1Desc != null){
+				asgn1OpenDate = mid1Desc.getAsgnCloseDate();
+				asgn1CloseDate = mid1CloseDate;
+				if(asgn1OpenDate != null && asgn1CloseDate != null){
+					if(today.compareTo(asgn1CloseDate) > 0) asgn1Status = "Expired";
+					else if(today.compareTo(asgn1OpenDate) >= 0 && today.compareTo(asgn1CloseDate) <= 0) asgn1Status = "Active";
+					else if(today.compareTo(asgn1OpenDate) < 0) asgn1Status = "Opens Soon";
+				}else if(asgn1OpenDate != null && asgn1CloseDate == null){
+					if(today.compareTo(asgn1OpenDate) >= 0) asgn1Status = "Active";
+					else if(today.compareTo(asgn1OpenDate) < 0) asgn1Status = "Opens Soon";
+				}	
+			}
+			if(mid2Desc != null){
+				asgn2OpenDate = mid2Desc.getAsgnCloseDate();
+				asgn2CloseDate = mid2CloseDate;
+				if(asgn2OpenDate != null && asgn2CloseDate != null){
+					if(today.compareTo(asgn2CloseDate) > 0) asgn2Status = "Expired";
+					else if(today.compareTo(asgn2OpenDate) >= 0 && today.compareTo(asgn2CloseDate) <= 0) asgn2Status = "Active";
+					else if(today.compareTo(asgn2OpenDate) < 0) asgn2Status = "Opens Soon";
+				}else if(asgn2OpenDate != null && asgn2CloseDate == null){
+					if(today.compareTo(asgn2OpenDate) >= 0) asgn2Status = "Active";
+					else if(today.compareTo(asgn2OpenDate) < 0) asgn2Status = "Opens Soon";
+				}	
 			}
 			if(semExamTask != null){
-				semOpenDate = semExamTask.getSettingOpenDate();
-				semCloseDate = semExamTask.getSettingCloseDate();
+				semOpenDate = semExamTask.getEvaluationOpenDate();
+				semCloseDate = semExamTask.getEvaluationCloseDate();
 				if(semOpenDate != null && semCloseDate != null){
 					if(today.compareTo(semCloseDate) > 0) semStatus = "Expired";
 					else if(today.compareTo(semOpenDate) >= 0 && today.compareTo(semCloseDate) <= 0) semStatus = "Active";
 					else if(today.compareTo(semOpenDate) < 0) semStatus = "Opens Soon";
+				}else{
+					semOpenDate = "TBA";
+					semCloseDate = "TBA";
 				}
-				
 			}
 			System.out.println("TS:" + mid1OpenDate + "@" + mid1CloseDate);
 				
 			%>
 
-				<div style="height:550px;width:80%;position:absolute;top:40px;left:8%;background-color:#d0d7fb;border-radius:10px;">
+				<div style="height:550px;width:65%;position:absolute;top:40px;left:8%;background-color:#d0d7fb;border-radius:10px;">
 					
 				
 					<p style="left:60px;top:60px;position:absolute;color:#0a2081;font-size:15px">Exam Type</p>
 					<p style="left:205px;top:60px;position:absolute;color:#0a2081;font-size:15px">Start Date</p>
 					<p style="left:355px;top:60px;position:absolute;color:#0a2081;font-size:15px">End Date</p>
 					<p style="left:505px;top:60px;position:absolute;color:#0a2081;font-size:15px">Status</p>
-					<p style="left:670px;top:60px;position:absolute;color:#0a2081;font-size:15px">Upload/Create</p>
+					<p style="left:670px;top:60px;position:absolute;color:#0a2081;font-size:15px">Evaluate</p>
 					
-					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+					<form action="TeacherDescEvaluation.jsp">
 						<input type="hidden" name="examType" value="mid1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:110px;position:absolute;font-size:15px">Mid 1 Desc</p>
@@ -269,45 +305,26 @@
 							<%
 						}
 						%>
-						<input type="file" name="file" style="left:620px;top:120px;position:absolute;font-size:15px" required>
-						<input type="submit" value="Upload" style="left:900px;top:120px;position:absolute;font-size:15px">
+						<input type="submit" value="Evaluate" style="left:620px;top:120px;position:absolute;font-size:15px">
 					</form>
 					
-					<form action="TeacherQuizSetting.jsp">
-						<input type="hidden" name="examType" value="quiz1">
-						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<p style="left:60px;top:170px;position:absolute;font-size:15px">Mid 1 Quiz</p>
-						<p style="left:200px;top:170px;position:absolute;font-size:15px"><%=mid1OpenDate%></p>
-						<p style="left:350px;top:170px;position:absolute;font-size:15px"><%=mid1CloseDate%></p>
-						<p style="left:500px;top:170px;position:absolute;font-size:15px"><%=mid1Status%></p>
-						<%
-						if(!mid1Status.equals("Active")){
-							%>
-							<div style="height:35px;width:37%;position:absolute;top:180px;left:680px;cursor:not-allowed;z-index:1" ></div>
-							<%
-						}
-						%>
-						<input type="submit" value="Create Quiz" style="left:680px;top:180px;position:absolute">
-					</form>
 					
-					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+					<form action="TeacherDescEvaluation.jsp">
 						<input type="hidden" name="examType" value="asgn1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:230px;position:absolute;font-size:15px">Asgn 1</p>
-						<input style="left:175px;top:240px;position:absolute;font-size:15px;width:150px" type="date" onkeydown="return false" name="openDate" required>
-						<input style="left:330px;top:240px;position:absolute;font-size:15px;width:150px" type="date" onkeydown="return false" name="closeDate" required>
-						<input type="file" name="file" style="left:620px;top:240px;position:absolute;font-size:15px" required>
-						<input type="submit" value="Upload" style="left:900px;top:240px;position:absolute;font-size:15px">
+						<p style="left:175px;top:240px;position:absolute;font-size:15px;width:150px"><%=asgn1OpenDate%></p>
+						<p style="left:330px;top:240px;position:absolute;font-size:15px;width:150px"><%=asgn1CloseDate%></p>
+						<input type="submit" value="Evaluate" style="left:620px;top:240px;position:absolute;font-size:15px">
 					</form>
 					
-					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+					<form action="TeacherDescEvaluation.jsp">
 						<input type="hidden" name="examType" value="mid2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:290px;position:absolute;font-size:15px">Mid 2 Desc</p>
 						<p style="left:200px;top:290px;position:absolute;font-size:15px"><%=mid2OpenDate%></p>
 						<p style="left:350px;top:290px;position:absolute;font-size:15px"><%=mid2CloseDate%></p>
 						<p style="left:500px;top:290px;position:absolute;font-size:15px"><%=mid2Status%></p>
-						<input type="file" name="file" style="left:620px;top:300px;position:absolute;font-size:15px" required>
 						<%
 						if(!mid2Status.equals("Active")){
 							%>
@@ -315,37 +332,20 @@
 							<%
 						}
 						%>
-						<input type="submit" value="Upload" style="left:900px;top:300px;position:absolute;font-size:15px">
+						<input type="submit" value="Evaluate" style="left:620px;top:300px;position:absolute;font-size:15px">
 					</form>
 					
-					<form action="TeacherQuizSetting.jsp">
-						<input type="hidden" name="examType" value="quiz2">
-						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<p style="left:60px;top:350px;position:absolute;font-size:15px">Mid 2 Quiz</p>
-						<p style="left:200px;top:350px;position:absolute;font-size:15px"><%=mid2OpenDate%></p>
-						<p style="left:350px;top:350px;position:absolute;font-size:15px"><%=mid2CloseDate%></p>
-						<p style="left:500px;top:350px;position:absolute;font-size:15px"><%=mid2Status%></p>
-						<%
-						if(!mid2Status.equals("Active")){
-							%>
-							<div style="height:35px;width:37%;position:absolute;top:360px;left:680px;cursor:not-allowed;z-index:1" ></div>
-							<%
-						}
-						%>
-						<input type="submit" value="Create Quiz" style="left:680px;top:360px;position:absolute">
-					</form>
 					
-					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+					<form action="TeacherDescEvaluation.jsp">
 						<input type="hidden" name="examType" value="asgn2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:410px;position:absolute;font-size:15px">Asgn 2</p>
-						<input style="left:200px;top:410px;position:absolute;font-size:15px" type="date" onkeydown="return false" name="openDate" required>
-						<input style="left:400px;top:410px;position:absolute;font-size:15px" type="date" onkeydown="return false" name="closeDate" required>
-						<input type="file" name="file" style="left:620px;top:420px;position:absolute;font-size:15px" required>
-						<input type="submit" value="Upload" style="left:900px;top:420px;position:absolute;font-size:15px">
+						<p style="left:200px;top:410px;position:absolute;font-size:15px"><%=asgn2OpenDate%></p>
+						<p style="left:400px;top:410px;position:absolute;font-size:15px"><%=asgn2CloseDate%></p>
+						<input type="submit" value="Evaluate" style="left:620px;top:420px;position:absolute;font-size:15px">
 					</form>
 					
-					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+					<form action="TeacherDescEvaluation.jsp">
 						<input type="hidden" name="examType" value="sem">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:460px;position:absolute;font-size:15px">Semester</p>
@@ -359,11 +359,12 @@
 							<%
 						}
 						%>
-						<input type="file" name="file" style="left:620px;top:470px;position:absolute;font-size:15px" required>
-						<input type="submit" value="Upload" style="left:900px;top:470px;position:absolute;font-size:15px">
+						<input type="submit" value="Evaluate" style="left:620px;top:470px;position:absolute;font-size:15px">
 					</form>	
 				</div>
-		</div> 	
+			 
+	</div>
+	
 </body>
 
 

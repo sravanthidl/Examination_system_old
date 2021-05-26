@@ -43,7 +43,7 @@ public class TeacherDescSetting extends HttpServlet {
         
         DescriptiveDao descriptiveDao = new DescriptiveDao();
         if(examType.equals("mid1") || examType.equals("mid2") || examType.equals("sem")){
-        	Descriptive descriptiveExists = descriptiveDao.getDescriptiveByYBSIdAndExamType(YBSId, examType);
+        	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
         	if(descriptiveExists == null) {
         		Descriptive  descriptive = null;
         		descriptive.setYBSId(YBSId);
@@ -52,12 +52,12 @@ public class TeacherDescSetting extends HttpServlet {
         		descriptive.setQPaperPath(paperPath);
         		descriptiveDao.addDescriptive(descriptive);
         	}else {
-        		int status = descriptiveDao.updateQPaperPath(YBSId, examType, paperPath);
+        		int status = descriptiveDao.updateQPaperPath(YBSId, examType, teacherId, paperPath);
         	}
         }else{
         	if(examType.equals("asgn1")) examType = "mid1";
         	else examType = "mid2";
-        	Descriptive descriptiveExists = descriptiveDao.getDescriptiveByYBSIdAndExamType(YBSId, examType);
+        	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
         	if(descriptiveExists == null) {
         		Descriptive  descriptive = null;
         		descriptive.setYBSId(YBSId);
@@ -68,7 +68,7 @@ public class TeacherDescSetting extends HttpServlet {
         		descriptive.setAsgnCloseDate(asgnCloseDate);
         		descriptiveDao.addDescriptive(descriptive);
         	}else {
-        		int status = descriptiveDao.updateAsgnPaperPath(YBSId, examType, paperPath, asgnOpenDate, asgnCloseDate);
+        		int status = descriptiveDao.updateAsgnPaperPath(YBSId, examType, teacherId, paperPath, asgnOpenDate, asgnCloseDate);
         	}
         }
         

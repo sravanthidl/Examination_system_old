@@ -187,12 +187,13 @@ public class HibernateTemplate {
 		return status;
 	}
 	
-	public static int updateQPaperPath(String YBSId, String examType, String QPaperPath) {
+	public static int updateQPaperPath(String YBSId, String examType, String teacherId, String QPaperPath) {
 		Session session=sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();  
-		Query query = session.createQuery("update Descriptive set QPaperPath = :QPaperPath where YBSId = :YBSId and examType = :examType");
+		Query query = session.createQuery("update Descriptive set QPaperPath = :QPaperPath, teacherId = :teacherId where YBSId = :YBSId and examType = :examType");
 		query.setString("YBSId", YBSId);  
 		query.setString("examType", examType);
+		query.setString("teacherId", teacherId);
 		query.setString("QPaperPath", QPaperPath);
 		int status = query.executeUpdate();   
 		tx.commit();
@@ -200,12 +201,13 @@ public class HibernateTemplate {
 		return status;
 	}
 
-	public static int updateAsgnPaperPath(String YBSId, String examType, String asgnPaperPath, String asgnOpenDate, String asgnCloseDate) {
+	public static int updateAsgnPaperPath(String YBSId, String examType, String teacherId, String asgnPaperPath, String asgnOpenDate, String asgnCloseDate) {
 		Session session=sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();  
-		Query query = session.createQuery("update Descriptive set asgnPaperPath = :asgnPaperPath, asgnOpenDate = :asgnOpenDate, asgnCloseDate = :asgnCloseDate where YBSId = :YBSId and examType = :examType");
+		Query query = session.createQuery("update Descriptive set teacherId = :teacherId, asgnPaperPath = :asgnPaperPath, asgnOpenDate = :asgnOpenDate, asgnCloseDate = :asgnCloseDate where YBSId = :YBSId and examType = :examType");
 		query.setString("YBSId", YBSId);  
 		query.setString("examType", examType);
+		query.setString("teacherId", teacherId);
 		query.setString("asgnPaperPath", asgnPaperPath);
 		query.setString("asgnOpenDate", asgnOpenDate);
 		query.setString("asgnCloseDate", asgnCloseDate);
