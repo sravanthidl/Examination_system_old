@@ -5,6 +5,10 @@ import com.dto.Descriptive;
 
 public class DescriptiveDao {
 	
+	public int addDescriptive(Descriptive descriptive) {
+		return HibernateTemplate.addObject(descriptive);
+	}
+	
 	public Descriptive getDescriptiveByYBSIdAndExamType(String YBSId, String examType) {
 		return HibernateTemplate.getDescriptiveByYBSIdAndExamType(YBSId, examType);
 	}
@@ -19,5 +23,9 @@ public class DescriptiveDao {
 	
 	public int updateQPaperPath(String YBSId, String examType, String QPaperPath) {
 		return HibernateTemplate.updateQPaperPath(YBSId, examType, QPaperPath);
+	}
+	
+	public int updateAsgnPaperPath(String YBSId, String examType, String asgnPaperPath, String asgnOpenDate, String asgnCloseDate) {
+		return HibernateTemplate.updateAsgnPaperPath(YBSId, examType, asgnPaperPath, asgnOpenDate, asgnCloseDate);
 	}
 }

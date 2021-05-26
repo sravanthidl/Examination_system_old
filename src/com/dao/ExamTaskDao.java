@@ -10,10 +10,9 @@ public class ExamTaskDao {
 		return HibernateTemplate.addObject(examTask);
 	}
 	
-	public boolean checkIfExamTaskExists(int year, String examType) {
-		ExamTask examTask = HibernateTemplate.checkIfExamTaskExists(year, examType);
-		if(examTask == null) return false;
-		return true;
+	public ExamTask getExamTask(int year, String examType) {
+		ExamTask examTask = HibernateTemplate.getExamTask(year, examType);
+		return examTask;
 	}
 	
 	public int updateSettingDates(int year, String examType, String settingOpenDate, String settingCloseDate) {

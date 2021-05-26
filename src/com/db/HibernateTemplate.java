@@ -199,6 +199,21 @@ public class HibernateTemplate {
 		System.out.println(status); 
 		return status;
 	}
+
+	public static int updateAsgnPaperPath(String YBSId, String examType, String asgnPaperPath, String asgnOpenDate, String asgnCloseDate) {
+		Session session=sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();  
+		Query query = session.createQuery("update Descriptive set asgnPaperPath = :asgnPaperPath, asgnOpenDate = :asgnOpenDate, asgnCloseDate = :asgnCloseDate where YBSId = :YBSId and examType = :examType");
+		query.setString("YBSId", YBSId);  
+		query.setString("examType", examType);
+		query.setString("asgnPaperPath", asgnPaperPath);
+		query.setString("asgnOpenDate", asgnOpenDate);
+		query.setString("asgnCloseDate", asgnCloseDate);
+		int status = query.executeUpdate();   
+		tx.commit();
+		System.out.println(status); 
+		return status;
+	}
 	
 	public static int deleteObject(java.lang.Class c,Serializable serializable)
 	{
@@ -231,12 +246,19 @@ public class HibernateTemplate {
 		return result;
 	}
 	
-	public static ExamTask checkIfExamTaskExists(int year, String examType) {
+	public static ExamTask getExamTask(int year, String examType) {
 		String queryString="from ExamTask where year = :year and examType = :examType";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setInteger("year", year);
 		query.setString("examType", examType);
 		return (ExamTask)query.uniqueResult();
+	}
+	
+	public static Subject getSubject(String YBSId) {
+		String queryString="from Subject where YBSId = :YBSId";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("YBSId", YBSId);
+		return (Subject)query.uniqueResult();
 	}
 
 	public static List<Object> getObjectListByQuery(String query)

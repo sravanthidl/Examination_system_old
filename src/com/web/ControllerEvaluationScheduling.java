@@ -33,8 +33,12 @@ public class ControllerEvaluationScheduling extends HttpServlet {
 		examTask.setEvaluationCloseDate(closeDate);
 		
 		ExamTaskDao examTaskDao = new ExamTaskDao();
-		if(examTaskDao.checkIfExamTaskExists(year, examType)) examTaskDao.updateEvaluationDates(year, examType, openDate, closeDate);
-		else examTaskDao.addDates(examTask);
+		ExamTask examTaskExists = examTaskDao.getExamTask(year, examType);
+		if(examTaskExists == null) {
+			int status = examTaskDao.addDates(examTask);
+		}else{
+			int status = examTaskDao.updateEvaluationDates(year, examType, openDate, closeDate); 
+		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("ControllerEvaluationScheduling.jsp");
 		rd.include(request, response);

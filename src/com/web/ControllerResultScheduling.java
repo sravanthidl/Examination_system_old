@@ -31,8 +31,13 @@ public class ControllerResultScheduling extends HttpServlet {
 		examTask.setResultOpenDate(openDate);
 		
 		ExamTaskDao examTaskDao = new ExamTaskDao();
-		if(examTaskDao.checkIfExamTaskExists(year, examType)) examTaskDao.updateResultDates(year, examType, openDate);
-		else examTaskDao.addDates(examTask);
+		ExamTask examTaskExists = examTaskDao.getExamTask(year, examType);
+		if(examTaskExists == null) {
+			int status = examTaskDao.addDates(examTask);
+		}else{
+			int status = examTaskDao.updateResultDates(year, examType, openDate);
+		}
+		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("ControllerResultScheduling.jsp");
 		rd.include(request, response);

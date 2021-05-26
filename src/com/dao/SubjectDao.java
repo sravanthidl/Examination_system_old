@@ -18,10 +18,15 @@ private SessionFactory factory = null;
 		return HibernateTemplate.addObject(subject);
 	}
 	
+	public Subject getSubject(String YBSId) {
+		return HibernateTemplate.getSubject(YBSId);
+	}
+	
 	public int updateTeacherId(String YBSId, String teacherId) {
 		return HibernateTemplate.updateTeacherId(YBSId, teacherId);
 		
 	}
+	
 	
 	public List<Subject> getAllSubjectsByTeacherId(String teacherId){
 		

@@ -30,14 +30,48 @@ public class TeacherDescSetting extends HttpServlet {
 		System.out.println(teacherId);
 		String YBSId = (String)request.getParameter("YBSId");
 		String examType = (String)request.getParameter("examType");
+		String asgnOpenDate = "", asgnCloseDate = "";
+		if(examType.equals("asgn1") || examType.equals("asgn2")) {
+			asgnOpenDate = (String)request.getParameter("openDate");
+			asgnCloseDate = (String)request.getParameter("closeDate");
+		}
 		Part part = request.getPart("file");
 		System.out.println("part:" + part);
-		String QPaperPath = extractFileName(part);
+		String paperPath = extractFileName(part);
         String saveDir = "pics";
-        imageUpload(request, QPaperPath, saveDir);
+        imageUpload(request, paperPath, saveDir);
         
         DescriptiveDao descriptiveDao = new DescriptiveDao();
-        int status = descriptiveDao.updateQPaperPath(YBSId, examType, QPaperPath);
+        if(examType.equals("mid1") || examType.equals("mid2") || examType.equals("sem")){
+        	Descriptive descriptiveExists = descriptiveDao.getDescriptiveByYBSIdAndExamType(YBSId, examType);
+        	if(descriptiveExists == null) {
+        		Descriptive  descriptive = null;
+        		descriptive.setYBSId(YBSId);
+        		descriptive.setExamType(examType);
+        		descriptive.setTeacherId(teacherId);
+        		descriptive.setQPaperPath(paperPath);
+        		descriptiveDao.addDescriptive(descriptive);
+        	}else {
+        		int status = descriptiveDao.updateQPaperPath(YBSId, examType, paperPath);
+        	}
+        }else{
+        	if(examType.equals("asgn1")) examType = "mid1";
+        	else examType = "mid2";
+        	Descriptive descriptiveExists = descriptiveDao.getDescriptiveByYBSIdAndExamType(YBSId, examType);
+        	if(descriptiveExists == null) {
+        		Descriptive  descriptive = null;
+        		descriptive.setYBSId(YBSId);
+        		descriptive.setExamType(examType);
+        		descriptive.setTeacherId(teacherId);
+        		descriptive.setAsgnPaperPath(paperPath);
+        		descriptive.setAsgnOpenDate(asgnOpenDate);
+        		descriptive.setAsgnCloseDate(asgnCloseDate);
+        		descriptiveDao.addDescriptive(descriptive);
+        	}else {
+        		int status = descriptiveDao.updateAsgnPaperPath(YBSId, examType, paperPath, asgnOpenDate, asgnCloseDate);
+        	}
+        }
+        
 		
 	}
 

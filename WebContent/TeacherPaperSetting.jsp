@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="java.util.List" %>
+    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html>
 <title>W3.CSS</title>
@@ -182,28 +182,72 @@
 	
  	<div class="body_bar">
 		
-		<%		
+	  	<%		
 			//System.out.println(teacherId);
+	  		//System.out.println("YOO:" + YBSId);
+	  		String mid1OpenDate = "TBA", mid1CloseDate = "TBA", mid1Status = "TBA";
+			String mid2OpenDate = "TBA", mid2CloseDate = "TBA", mid2Status = "TBA";
+			String semOpenDate = "TBA", semCloseDate = "TBA", semStatus = "TBA";
+			String today = LocalDate.now().toString();
+			
 			String YBSId = request.getParameter("YBSId");
-			System.out.println("YOO:" + YBSId);
+			int year = new SubjectDao().getSubject(YBSId).getYear();
+			
+			ExamTaskDao examTaskDao = new ExamTaskDao();
+			ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
+			ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
+			ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");
+			//9177530529
+			if(mid1ExamTask != null){
+				System.out.println("HERE");
+				mid1OpenDate = mid1ExamTask.getSettingOpenDate();
+				mid1CloseDate = mid1ExamTask.getSettingCloseDate();
+				if(today.compareTo(mid1CloseDate) > 0) mid1Status = "Expired";
+				else if(today.compareTo(mid1OpenDate) >= 0 && today.compareTo(mid1CloseDate) <= 0) mid1Status = "Active";
+				else if(today.compareTo(mid1OpenDate) < 0) mid1Status = "Opens Soon";
+			}
+			if(mid2ExamTask != null){
+				mid2OpenDate = mid2ExamTask.getSettingOpenDate();
+				mid2CloseDate = mid2ExamTask.getSettingCloseDate();
+				if(today.compareTo(mid2CloseDate) > 0) mid2Status = "Expired";
+				else if(today.compareTo(mid2OpenDate) >= 0 && today.compareTo(mid2CloseDate) <= 0) mid2Status = "Active";
+				else if(today.compareTo(mid2OpenDate) < 0) mid2Status = "Opens Soon";
+			}
+			if(semExamTask != null){
+				semOpenDate = semExamTask.getSettingOpenDate();
+				semCloseDate = semExamTask.getSettingCloseDate();
+				if(today.compareTo(semCloseDate) > 0) semStatus = "Expired";
+				else if(today.compareTo(semOpenDate) >= 0 && today.compareTo(semCloseDate) <= 0) semStatus = "Active";
+				else if(today.compareTo(semOpenDate) < 0) semStatus = "Opens Soon";
+			}
+			System.out.println("TS:" + mid1OpenDate + "@" + mid1CloseDate);
 				
 			%>
 
 				<div style="height:550px;width:80%;position:absolute;top:40px;left:8%;background-color:#d0d7fb;border-radius:10px;">
+					
+				
 					<p style="left:60px;top:60px;position:absolute;color:#0a2081;font-size:15px">Exam Type</p>
 					<p style="left:205px;top:60px;position:absolute;color:#0a2081;font-size:15px">Start Date</p>
 					<p style="left:355px;top:60px;position:absolute;color:#0a2081;font-size:15px">End Date</p>
 					<p style="left:505px;top:60px;position:absolute;color:#0a2081;font-size:15px">Status</p>
 					<p style="left:670px;top:60px;position:absolute;color:#0a2081;font-size:15px">Upload/Create</p>
 					
-					<form action="TeacherDescSetting" id="thisForm" method="post" enctype="multipart/form-data" onsubmit="return validate()">
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="examType" value="mid1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:110px;position:absolute;font-size:15px">Mid 1 Desc</p>
-						<p style="left:200px;top:110px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:350px;top:110px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:500px;top:110px;position:absolute;font-size:15px">Expired</p>
-						<input type="file" name="file" style="left:620px;top:120px;position:absolute;font-size:15px">
+						<p style="left:200px;top:110px;position:absolute;font-size:15px"><%=mid1OpenDate%></p>
+						<p style="left:350px;top:110px;position:absolute;font-size:15px"><%=mid1CloseDate%></p>
+						<p style="left:500px;top:110px;position:absolute;font-size:15px"><%=mid1Status%></p>
+						<%
+						if(!mid1Status.equals("Active")){
+							%>
+							<div style="height:35px;width:37%;position:absolute;top:120px;left:620px;cursor:not-allowed;z-index:1" ></div>
+							<%
+						}
+						%>
+						<input type="file" name="file" style="left:620px;top:120px;position:absolute;font-size:15px" required>
 						<input type="submit" value="Upload" style="left:900px;top:120px;position:absolute;font-size:15px">
 					</form>
 					
@@ -211,31 +255,44 @@
 						<input type="hidden" name="examType" value="quiz1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:170px;position:absolute;font-size:15px">Mid 1 Quiz</p>
-						<p style="left:200px;top:170px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:350px;top:170px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:500px;top:170px;position:absolute;font-size:15px">Expired</p>
+						<p style="left:200px;top:170px;position:absolute;font-size:15px"><%=mid1OpenDate%></p>
+						<p style="left:350px;top:170px;position:absolute;font-size:15px"><%=mid1CloseDate%></p>
+						<p style="left:500px;top:170px;position:absolute;font-size:15px"><%=mid1Status%></p>
+						<%
+						if(!mid1Status.equals("Active")){
+							%>
+							<div style="height:35px;width:37%;position:absolute;top:180px;left:680px;cursor:not-allowed;z-index:1" ></div>
+							<%
+						}
+						%>
 						<input type="submit" value="Create Quiz" style="left:680px;top:180px;position:absolute">
 					</form>
 					
-					<form action="TeacherDescSetting" id="thisForm" method="Post" enctype="multipart/form-data" onsubmit="return validate()">
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="examType" value="asgn1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:230px;position:absolute;font-size:15px">Asgn 1</p>
-						<p style="left:200px;top:230px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:350px;top:230px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:500px;top:230px;position:absolute;font-size:15px">Expired</p>
-						<input type="file" name="file" style="left:620px;top:240px;position:absolute;font-size:15px">
+						<input style="left:175px;top:240px;position:absolute;font-size:15px;width:150px" type="date" onkeydown="return false" name="openDate" required>
+						<input style="left:330px;top:240px;position:absolute;font-size:15px;width:150px" type="date" onkeydown="return false" name="closeDate" required>
+						<input type="file" name="file" style="left:620px;top:240px;position:absolute;font-size:15px" required>
 						<input type="submit" value="Upload" style="left:900px;top:240px;position:absolute;font-size:15px">
 					</form>
 					
-					<form action="TeacherDescSetting" method="Post" enctype="multipart/form-data">
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="examType" value="mid2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:290px;position:absolute;font-size:15px">Mid 2 Desc</p>
-						<p style="left:200px;top:290px;position:absolute;font-size:15px">12/08/2021</p>
-						<p style="left:350px;top:290px;position:absolute;font-size:15px">12/08/2021</p>
-						<p style="left:500px;top:290px;position:absolute;font-size:15px">Active</p>
-						<input type="file" name="file" style="left:620px;top:300px;position:absolute;font-size:15px">
+						<p style="left:200px;top:290px;position:absolute;font-size:15px"><%=mid2OpenDate%></p>
+						<p style="left:350px;top:290px;position:absolute;font-size:15px"><%=mid2CloseDate%></p>
+						<p style="left:500px;top:290px;position:absolute;font-size:15px"><%=mid2Status%></p>
+						<input type="file" name="file" style="left:620px;top:300px;position:absolute;font-size:15px" required>
+						<%
+						if(!mid2Status.equals("Active")){
+							%>
+							<div style="height:35px;width:37%;position:absolute;top:300px;left:600px;cursor:not-allowed;z-index:1" ></div>
+							<%
+						}
+						%>
 						<input type="submit" value="Upload" style="left:900px;top:300px;position:absolute;font-size:15px">
 					</form>
 					
@@ -243,20 +300,26 @@
 						<input type="hidden" name="examType" value="quiz2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:350px;position:absolute;font-size:15px">Mid 2 Quiz</p>
-						<p style="left:200px;top:350px;position:absolute;font-size:15px">12/08/2021</p>
-						<p style="left:350px;top:350px;position:absolute;font-size:15px">12/08/2021</p>
-						<p style="left:500px;top:350px;position:absolute;font-size:15px">Active</p>
+						<p style="left:200px;top:350px;position:absolute;font-size:15px"><%=mid2OpenDate%></p>
+						<p style="left:350px;top:350px;position:absolute;font-size:15px"><%=mid2CloseDate%></p>
+						<p style="left:500px;top:350px;position:absolute;font-size:15px"><%=mid2Status%></p>
+						<%
+						if(!mid2Status.equals("Active")){
+							%>
+							<div style="height:35px;width:37%;position:absolute;top:360px;left:680px;cursor:not-allowed;z-index:1" ></div>
+							<%
+						}
+						%>
 						<input type="submit" value="Create Quiz" style="left:680px;top:360px;position:absolute">
 					</form>
 					
-					<form action="TeacherDescSetting" id="thisForm" method="Post" enctype="multipart/form-data" onsubmit="return validate()">
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="examType" value="asgn2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:410px;position:absolute;font-size:15px">Asgn 2</p>
-						<p style="left:200px;top:410px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:350px;top:410px;position:absolute;font-size:15px">05/05/2021</p>
-						<p style="left:500px;top:410px;position:absolute;font-size:15px">Expired</p>
-						<input type="file" name="file" style="left:620px;top:420px;position:absolute;font-size:15px">
+						<input style="left:200px;top:410px;position:absolute;font-size:15px" type="date" onkeydown="return false" name="openDate" required>
+						<input style="left:400px;top:410px;position:absolute;font-size:15px" type="date" onkeydown="return false" name="closeDate" required>
+						<input type="file" name="file" style="left:620px;top:420px;position:absolute;font-size:15px" required>
 						<input type="submit" value="Upload" style="left:900px;top:420px;position:absolute;font-size:15px">
 					</form>
 					
@@ -264,16 +327,21 @@
 						<input type="hidden" name="examType" value="sem">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<p style="left:60px;top:460px;position:absolute;font-size:15px">Semester</p>
-						<p style="left:200px;top:460px;position:absolute;font-size:15px">23/10/2021</p>
-						<p style="left:350px;top:460px;position:absolute;font-size:15px">23/10/2021</p>
-						<p style="left:500px;top:460px;position:absolute;font-size:15px"> TBA</p>
-						<input type="file" name="file" style="left:620px;top:470px;position:absolute;font-size:15px">
+						<p style="left:200px;top:460px;position:absolute;font-size:15px"><%=semOpenDate%></p>
+						<p style="left:350px;top:460px;position:absolute;font-size:15px"><%=semCloseDate%></p>
+						<p style="left:500px;top:460px;position:absolute;font-size:15px"><%=semStatus%></p>
+						<%
+						if(!semStatus.equals("Active")){
+							%>
+							<div style="height:35px;width:37%;position:absolute;top:470px;left:620px;cursor:not-allowed;z-index:1" ></div>
+							<%
+						}
+						%>
+						<input type="file" name="file" style="left:620px;top:470px;position:absolute;font-size:15px" required>
 						<input type="submit" value="Upload" style="left:900px;top:470px;position:absolute;font-size:15px">
 					</form>	
 				</div>
-
-		</div> 
-	
+		</div> 	
 </body>
 
 
