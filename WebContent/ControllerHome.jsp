@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Controller" import="com.dao.ControllerDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Home</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -49,7 +47,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -79,9 +76,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -110,10 +105,10 @@ body{
   text-align: center;
 }
 
-
 </style>
 
 <body>
+	<% String controllerId = (String)session.getAttribute("controllerId"); %>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Home</p>
@@ -121,63 +116,58 @@ body{
 	
 	<div class="top2"></div>
 	
-		<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
-			<p class="tag"> EXAM CORNER</p>
+	<div class="vertical_menu_bar">
+		<p class="clgName"><strong>ABIT</strong></p>
+		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+		<p class="tag"> EXAM CORNER</p>
 			
-			<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
+		<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
 			
-			<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerRegisterSubjects.jsp">
+		<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerRegisterSubjects.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:200px;padding:17px 80px 17px 55px;border:none;cursor:pointer" type="Submit" value="Courses"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
-			<form action="ControllerSettingScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
+		<form action="ControllerSettingScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:260px;padding:17px 35px 17px 56px;border:none;cursor:pointer" type="Submit" value="Paper Setting"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
+		<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
 			
-			<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerEvaluationScheduling.jsp">
+		<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerEvaluationScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:380px;padding:17px 61px 17px 57px;border:none;cursor:pointer" type="Submit" value="Evaluation"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerExtTeacherMap.jsp">
+		<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerExtTeacherMap.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:440px;padding:17px 29px 17px 57px;border:none;cursor:pointer" type="Submit" value="Map Externals"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
-			<form action="ControllerResultScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
+		<form action="ControllerResultScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:500px;padding:17px 85px 17px 57px;border:none;cursor:pointer" type="Submit" value="Results"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
+		<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
 			
-			<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
-			<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
-		
+		<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
+		<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
 	</div>
-	
-	
+
 	<div class="body_bar">
-		<% String controllerId = (String)session.getAttribute("controllerId"); 
-		%>
 		<p style="font-size:20px;top:40px;left:100px;position:absolute">Hi, <%=controllerId%> !</p>
-		
-	</div>
-	
+	</div>	
 	
 </body>
+
 </html>

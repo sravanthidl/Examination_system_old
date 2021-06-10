@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.Teacher" import="com.dao.TeacherDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - My Profile</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -49,7 +47,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -91,18 +88,22 @@ body{
 	left:14%;
 }
 
-
 </style>
 
 <body>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	TeacherDao teacherDao = new TeacherDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+
+	Teacher teacher = teacherDao.getTeacher(teacherId);
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Profile</p>
 	</div>
 	
-	<div class="top2">
-	
-	</div>
+	<div class="top2"></div>
 	
 	<div class="vertical_menu_bar">
 		<a href="TeacherHome.jsp"><div>
@@ -112,8 +113,6 @@ body{
 		</div></a>
 		
 		<% 
-		SubjectDao subjectDao = new SubjectDao();
-		String teacherId = (String)session.getAttribute("teacherId");
 		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
 		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
 		Subject firstTheorySubject = theorySubjects.get(0);
@@ -149,13 +148,7 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	<%
-		TeacherDao teacherDao = new TeacherDao();
-		Teacher teacher = teacherDao.getTeacher(teacherId);
-		System.out.println(teacherId);
-	%>
 		
 	<div class="body_bar">
 		<div style="height:540px;width:40%;position:absolute;top:40px;left:10%;background-color:#f2f2f2;border-radius:10px;box-shadow: 5px 5px #d9d9d9;">
@@ -185,13 +178,10 @@ body{
 			<p style="left:80px;top:440px;position:absolute">Phone<p>
 			<p style="left:250px;top:440px;position:absolute;color:grey"><%=teacher.getMobile()%><p>
 			<hr style="height:2px;width:80%;left:50px;top:470px;position:absolute;background-color:grey;border:none">
-		
 		</div>
 	
-		<div style="min-height:180px;width:100%;position:absolute;top:180px;left:300px"><!-- bluepatch -->
-		
+		<div style="min-height:180px;width:100%;position:absolute;top:180px;left:300px">
 			<p style="font-size:23px;top:-90px;left:540px;position:absolute"><strong>Password Reset</strong></p>
-			
 			<div style="height:300px;width:30%;position:absolute;top:-10px;left:35%;background-color:#f2f2f2;box-shadow: 5px 5px #d9d9d9;border-radius:10px;">
 				<form action="PasswordReset" method="post" name="thisForm" onsubmit="return validateForm()">
 					<input type="hidden" name="user" value="teacher">
@@ -202,14 +192,12 @@ body{
 					<input style="left:160px;top:215px;position:absolute" type="submit" value="Submit">
 				</form>
 			</div>
-		
 		</div>
-	
 	</div>
 	
 </body>
-<script>
 
+<script>
 function validateForm(){
 	var password = document.forms["thisForm"]["password"].value;
 	var rePassword = document.forms["thisForm"]["rePassword"].value;

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="java.util.*"%>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Register</title>
@@ -40,9 +40,7 @@
 	top:0px;
 	left:35%;
 }
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 input[type=Submit] {
   color: white;
   padding: 6px 20px;
@@ -55,17 +53,17 @@ input[type=Submit] {
 </style>
 
 <body>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	%>
 	<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<p class="tag">Online Examination Corner</p>
-			
-			<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
+		<p class="clgName"><strong>ABIT</strong></p>
+		<p class="tag">Online Examination Corner</p>	
+		<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
 	</div>
 	
 	<div class="body_bar">
-	
 		<div style="height:360px;width:30%;position:absolute;top:150px;left:20%;border:2px solid #1669ce;border-radius:10px;padding:30px">
-
 			<form action="ExtTeacherRegister" method="post" name="thisForm" onsubmit="return validateForm()">
 				<input type="hidden" name="name" value="<%=request.getParameter("name")%>">
 				<input type="hidden" name="extTeacherId" value="<%=request.getParameter("extTeacherId")%>">
@@ -73,14 +71,13 @@ input[type=Submit] {
 				<input type="hidden" name="branch" value="<%=request.getParameter("branch")%>">
 				<input type="hidden" name="mobile" value="<%=request.getParameter("mobile")%>">
 				<table id="tb">
-				<%
-					SubjectDao subjectDao = new SubjectDao();
+					<%
 					String shortBranch = subjectDao.getShortBranch(request.getParameter("branch"));
 					List<Subject> subjects = subjectDao.getSubjectsByShortBranch(shortBranch);
 					HashMap<String, String> subjectDetails = new HashMap<>();
 					for(Subject subject : subjects) if(subject.getSubjectCategory().equals("Theory")) subjectDetails.put(subject.getSubjectCode(), subject.getSubjectName());				
-					for(String subjectCode : subjectDetails.keySet()){
-				%>
+						for(String subjectCode : subjectDetails.keySet()){
+					%>
 					<tr>
 						<td style="padding:5px 5px 5px 50px"><input type="radio" name="subjectCode" value="<%=subjectCode%>" ></td>
 						<td><%=subjectDetails.get(subjectCode)%></td>
@@ -89,13 +86,9 @@ input[type=Submit] {
 				</table>
 				<input style="left:60px;top:290px;position:absolute" type="submit" value="Finish">
 			</form>
-			
 		</div>
-		
 	</div>
 	
 </body>
-<script>
-</script>
 
 </html>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.SAM" import="com.dao.SAMDao" import="com.dto.Descriptive" import="com.dao.DescriptiveDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="com.dao.Today" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Evaluation</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -114,25 +109,23 @@ body{
 </style>
 
 <body>
-		<%
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	String studentId = request.getParameter("studentId");
+	String YBSId = request.getParameter("YBSId");
+	String examType = request.getParameter("examType");
+	String SNo = request.getParameter("SNo");
+	String script = request.getParameter("script");
 
-		String studentId = request.getParameter("studentId");
-		String YBSId = request.getParameter("YBSId");
-		String examType = request.getParameter("examType");
-		String SNo = request.getParameter("SNo");
-		String script = request.getParameter("script");
-
-		SubjectDao subjectDao = new SubjectDao();
-		int year = (int)subjectDao.getSubject(YBSId).getYear();
-		String subjectName = subjectDao.getSubject(YBSId).getSubjectName();
-		String extTeacherId = (String)session.getAttribute("extTeacherId");
-		%>
+	int year = (int)subjectDao.getSubject(YBSId).getYear();
+	String subjectName = subjectDao.getSubject(YBSId).getSubjectName();
+	String extTeacherId = (String)session.getAttribute("extTeacherId");
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Evaluation > Year <%=year%> > <%=subjectName%> > <%=SNo%></p>
 	</div>
-	
-	
+
 	<div class="vertical_menu_bar">
 		<p class="clgName"><strong>ABIT</strong></p>
 		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
@@ -149,12 +142,9 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:287px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:268px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
-	
-	<div class="body_bar">
 
+	<div class="body_bar">
 		<iframe src="pics/<%=script%>" name="iframe_a" height="745px" width="75%"></iframe>
 		<div style="height:550px;width:10%;position:absolute;top:100px;left:1020px">
 			<form action="ExtTeacherScriptEvaluation" method="post">
@@ -182,7 +172,6 @@ body{
 	</div>
 	
 </body>
-
 
 </html>
     

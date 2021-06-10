@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="com.dto.Descriptive" import="com.dao.DescriptiveDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Evaluation</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -114,14 +109,18 @@ body{
 </style>
 
 <body>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	ExamTaskDao examTaskDao = new ExamTaskDao();
+	DescriptiveDao descriptiveDao = new DescriptiveDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+	String YBSId = request.getParameter("YBSId");
+	%>
 	<%! int leftAttr = 40; %>
 	<%! void initLeftAttr(){ leftAttr = 40; } %>
 	<%! void updateLeftAttr(){ leftAttr += 265; } %>
 	<%
-	String YBSId = request.getParameter("YBSId");
 	initLeftAttr();
-	String teacherId = (String)session.getAttribute("teacherId");
-	SubjectDao subjectDao = new SubjectDao();
 	List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
 	List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
 	Subject firstTheorySubject = theorySubjects.get(0);
@@ -133,7 +132,6 @@ body{
 	</div>
 	
 	<div class="top2">
-	
 		<%for(Subject theorySubject : theorySubjects){%>
 		<form action="TeacherEvaluation.jsp">
 			<input type="hidden" name="YBSId" value="<%=theorySubject.getYBSId()%>">
@@ -144,16 +142,15 @@ body{
 			<%}%>
 		</form>
 		<% updateLeftAttr(); }%>
-	
 	</div>
 	
 	<div class="vertical_menu_bar">
 		<a href="TeacherHome.jsp"><div>
-		<p class="clgName"><strong>ABIT</strong></p>
-		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
-		<p class="tag"> EXAM CORNER</p>
+			<p class="clgName"><strong>ABIT</strong></p>
+			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+			<p class="tag"> EXAM CORNER</p>
 		</div></a>
-		
+
 		<i class='fas fa-book-reader' style="position:absolute;top:167px;left:30px;color:#cccccc;z-index:1"></i>
 		<form action="TeacherRegisterSubjects.jsp">
 			<input type="hidden" name="year" value="1">
@@ -183,100 +180,74 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
-	
-	<div class="body_bar">
-		<%		
-			//System.out.println(teacherId);
-	  		//System.out.println("YOO:" + YBSId);
-	  		String mid1OpenDate = "To Be Announced", mid1CloseDate = "To Be Announced", mid1Status = "To Be Announced";
-	  		String asgn1OpenDate = "To Be Announced", asgn1CloseDate = "To Be Announced", asgn1Status = "To Be Announced";
-			String mid2OpenDate = "To Be Announced", mid2CloseDate = "To Be Announced", mid2Status = "To Be Announced";
-			String asgn2OpenDate = "To Be Announced", asgn2CloseDate = "To Be Announced", asgn2Status = "To Be Announced";
-			String semOpenDate = "TBA", semCloseDate = "TBA", semStatus = "TBA";
-			String today = new Today().getToday();
-			
-			
-			int year = new SubjectDao().getSubject(YBSId).getYear();
-			
-			ExamTaskDao examTaskDao = new ExamTaskDao();
-			ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
-			ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
-			ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");
-			DescriptiveDao descriptiveDao = new DescriptiveDao();
-			Descriptive mid1Desc = descriptiveDao.getDescriptive(YBSId, "mid1");
-			Descriptive mid2Desc = descriptiveDao.getDescriptive(YBSId, "mid2");
 
-			if(mid1ExamTask != null){
-				System.out.println("HERE");
-				mid1OpenDate = mid1ExamTask.getEvaluationOpenDate();
-				mid1CloseDate = mid1ExamTask.getEvaluationCloseDate();
-				if(mid1OpenDate != null && mid1CloseDate != null){
-					if(today.compareTo(mid1CloseDate) > 0) mid1Status = "Expired";
-					else if(today.compareTo(mid1OpenDate) >= 0 && today.compareTo(mid1CloseDate) <= 0) mid1Status = "Active";
-					else if(today.compareTo(mid1OpenDate) < 0) mid1Status = "Opens Soon";
-				}else{
-					mid1OpenDate = "TBA";
-					mid1CloseDate = "TBA";
-				}
-				
+	<div class="body_bar">
+		<%
+	  	String mid1OpenDate = "TBA", mid1CloseDate = "TBA", mid1Status = "TBA";
+	  	String asgn1OpenDate = "TBA", asgn1CloseDate = "TBA", asgn1Status = "TBA";
+		String mid2OpenDate = "TBA", mid2CloseDate = "TBA", mid2Status = "TBA";
+		String asgn2OpenDate = "TBA", asgn2CloseDate = "TBA", asgn2Status = "TBA";
+		String today = new Today().getToday();
+		int year = new SubjectDao().getSubject(YBSId).getYear();
+		
+		ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
+		ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
+		ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");	
+		Descriptive mid1Desc = descriptiveDao.getDescriptive(YBSId, "mid1");
+		Descriptive mid2Desc = descriptiveDao.getDescriptive(YBSId, "mid2");
+		if(mid1ExamTask != null){
+			System.out.println("HERE");
+			mid1OpenDate = mid1ExamTask.getEvaluationOpenDate();
+			mid1CloseDate = mid1ExamTask.getEvaluationCloseDate();
+			if(mid1OpenDate != null && mid1CloseDate != null){
+				if(today.compareTo(mid1CloseDate) > 0) mid1Status = "Expired";
+				else if(today.compareTo(mid1OpenDate) >= 0 && today.compareTo(mid1CloseDate) <= 0) mid1Status = "Active";
+				else if(today.compareTo(mid1OpenDate) < 0) mid1Status = "Opens Soon";
+			}else{
+				mid1OpenDate = "TBA";
+				mid1CloseDate = "TBA";
+			}	
+		}
+		if(mid2ExamTask != null){
+			mid2OpenDate = mid2ExamTask.getEvaluationOpenDate();
+			mid2CloseDate = mid2ExamTask.getEvaluationCloseDate();
+			if(mid2OpenDate != null && mid2CloseDate != null){
+				if(today.compareTo(mid2CloseDate) > 0) mid2Status = "Expired";
+				else if(today.compareTo(mid2OpenDate) >= 0 && today.compareTo(mid2CloseDate) <= 0) mid2Status = "Active";
+				else if(today.compareTo(mid2OpenDate) < 0) mid2Status = "Opens Soon";
+			}else{
+				mid2OpenDate = "TBA";
+				mid2CloseDate = "TBA";
 			}
-			if(mid2ExamTask != null){
-				mid2OpenDate = mid2ExamTask.getEvaluationOpenDate();
-				mid2CloseDate = mid2ExamTask.getEvaluationCloseDate();
-				if(mid2OpenDate != null && mid2CloseDate != null){
-					if(today.compareTo(mid2CloseDate) > 0) mid2Status = "Expired";
-					else if(today.compareTo(mid2OpenDate) >= 0 && today.compareTo(mid2CloseDate) <= 0) mid2Status = "Active";
-					else if(today.compareTo(mid2OpenDate) < 0) mid2Status = "Opens Soon";
-				}else{
-					mid2OpenDate = "TBA";
-					mid2CloseDate = "TBA";
-				}
-			}
-			if(mid1Desc != null){
-				asgn1OpenDate = mid1Desc.getAsgnCloseDate();
-				asgn1CloseDate = mid1CloseDate;
-				if(asgn1OpenDate != null && asgn1CloseDate != null){
-					if(today.compareTo(asgn1CloseDate) > 0) asgn1Status = "Expired";
-					else if(today.compareTo(asgn1OpenDate) >= 0 && today.compareTo(asgn1CloseDate) <= 0) asgn1Status = "Active";
-					else if(today.compareTo(asgn1OpenDate) < 0) asgn1Status = "Opens Soon";
-				}else if(asgn1OpenDate != null && asgn1CloseDate == null){
-					if(today.compareTo(asgn1OpenDate) >= 0) asgn1Status = "Active";
-					else if(today.compareTo(asgn1OpenDate) < 0) asgn1Status = "Opens Soon";
-				}	
-			}
-			if(mid2Desc != null){
-				asgn2OpenDate = mid2Desc.getAsgnCloseDate();
-				asgn2CloseDate = mid2CloseDate;
-				if(asgn2OpenDate != null && asgn2CloseDate != null){
-					if(today.compareTo(asgn2CloseDate) > 0) asgn2Status = "Expired";
-					else if(today.compareTo(asgn2OpenDate) >= 0 && today.compareTo(asgn2CloseDate) <= 0) asgn2Status = "Active";
-					else if(today.compareTo(asgn2OpenDate) < 0) asgn2Status = "Opens Soon";
-				}else if(asgn2OpenDate != null && asgn2CloseDate == null){
-					if(today.compareTo(asgn2OpenDate) >= 0) asgn2Status = "Active";
-					else if(today.compareTo(asgn2OpenDate) < 0) asgn2Status = "Opens Soon";
-				}	
-			}
-			if(semExamTask != null){
-				semOpenDate = semExamTask.getEvaluationOpenDate();
-				semCloseDate = semExamTask.getEvaluationCloseDate();
-				if(semOpenDate != null && semCloseDate != null){
-					if(today.compareTo(semCloseDate) > 0) semStatus = "Expired";
-					else if(today.compareTo(semOpenDate) >= 0 && today.compareTo(semCloseDate) <= 0) semStatus = "Active";
-					else if(today.compareTo(semOpenDate) < 0) semStatus = "Opens Soon";
-				}else{
-					semOpenDate = "TBA";
-					semCloseDate = "TBA";
-				}
-			}
-			System.out.println("TS:" + mid1OpenDate + "@" + mid1CloseDate);
-				
-			%>
+		}
+		if(mid1Desc != null){
+			asgn1OpenDate = mid1Desc.getAsgnCloseDate();
+			asgn1CloseDate = mid1CloseDate;
+			if(asgn1OpenDate != null && asgn1CloseDate != null){
+				if(today.compareTo(asgn1CloseDate) > 0) asgn1Status = "Expired";
+				else if(today.compareTo(asgn1OpenDate) >= 0 && today.compareTo(asgn1CloseDate) <= 0) asgn1Status = "Active";
+				else if(today.compareTo(asgn1OpenDate) < 0) asgn1Status = "Opens Soon";
+			}else if(asgn1OpenDate != null && asgn1CloseDate == null){
+				if(today.compareTo(asgn1OpenDate) >= 0) asgn1Status = "Active";
+				else if(today.compareTo(asgn1OpenDate) < 0) asgn1Status = "Opens Soon";
+			}	
+		}
+		if(mid2Desc != null){
+			asgn2OpenDate = mid2Desc.getAsgnCloseDate();
+			asgn2CloseDate = mid2CloseDate;
+			if(asgn2OpenDate != null && asgn2CloseDate != null){
+				if(today.compareTo(asgn2CloseDate) > 0) asgn2Status = "Expired";
+				else if(today.compareTo(asgn2OpenDate) >= 0 && today.compareTo(asgn2CloseDate) <= 0) asgn2Status = "Active";
+				else if(today.compareTo(asgn2OpenDate) < 0) asgn2Status = "Opens Soon";
+			}else if(asgn2OpenDate != null && asgn2CloseDate == null){
+				if(today.compareTo(asgn2OpenDate) >= 0) asgn2Status = "Active";
+				else if(today.compareTo(asgn2OpenDate) < 0) asgn2Status = "Opens Soon";
+			}	
+		}
+		%>
 			
-		<div style="height:550px;width:65%;position:absolute;top:50px;left:200px;border-radius:10px;">
-					
+		<div style="height:550px;width:65%;position:absolute;top:50px;left:200px;border-radius:10px;">		
 			<table id="tb">
 				<tr>
 					<th>Exam Type</th>
@@ -298,7 +269,6 @@ body{
 						<%}else{%>
 						<td><input type="submit" value="Evaluate" disabled></td>
 						<%}%>
-						
 					</form>
 				</tr>
 				<tr>
@@ -316,7 +286,6 @@ body{
 						<%}%>
 					</form>
 				</tr>
-
 				<tr>
 					<form action="TeacherViewScripts.jsp">
 						<input type="hidden" name="examType" value="asgn1">
@@ -348,11 +317,10 @@ body{
 					</form>
 				</tr>
 			</table>
-			</div> 
+		</div> 
 	</div>
 	
 </body>
-
 
 </html>
     

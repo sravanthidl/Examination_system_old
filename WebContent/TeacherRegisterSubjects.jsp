@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dao.AcadYearDao" import="java.util.List" import="java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Register Subjects</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -49,7 +47,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -79,9 +76,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -117,17 +112,21 @@ body{
   margin-right:20px;
   background-color: #eee;
 }
+
 </style>
 
 <body>
-	<%int year = Integer.parseInt(request.getParameter("year"));%>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+	int year = Integer.parseInt(request.getParameter("year"));
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">New Subjects > Year <%=year%> > Sem <%=new AcadYearDao().getSemester(year)%></p>
 	</div>
 	
 	<div class="top2">
-	
 		<%!	int leftAttr = 110; %>
 		<%! void initLeftAttr(){ leftAttr = 110; } %>
 		<%! void updateLeftAttr(){ leftAttr += 250; } %>
@@ -142,7 +141,6 @@ body{
 			<%}%>
 		</form>
 		<%updateLeftAttr();}%>
-
 	</div>
 	
 	<div class="vertical_menu_bar">
@@ -153,8 +151,6 @@ body{
 		</div></a>
 		
 		<% 
-		String teacherId = (String)session.getAttribute("teacherId");
-		SubjectDao subjectDao = new SubjectDao();
 		Subject firstTheorySubject = null, firstLabSubject = null;
 		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
 		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
@@ -203,30 +199,25 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
-	
+
 	<div class="body_bar">
 		<a style="position:absolute;top:0px;left:1045px;padding:16px 50px 16px 50px;background-color:#5a6bbc;color:white;text-decoration:none;border-radius:5px" href="TeacherViewSubjects.jsp">My Subjects</a>
-	
-	
-	<%
+		<%
 		session.setAttribute("year", year);
 		session.setAttribute("teacherId", teacherId);
 		List<String> branches = new ArrayList<>();
 		branches.add("CE");branches.add("CSE");branches.add("ECE");branches.add("EEE");branches.add("IT");branches.add("ME");
 		int branchIndex = 0;
-	%>
+		%>
 		<div style="height:370px;width:45%;position:absolute;top:70px;left:25%">
-			
 			<form action="TeacherRegisterSubjects" method="post">
 				<table id="tb">
-				<%for(String branch : branches){%>
+					<%for(String branch : branches){%>
 					<input type="hidden" name="branch<%=branchIndex + 1%>" value="<%=branch%>">
 					<%	
 					List<Subject> subjects = subjectDao.getSubjectsByParams(year, branch);
-						if(subjects.size() > 0){
+					if(subjects.size() > 0){
 					%>
 					<tr>
 						<td rowspan="<%=subjects.size()%>" width="150px"><%=branch%></td>
@@ -234,21 +225,19 @@ body{
 						<td><input class="checkmark" type="checkbox" name="<%=subjects.get(0).getSubjectCode()%>" value="<%=subjects.get(0).getSubjectName()%>" <%if(subjects.get(0).getTeacherId() != null){%>checked disabled<%}%> >				
 						<%=subjects.get(0).getSubjectName()%></td>
 					</tr>
-						<%for(int i = 1; i < subjects.size(); i++){%>
-							<tr>
-							<td><%=subjects.get(i).getSubjectCategory()%></td>
-							<td><input class="checkmark"  type="checkbox" name="<%=subjects.get(i).getSubjectCode()%>" value="<%=subjects.get(i).getSubjectName()%>" <%if(subjects.get(i).getTeacherId() != null){%>checked disabled<%}%> >
-							<%=subjects.get(i).getSubjectName()%></td>
-							</tr>
-						<%}}%>
-				<%branchIndex++;}%>	
+					<%for(int i = 1; i < subjects.size(); i++){%>
+					<tr>
+						<td><%=subjects.get(i).getSubjectCategory()%></td>
+						<td><input class="checkmark"  type="checkbox" name="<%=subjects.get(i).getSubjectCode()%>" value="<%=subjects.get(i).getSubjectName()%>" <%if(subjects.get(i).getTeacherId() != null){%>checked disabled<%}%> >
+						<%=subjects.get(i).getSubjectName()%></td>
+					</tr>
+					<%}}%>
+					<%branchIndex++;}%>	
 				</table>
-				
 				<input style="position:absolute;top:350px;left:200px" type="Submit" value="Register to Subjects">
-				
 			</form>
 		</div>
-	
+
 </body>
 
 </html>

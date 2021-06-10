@@ -38,9 +38,7 @@
 	top:0px;
 	left:35%;
 }
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 input[type=Submit] {
   color: white;
   padding: 6px 20px;
@@ -49,20 +47,18 @@ input[type=Submit] {
   width: 80%;
   background:#e2363e;
 }
+
 </style>
 
 <body>
 	<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<p class="tag">Online Examination Corner</p>
-			
-			<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
+		<p class="clgName"><strong>ABIT</strong></p>
+		<p class="tag">Online Examination Corner</p>	
+		<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
 	</div>
 	
 	<div class="body_bar">
-	
 		<div style="height:630px;width:40%;position:absolute;top:70px;left:17%;border:2px solid #e2363e;border-radius:10px;">
-
 			<p style="font-size:23px;top:0px;left:170px;position:absolute"><b>Teacher Sign up</b></p>
 			<form action="TeacherRegister" method="post" name="thisForm" onsubmit="return validateForm()">
 				<p style="left:75px;top:90px;position:absolute">Teacher Pass Key<p>
@@ -93,14 +89,12 @@ input[type=Submit] {
 				<input style="left:225px;top:500px;position:absolute" size="25" type="email" name="email" required>			  
 				<input style="left:60px;top:560px;position:absolute" type="submit" value="Sign up">
 			</form>
-			
 		</div>
-		
 	</div>
 	
 </body>
-<script>
 
+<script>
 function validateForm(){
 	var passkey = document.forms["thisForm"]["passkey"].value;
 	var name = document.forms["thisForm"]["name"].value;
@@ -139,7 +133,6 @@ function validateForm(){
 		alert("Email should not be more than 40 characters!");
 		return false;
 	}
-	
 }
 </script>
 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.AcadYearDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Your Subjects</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -39,7 +37,6 @@ body{
 	position:absolute;
 }
 .options{
-	
 	position:absolute;
 	background-color:#30333d;
 	color:#cccccc;
@@ -50,7 +47,6 @@ body{
 	background-color:black;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +76,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -114,16 +108,16 @@ body{
 </style>
 
 <body>
-
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+	%>
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">My Subjects</p>
 	</div>
-	
-	
+
 	<div class="top2"></div>
-	
-	
-	
+
 	<div class="vertical_menu_bar">
 		<a href="TeacherHome.jsp"><div>
 		<p class="clgName"><strong>ABIT</strong></p>
@@ -132,8 +126,6 @@ body{
 		</div></a>
 		
 		<% 
-		SubjectDao subjectDao = new SubjectDao();
-		String teacherId = (String)session.getAttribute("teacherId");
 		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
 		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
 		Subject firstTheorySubject = theorySubjects.get(0);
@@ -169,41 +161,39 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
 	
 	<div class="body_bar">
-	<div style="height:550px;width:57%;position:absolute;top:60px;left:250px;white-space:nowrap">
-		<%
-		List<Subject> subjects = subjectDao.getSubjectsByParams(teacherId);	
-		if(subjects.size() == 0){%>
+		<div style="height:550px;width:57%;position:absolute;top:60px;left:250px;white-space:nowrap">
+			<%
+			List<Subject> subjects = subjectDao.getSubjectsByParams(teacherId);	
+			if(subjects.size() == 0){%>
 			<p>You did not take up any subjects yet! </p>
-		<%}else{%>
-			<table id="tb">
-				<tr><th colspan="5" style="padding-left:300px">Your Subjects</th></tr>
-				<tr>
-					<th>Year</th>
-					<th>Semester</th>
-					<th>Branch</th>
-					<th>Theory/Lab</th>
-					<th>Subject</th>
-				</tr>
-				<% 
-				for(Subject subject : subjects){%>
-				<tr>
-					<td><%=subject.getYear()%></td>
-					<td><%=new AcadYearDao().getSemester(subject.getYear())%></td>
-					<td><%=subject.getBranch()%></td>
-					<td><%=subject.getSubjectCategory()%></td>
-					<td><%=subject.getSubjectName()%></td>
-				</tr>
-				<%}%>
-			</table><%}%>		  
-	</div>
+			<%}else{%>
+				<table id="tb">
+					<tr><th colspan="5" style="padding-left:300px">Your Subjects</th></tr>
+					<tr>
+						<th>Year</th>
+						<th>Semester</th>
+						<th>Branch</th>
+						<th>Theory/Lab</th>
+						<th>Subject</th>
+					</tr>
+					<% 
+					for(Subject subject : subjects){%>
+					<tr>
+						<td><%=subject.getYear()%></td>
+						<td><%=new AcadYearDao().getSemester(subject.getYear())%></td>
+						<td><%=subject.getBranch()%></td>
+						<td><%=subject.getSubjectCategory()%></td>
+						<td><%=subject.getSubjectName()%></td>
+					</tr>
+					<%}%>
+				</table>
+			<%}%>
+		</div>
 	</div>
 	
 </body>
 
 </html>
-    

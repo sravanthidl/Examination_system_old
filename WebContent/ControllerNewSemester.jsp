@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.AcadYearDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - New Semester</title>
@@ -11,9 +11,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -40,7 +38,6 @@ body{
 	position:absolute;
 }
 .options{
-	
 	position:absolute;
 	background-color:#30333d;
 	color:#cccccc;
@@ -51,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -81,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -112,10 +106,11 @@ body{
   text-align: center;
 }
 
-
 </style>
 
 <body>
+
+	<%AcadYearDao acadYearDao = new AcadYearDao();%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">New Semester</p>
@@ -124,118 +119,101 @@ body{
 	<div class="top2"></div>
 	
 	<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
-			<p class="tag"> EXAM CORNER</p>
+		<p class="clgName"><strong>ABIT</strong></p>
+		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+		<p class="tag"> EXAM CORNER</p>
 			
-			<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px;background-color:#16181d;color:#80b5eb" href="ControllerNewSemester.jsp">New Semester</a></br>
+		<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px;background-color:#16181d;color:#80b5eb" href="ControllerNewSemester.jsp">New Semester</a></br>
 			
-			<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerRegisterSubjects.jsp">
+		<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerRegisterSubjects.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:200px;padding:17px 80px 17px 55px;border:none;cursor:pointer" type="Submit" value="Courses"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
-			<form action="ControllerSettingScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
+		<form action="ControllerSettingScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:260px;padding:17px 35px 17px 56px;border:none;cursor:pointer" type="Submit" value="Paper Setting"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
+		<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
 			
-			<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerEvaluationScheduling.jsp">
+		<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerEvaluationScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:380px;padding:17px 61px 17px 57px;border:none;cursor:pointer" type="Submit" value="Evaluation"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerExtTeacherMap.jsp">
+		<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerExtTeacherMap.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:440px;padding:17px 29px 17px 57px;border:none;cursor:pointer" type="Submit" value="Map Externals"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
-			<form action="ControllerResultScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
+		<form action="ControllerResultScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:500px;padding:17px 85px 17px 57px;border:none;cursor:pointer" type="Submit" value="Results"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
+		<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
 			
-			<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
-			<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
-		
+		<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
+		<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>	
 	</div>
 
-	
  	<div class="body_bar">
-		
-	  	<%
-	  		AcadYearDao acadYearDao = new AcadYearDao();
-	  	
-			%>
 		<div style="height:550px;width:35%;position:absolute;top:100px;left:27%">
-					
-				<table id="tb">
-					<tr>
-						<th>Year</th>
-						<th>Running Semester</th>
-						<th>New Semester</th>
-						<th>Start Semester</th>
-					</tr>
-					<%for(int i = 1; i <= 4; i++){ %>
-					<tr>
-						<form action="ControllerRenewSemester" method="post" onsubmit="return validateSem()">
-							<input type="hidden" name="year" value="<%=i%>"> 
-							<td><%=i%></td>
-							<td><%=acadYearDao.getSemester(i)%></td>
-							<td>
-								<%if(acadYearDao.getSemester(i) == 1){%>
-								<select name="semester" required>
-								    <option value="2">2</option>
-						  		</select>
-						  		<%}else{%>
-						  		<select name="semester" required>
-						  		</select>
-						  		<%}%>
-							</td>
-							<td><input type="submit" value="Start"></td>	
-						</form>
-					</tr>
-					<%}%>
-				</table>	
-			</div>
-			
-			<form action="ControllerRenewYear" method="post" onsubmit="return validateYear()">
-		    	<input style="width:13%;height:10%;position:absolute;top:12px;left:1050px;background-color:#5a6bbc;color:white;border-radius:5px;border:none;cursor:pointer" type="Submit" value="New Academic Year"></br>
-			</form>
-			
-		</div> 	
+			<table id="tb">
+				<tr>
+					<th>Year</th>
+					<th>Running Semester</th>
+					<th>New Semester</th>
+					<th>Start Semester</th>
+				</tr>
+				<%for(int i = 1; i <= 4; i++){ %>
+				<tr>
+					<form action="ControllerRenewSemester" method="post" onsubmit="return validateSem()">
+						<input type="hidden" name="year" value="<%=i%>"> 
+						<td><%=i%></td>
+						<td><%=acadYearDao.getSemester(i)%></td>
+						<td>
+							<%if(acadYearDao.getSemester(i) == 1){%>
+							<select name="semester" required>
+							    <option value="2">2</option>
+					  		</select>
+					  		<%}else{%>
+					  		<select name="semester" required></select>
+						  	<%}%>
+						</td>
+						<td><input type="submit" value="Start"></td>	
+					</form>
+				</tr>
+				<%}%>
+			</table>	
+		</div>
+		<form action="ControllerRenewYear" method="post" onsubmit="return validateYear()">
+		   	<input style="width:13%;height:10%;position:absolute;top:12px;left:1050px;background-color:#5a6bbc;color:white;border-radius:5px;border:none;cursor:pointer" type="Submit" value="New Academic Year"></br>
+		</form>	
+	</div>
+	
 </body>
 
 <script>
 function validateSem() {
   var approve = confirm("Are you sure you want to start a new semester?");
-  if (approve == true) {
-	  return true;
-  } else {
-    return false;
-  }
+  if (approve == true) return true;
+  else return false;
 }
-
 function validateYear() {
-	  var approve = confirm("Are you sure you want to start a new Academic year?");
-	  if (approve == true) {
-		  return true;
-	  } else {
-	    return false;
-	  }
-	}
+	var approve = confirm("Are you sure you want to start a new Academic year?");
+	 if (approve == true) return true;lse {
+	 return false;
+}
 </script>
 
 </html>

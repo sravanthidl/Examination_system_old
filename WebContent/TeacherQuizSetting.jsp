@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.Quiz" import="com.dao.QuizDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Quiz Setting</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -122,22 +117,21 @@ input[type=text] {
   border-radius: 50%;
 }
 
-
-
 </style>
 
 <body>
-
-		<%
-		String YBSId = (String)request.getParameter("YBSId");
-		String examType = (String)request.getParameter("examType");
-		String teacherId = (String)session.getAttribute("teacherId");
-		SubjectDao subjectDao = new SubjectDao();
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
-		Subject firstTheorySubject = theorySubjects.get(0);
-		Subject firstLabSubject = labSubjects.get(0);
-		%>
+	<%
+	QuizDao quizDao = new QuizDao();
+	SubjectDao subjectDao = new SubjectDao();
+	String YBSId = (String)request.getParameter("YBSId");
+	String examType = (String)request.getParameter("examType");
+	String teacherId = (String)session.getAttribute("teacherId");
+	
+	List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+	List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+	Subject firstTheorySubject = theorySubjects.get(0);
+	Subject firstLabSubject = labSubjects.get(0);
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Paper Setting > <%=subjectDao.getSubject(YBSId).getYear()%>-<%=subjectDao.getSubject(YBSId).getBranch()%>-<%=subjectDao.getSubject(YBSId).getSubjectName()%> > Quiz</p>
@@ -184,54 +178,52 @@ input[type=text] {
 		
 	</div>
 	
-	
 	<div class="body_bar">
-	
 		<%! int noOfQs = 5; %>
 		<%! int topAttr = 60; %>
 		<%! public void initTopAttr(){ topAttr = 100; } %>
 		<%! public void UpdateTopAttr(){ topAttr += 0; } %>
-	
 		<% initTopAttr();%>
 			<form action="TeacherQuizSetting" method="post" id="thisForm" onsubmit="return validateForm()">
-				<div style="height:550px;width:80%;position:absolute;top:50px;left:9%;border-radius:10px;">
-				<input type="hidden" name="YBSId" value="<%=YBSId%>">
-				<input type="hidden" name="examType" value="<%=examType%>">
-				<% for(int i = 1; i <= 2; i++){ 
-					QuizDao quizDao = new QuizDao();
-					Quiz quiz = quizDao.getQuiz(YBSId, examType, i);
-					String question="", optionA = "", optionB = "", optionC = "", optionD = "", answerOption = "";
-					if(quiz != null){
-						question = quiz.getQuestion();
-						optionA = quiz.getOptionA();
-						optionB = quiz.getOptionB();
-						optionC = quiz.getOptionC();
-						optionD = quiz.getOptionD();
-						answerOption = quiz.getAnswerOption();
-					}
-				%>
+				<div style="height:550px;width:80%;position:absolute;top:50px;left:9%;border-radius:10px">
+					<input type="hidden" name="YBSId" value="<%=YBSId%>">
+					<input type="hidden" name="examType" value="<%=examType%>">
+					<% for(int i = 1; i <= 2; i++){ 
+						Quiz quiz = quizDao.getQuiz(YBSId, examType, i);
+						String question="", optionA = "", optionB = "", optionC = "", optionD = "", answerOption = "";
+						if(quiz != null){
+							question = quiz.getQuestion();
+							optionA = quiz.getOptionA();
+							optionB = quiz.getOptionB();
+							optionC = quiz.getOptionC();
+							optionD = quiz.getOptionD();
+							answerOption = quiz.getAnswerOption();
+						}
+					%>
 					<table id="tb" style="top:100px">
-						<input type="hidden" name="questionNo<%=i%>" value="<%=i%>">
-						
-						<tr><td rowspan="5">Q<%=i%></td>
-						<td colspan="2" ><textarea cols="105" rows="3" type="text" name="question<%=i%>" placeholder="Type question here"><%=question%></textarea></td></tr>
-						
-						
-						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="A" required <%if(answerOption.equals("A")){%> checked <%}%> >					
-						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionA<%=i%>" placeholder="Option A" value="<%=optionA%>"></td></tr>
-						
-						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="B" required <%if(answerOption.equals("B")){%> checked <%}%> >
-						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionB<%=i%>" placeholder="Option B" value="<%=optionB%>"></td></tr>
-						
-						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="C" required <%if(answerOption.equals("C")){%> checked <%}%> >
-						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionC<%=i%>" placeholder="Option C" value="<%=optionC%>"></td></tr>
-						
-						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="D" required <%if(answerOption.equals("D")){%> checked <%}%> >
-						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionD<%=i%>" placeholder="Option D" value="<%=optionD%>"></td></tr>
-	
-							
+						<input type="hidden" name="questionNo<%=i%>" value="<%=i%>">	
+						<tr>
+							<td rowspan="5">Q<%=i%></td>
+							<td colspan="2" ><textarea cols="105" rows="3" type="text" name="question<%=i%>" placeholder="Type question here"><%=question%></textarea></td>
+						</tr>
+						<tr>
+							<td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="A" required <%if(answerOption.equals("A")){%> checked <%}%> >					
+							<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionA<%=i%>" placeholder="Option A" value="<%=optionA%>"></td>
+						</tr>
+						<tr>
+							<td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="B" required <%if(answerOption.equals("B")){%> checked <%}%> >
+							<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionB<%=i%>" placeholder="Option B" value="<%=optionB%>"></td>
+						</tr>
+						<tr>
+							<td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="C" required <%if(answerOption.equals("C")){%> checked <%}%> >
+							<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionC<%=i%>" placeholder="Option C" value="<%=optionC%>"></td>
+						</tr>
+						<tr>
+							<td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="D" required <%if(answerOption.equals("D")){%> checked <%}%> >
+							<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionD<%=i%>" placeholder="Option D" value="<%=optionD%>"></td>
+						</tr>
 					</table>
-				<%}%>
+					<%}%>
 					<input style="left:480px;top:820px;position:absolute" type="Submit" value="Set Quiz">
 				</div>
 			</form>

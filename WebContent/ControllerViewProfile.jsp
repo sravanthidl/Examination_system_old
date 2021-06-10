@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Controller" import="com.dao.ControllerDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*"import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - My Profile</title>
@@ -11,9 +11,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -111,10 +106,13 @@ body{
   text-align: center;
 }
 
-
 </style>
 
 <body>
+	<%
+	ControllerDao controllerDao = new ControllerDao();
+	String controllerId = (String)session.getAttribute("controllerId"); 
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Profile</p>
@@ -122,62 +120,56 @@ body{
 	
 	<div class="top2"></div>
 	
-		<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
-			<p class="tag"> EXAM CORNER</p>
+	<div class="vertical_menu_bar">
+		<p class="clgName"><strong>ABIT</strong></p>
+		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+		<p class="tag"> EXAM CORNER</p>
 			
-			<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
+		<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
 			
-			<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerRegisterSubjects.jsp">
+		<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerRegisterSubjects.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:200px;padding:17px 80px 17px 55px;border:none;cursor:pointer" type="Submit" value="Courses"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
-			<form action="ControllerSettingScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
+		<form action="ControllerSettingScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:260px;padding:17px 35px 17px 56px;border:none;cursor:pointer" type="Submit" value="Paper Setting"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
+		<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
 			
-			<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerEvaluationScheduling.jsp">
+		<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerEvaluationScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:380px;padding:17px 61px 17px 57px;border:none;cursor:pointer" type="Submit" value="Evaluation"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerExtTeacherMap.jsp">
+		<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerExtTeacherMap.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:440px;padding:17px 29px 17px 57px;border:none;cursor:pointer" type="Submit" value="Map Externals"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
-			<form action="ControllerResultScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
+		<form action="ControllerResultScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:500px;padding:17px 85px 17px 57px;border:none;cursor:pointer" type="Submit" value="Results"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:560px;padding:17px 90px 17px 60px;background-color:#16181d;color:#80b5eb" href="ControllerViewProfile.jsp">Profile</a>
+		<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:560px;padding:17px 90px 17px 60px;background-color:#16181d;color:#80b5eb" href="ControllerViewProfile.jsp">Profile</a>
 			
-			<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
-			<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
-		
+		<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
+		<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>	
 	</div>
 	
-	<%  String controllerId = (String)session.getAttribute("controllerId"); 
-		ControllerDao controllerDao = new ControllerDao();
-		Controller controller = controllerDao.getController(controllerId);
-		System.out.println(controllerId);
-	%>
-	
 	<div class="body_bar">
+		<% Controller controller = controllerDao.getController(controllerId); %>
 		<div style="height:500px;width:40%;position:absolute;top:60px;left:10%;background-color:#f2f2f2;border-radius:10px;box-shadow: 5px 5px #d9d9d9;">
 			<img src="pics/profile_pic.png" style="width:150px;height:150px;left:180px;top:20px;position:absolute">
 			
@@ -201,11 +193,9 @@ body{
 			<p style="left:80px;top:390px;position:absolute">Mobile<p>
 			<p style="left:250px;top:390px;position:absolute;color:grey"><%=controller.getMobile()%><p>
 			<hr style="height:2px;width:80%;left:50px;top:420px;position:absolute;background-color:grey;border:none">
-		
 		</div>
 	
-		<div style="min-height:180px;width:100%;position:absolute;top:180px;left:300px"><!-- bluepatch -->
-		
+		<div style="min-height:180px;width:100%;position:absolute;top:180px;left:300px">
 			<p style="font-size:20px;top:-90px;left:560px;position:absolute">Password Reset</p>
 			<div style="height:300px;width:30%;position:absolute;top:-10px;left:35%;background-color:#f2f2f2;box-shadow: 5px 5px #d9d9d9;border-radius:10px;">
 				<form action="PasswordReset" method="post" name="thisForm" onsubmit="return validateForm()">
@@ -217,23 +207,19 @@ body{
 					<input style="left:160px;top:215px;position:absolute" type="submit" value="Submit">
 				</form>
 			</div>
-		
 		</div>
-	
 	</div>
 	
 </body>
 
 <script>
-
 function validateForm(){
 	var password = document.forms["thisForm"]["password"].value;
 	var rePassword = document.forms["thisForm"]["rePassword"].value;
 	if(password.localeCompare(rePassword) != 0){
-		  alert("Passwords did not match!\nPlease try again!");
-		  return false;
+		alert("Passwords did not match!\nPlease try again!");
+		return false;
 	 }
-	
 }
 </script>
 

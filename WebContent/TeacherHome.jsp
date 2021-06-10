@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:#f7f7f7;
@@ -115,14 +110,17 @@ body{
 </style>
 
 <body>
-
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	ExamTaskDao examTaskDao = new ExamTaskDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+	%>
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Home</p>
 	</div>
 	
 	<div class="top2">
-			<% String teacherId = (String)session.getAttribute("teacherId"); %>
-			<p style="position:absolute;color:#f7f7f7;left:30px;top:0px;font-size:20px">Hi, <%=teacherId%> !</p>
+		<p style="position:absolute;color:#f7f7f7;left:30px;top:0px;font-size:20px">Hi, <%=teacherId%> !</p>
 	</div>
 	
 	<div class="vertical_menu_bar">
@@ -133,8 +131,6 @@ body{
 		</div></a>
 		
 		<% 
-		SubjectDao subjectDao = new SubjectDao();
-		ExamTaskDao examTaskDao = new ExamTaskDao();
 		String today = new Today().getToday();
 		Subject firstTheorySubject = null, firstLabSubject = null;
 		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
@@ -184,16 +180,14 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
-	
+
 	<div class="body_bar">
 		<p style="font-size:20px;top:25px;left:70px;position:absolute">Quick access</p>
 		<% 
-			List<Subject> subjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-			HashSet<Integer> yearsTaken = new HashSet<>();
-			for(Subject subject : subjects) yearsTaken.add(subject.getYear());%>
+		List<Subject> subjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+		HashSet<Integer> yearsTaken = new HashSet<>();
+		for(Subject subject : subjects) yearsTaken.add(subject.getYear());%>
 			<table id="tb" style="position:absolute;top:120px;left:160px">
 			<% for(Integer year : yearsTaken){
 				List<ExamTask> examTasks = examTaskDao.getExamTask(year);
@@ -209,24 +203,22 @@ body{
 							</form>
 							</td>
 						</tr>
-					<%
-					}
+					<%}
 					openDate = examTask.getEvaluationOpenDate(); closeDate = examTask.getEvaluationCloseDate();
 					if(openDate != null && today.compareTo(openDate) >= 0 && today.compareTo(closeDate) <= 0){%>
 						<tr>
-						<td>Paper Evaluation for Year <%=year%> <%=examTask.getExamType()%> exams is open</td>
-						<td>
-							<form action="TeacherEvaluation.jsp">
-								<input type="hidden" name="YBSId" value="<%=subjectDao.getYBSIdFromSubjectList(subjects, year)%>">
-								<input type="Submit" value="Go">
-							</form>
+							<td>Paper Evaluation for Year <%=year%> <%=examTask.getExamType()%> exams is open</td>
+							<td>
+								<form action="TeacherEvaluation.jsp">
+									<input type="hidden" name="YBSId" value="<%=subjectDao.getYBSIdFromSubjectList(subjects, year)%>">
+									<input type="Submit" value="Go">
+								</form>
 							</td>
 						</tr>
-					<%}}}%>	
-		</table>
-			
+					<%}}}%>
+				</table>
 		</div>
-	
-	
+
 </body>
+
 </html>

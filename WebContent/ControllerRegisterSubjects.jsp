@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -49,7 +47,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -79,9 +76,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -122,7 +117,7 @@ body{
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 .modal-content {
-position:absolute;
+  position:absolute;
   background-color: #fefefe;
   margin: auto;
   padding: 30px;
@@ -148,13 +143,18 @@ position:absolute;
 </style>
 
 <body>
-	<%int year = Integer.parseInt(request.getParameter("year"));%>
+
+	<%
+	ExtTeacherDao extTeacherDao = new ExtTeacherDao();
+	SubjectDao subjectDao = new SubjectDao();
+	DescriptiveDao descriptiveDao = new DescriptiveDao();
+	int year = Integer.parseInt(request.getParameter("year"));
+	%>
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">New Subjects > Year <%=year%> > Sem <%=new AcadYearDao().getSemester(year)%></p>
 	</div>
 	
 	<div class="top2">
-	
 		<%!	int leftAttr = 110; %>
 		<%! void initLeftAttr(){ leftAttr = 110; } %>
 		<%! void updateLeftAttr(){ leftAttr += 250; } %>
@@ -171,86 +171,92 @@ position:absolute;
 		<%updateLeftAttr();}%>
 
 	</div>
-	
-		<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
-			<p class="tag"> EXAM CORNER</p>
+	<div class="vertical_menu_bar">
+		<p class="clgName"><strong>ABIT</strong></p>
+		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+		<p class="tag"> EXAM CORNER</p>
 			
-			<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
+		<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
 			
-			<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerRegisterSubjects.jsp">
+		<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerRegisterSubjects.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:200px;padding:17px 80px 17px 55px;border:none;cursor:pointer;background-color:#16181d;color:#80b5eb" type="Submit" value="Courses"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
-			<form action="ControllerSettingScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
+		<form action="ControllerSettingScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:260px;padding:17px 35px 17px 56px;border:none;cursor:pointer" type="Submit" value="Paper Setting"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
+		<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:320px;padding:17px 90px 17px 57px" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
 			
-			<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerEvaluationScheduling.jsp">
+		<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerEvaluationScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:380px;padding:17px 61px 17px 57px;border:none;cursor:pointer" type="Submit" value="Evaluation"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
-			<form action="ControllerExtTeacherMap.jsp">
+		<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
+		<form action="ControllerExtTeacherMap.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:440px;padding:17px 29px 17px 57px;border:none;cursor:pointer" type="Submit" value="Map Externals"></br>
-			</form>
+		</form>
 			
-			<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
-			<form action="ControllerResultScheduling.jsp">
+		<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
+		<form action="ControllerResultScheduling.jsp">
 			<input type="hidden" name="year" value="1">
 		    <input class="options" style="top:500px;padding:17px 85px 17px 57px;border:none;cursor:pointer" type="Submit" value="Results"></br>
-			</form>
+		</form>
 			
-			<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
-			<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
+		<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
 			
-			<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
-			<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
-		
+		<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
+		<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>		
 	</div>
-	
-	
+
 	<div class="body_bar">
-	
 		<input style="width:13%;height:10%;position:absolute;top:-3px;left:1065px;background-color:#5a6bbc;color:white;border-radius:5px;border:none;cursor:pointer" id="modalTrigger" type="Submit" value="View Subjects"></br>
-	
-		<div style="height:460px;width:73%;position:absolute;top:100px;left:12%">
+			<div style="height:460px;width:73%;position:absolute;top:100px;left:12%">
 			<form action="ControllerRegisterSubjects" method="post">
-				<input type="hidden" name="year" value="<%=year%>">
-				
-				<table id="tb">
-				<tr><td>CE</td>
-				<td><input size="60" type="text" name="ce" placeholder="SubjectCode1-SubjectName1..."></td>
-				<td><input size="30" type="text" name="ceLab" placeholder="LabCode1-LabName1..."></td></tr>
-				<tr><td>CSE</td>
-				<td><input size="60" type="text" name="cse" placeholder="SubjectCode1-SubjectName1..."></td>
-				<td><input size="30" type="text" name="cseLab" placeholder="LabCode1-LabName1..."></td></tr>
-				<tr><td>ECE</td>
-				<td><input size="60" type="text" name="ece" placeholder="SubjectCode1-SubjectName1..."></td>
-				<td><input size="30" type="text" name="eceLab" placeholder="LabCode1-LabName1..."></td></tr>
-				<tr><td>EEE</td>
-				<td><input size="60" type="text" name="eee" placeholder="SubjectCode1-SubjectName1..."></td>
-				<td><input size="30" type="text" name="eeeLab" placeholder="LabCode1-LabName1..."></td></tr>
-				<tr><td>IT</td>
-				<td><input size="60" type="text" name="it" placeholder="SubjectCode1-SubjectName1..."></td>
-				<td><input size="30" type="text" name="itLab" placeholder="LabCode1-LabName1..."></td></tr>
-				<tr><td>Mech</td>
-				<td><input size="60" type="text" name="me" placeholder="SubjectCode1-SubjectName1..."></td>
-				<td><input size="30" type="text" name="meLab" placeholder="LabCode1-LabName1..."></td></tr>
-				<input style="left:450px;top:300px;position:absolute" type="submit" value="Add Subjects">
-				</table>
+				<input type="hidden" name="year" value="<%=year%>">	
+					<table id="tb">
+						<tr>
+							<td>CE</td>
+							<td><input size="60" type="text" name="ce" placeholder="SubjectCode1-SubjectName1..."></td>
+							<td><input size="30" type="text" name="ceLab" placeholder="LabCode1-LabName1..."></td>
+						</tr>
+						<tr>
+							<td>CSE</td>
+							<td><input size="60" type="text" name="cse" placeholder="SubjectCode1-SubjectName1..."></td>
+							<td><input size="30" type="text" name="cseLab" placeholder="LabCode1-LabName1..."></td>
+						</tr>
+						<tr>
+							<td>ECE</td>
+							<td><input size="60" type="text" name="ece" placeholder="SubjectCode1-SubjectName1..."></td>
+							<td><input size="30" type="text" name="eceLab" placeholder="LabCode1-LabName1..."></td>
+						</tr>
+						<tr>
+							<td>EEE</td>
+							<td><input size="60" type="text" name="eee" placeholder="SubjectCode1-SubjectName1..."></td>
+							<td><input size="30" type="text" name="eeeLab" placeholder="LabCode1-LabName1..."></td>
+						</tr>
+						<tr>
+							<td>IT</td>
+							<td><input size="60" type="text" name="it" placeholder="SubjectCode1-SubjectName1..."></td>
+							<td><input size="30" type="text" name="itLab" placeholder="LabCode1-LabName1..."></td>
+						</tr>
+						<tr>
+							<td>Mech</td>
+							<td><input size="60" type="text" name="me" placeholder="SubjectCode1-SubjectName1..."></td>
+							<td><input size="30" type="text" name="meLab" placeholder="LabCode1-LabName1..."></td>
+						</tr>
+						<input style="left:450px;top:300px;position:absolute" type="submit" value="Add Subjects">
+					</table>
 			</form>
 	</div>
 	
@@ -259,10 +265,7 @@ position:absolute;
 	    	<span class="close">&times;</span>
 	    	<%	
 			ArrayList<String> branches = new ArrayList<>();
-	    	ExtTeacherDao extTeacherDao = new ExtTeacherDao();
 			branches.add("CE");branches.add("CSE");branches.add("ECE");branches.add("EEE");branches.add("IT");branches.add("ME");
-			SubjectDao subjectDao = new SubjectDao();
-			DescriptiveDao descriptiveDao = new DescriptiveDao();
 			%>
 			<table id="tb" style="border:1px solid #e4e4e4;">
 				<tr>

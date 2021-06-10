@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.SAM" import="com.dao.SAMDao" import="com.dto.Descriptive" import="com.dao.DescriptiveDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Evaluation</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -39,7 +37,6 @@ body{
 	position:absolute;
 }
 .options{
-	
 	position:absolute;
 	background-color:#30333d;
 	color:#cccccc;
@@ -50,7 +47,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +76,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -114,27 +108,25 @@ body{
 </style>
 
 <body>
-		<%
-
-		String studentId = request.getParameter("studentId");
-		String YBSId = request.getParameter("YBSId");
-		String examType = request.getParameter("examType");
-		String SNo = request.getParameter("SNo");
-		String script = request.getParameter("script");
-
-		SubjectDao subjectDao = new SubjectDao();
-		String teacherId = (String)session.getAttribute("teacherId");
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
-		Subject firstTheorySubject = theorySubjects.get(0);
-		Subject firstLabSubject = labSubjects.get(0);
-		%>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+	String studentId = request.getParameter("studentId");
+	String YBSId = request.getParameter("YBSId");
+	String examType = request.getParameter("examType");
+	String SNo = request.getParameter("SNo");
+	String script = request.getParameter("script");
+	
+	List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+	List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+	Subject firstTheorySubject = theorySubjects.get(0);
+	Subject firstLabSubject = labSubjects.get(0);
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Evaluation > <%=firstTheorySubject.getYear()%>-<%=firstTheorySubject.getBranch()%>-<%=firstTheorySubject.getSubjectName()%> > <%=examType%> > All Scripts > <%=SNo%></p>
 	</div>
-	
-	
+
 	<div class="vertical_menu_bar">
 		<a href="TeacherHome.jsp"><div>
 		<p class="clgName"><strong>ABIT</strong></p>
@@ -142,7 +134,6 @@ body{
 		<p class="tag"> EXAM CORNER</p>
 		</div></a>
 
-		
 		<i class='fas fa-book-reader' style="position:absolute;top:167px;left:30px;color:#cccccc;z-index:1"></i>
 		<form action="TeacherRegisterSubjects.jsp">
 			<input type="hidden" name="year" value="1">
@@ -172,12 +163,9 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
-	
-	<div class="body_bar">
 
+	<div class="body_bar">
 		<iframe src="pics/<%=script%>" name="iframe_a" height="745px" width="75%"></iframe>
 		<div style="height:550px;width:10%;position:absolute;top:100px;left:1020px">
 			<form action="TeacherScriptEvaluation" method="post">
@@ -193,7 +181,7 @@ body{
 					int qs = 0, maxMarks = 0;
 					String pattern = "";
 					if(examType.equals("mid1") || examType.equals("mid2")){qs = 4;pattern="([0-9])|([0-1][0-5])"; maxMarks = 15;}
-					else {qs = 3;pattern="([0-9])|([0-1][0])"; maxMarks = 10;}
+					else{qs = 3;pattern="([0-9])|([0-1][0])"; maxMarks = 10;}
 					for(int i = 1; i <= qs; i++){%>				
 					<tr>
 						<td>Q<%=i%></td>
@@ -207,7 +195,6 @@ body{
 	</div>
 	
 </body>
-
 
 </html>
     

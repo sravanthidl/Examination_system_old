@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExtTeacher" import="com.dao.ExtTeacherDao" import="java.util.List" import="java.util.ArrayList" import="com.dto.SAM" import="com.dao.SAMDao" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - My Home</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -115,19 +110,18 @@ body{
 
 <body>
 
-	<% String extTeacherId = (String)session.getAttribute("extTeacherId");
+	<%
 	ExtTeacherDao extTeacherDao = new ExtTeacherDao();
+	String extTeacherId = (String)session.getAttribute("extTeacherId");
+
 	ExtTeacher extTeacher = extTeacherDao.getExtTeacher(extTeacherId);
 	String YBSId = extTeacher.getYBSId();
 	%>
-
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Profile</p>
 	</div>
 	
-	<div class="top2">
-			
-	</div>
+	<div class="top2"></div>
 	
 	<div class="vertical_menu_bar">
 		<p class="clgName"><strong>ABIT</strong></p>
@@ -145,10 +139,8 @@ body{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:287px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:268px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
-	
-	
+
 	<div class="body_bar">
 		<div style="height:450px;width:40%;position:absolute;top:90px;left:10%;background-color:#f2f2f2;border-radius:10px;box-shadow: 5px 5px #d9d9d9;">
 			<img src="pics/profile_pic.png" style="width:150px;height:150px;left:180px;top:20px;position:absolute">
@@ -169,14 +161,10 @@ body{
 			<p style="left:80px;top:340px;position:absolute">Mobile<p>
 			<p style="left:250px;top:340px;position:absolute;color:grey"><%=extTeacher.getMobile()%><p>
 			<hr style="height:2px;width:80%;left:50px;top:370px;position:absolute;background-color:grey;border:none">
-			
-		
 		</div>
 	
-		<div style="min-height:180px;width:100%;position:absolute;top:180px;left:300px"><!-- bluepatch -->
-		
+		<div style="min-height:180px;width:100%;position:absolute;top:180px;left:300px">
 			<p style="font-size:23px;top:-90px;left:540px;position:absolute"><strong>Password Reset</strong></p>
-			
 			<div style="height:300px;width:30%;position:absolute;top:-10px;left:35%;background-color:#f2f2f2;box-shadow: 5px 5px #d9d9d9;border-radius:10px;">
 				<form action="PasswordReset" method="post" name="thisForm" onsubmit="return validateForm()">
 					<input type="hidden" name="user" value="extTeacher">
@@ -187,10 +175,9 @@ body{
 					<input style="left:160px;top:215px;position:absolute" type="submit" value="Submit">
 				</form>
 			</div>
-		
 		</div>
-	
 	</div>	
 	
 </body>
+
 </html>

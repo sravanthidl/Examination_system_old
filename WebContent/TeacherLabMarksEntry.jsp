@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.LabMarks" import="com.dao.LabMarksDao" import="com.dto.Student" import="com.dao.StudentDao" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Evaluation</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -114,27 +111,30 @@ body{
 </style>
 
 <body>
-
-		<%! int leftAttr = 100; %>
-		<%! void initLeftAttr(){ leftAttr = 100; } %>
-		<%! void updateLeftAttr(){ leftAttr += 265; } %>
-		<%
-		String YBSId = request.getParameter("YBSId");
-		initLeftAttr();
-		String teacherId = (String)session.getAttribute("teacherId");
-		SubjectDao subjectDao = new SubjectDao();
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
-		Subject firstTheorySubject = theorySubjects.get(0);
-		Subject firstLabSubject = labSubjects.get(0);
-		%>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	StudentDao studentDao = new StudentDao();
+	LabMarksDao labMarksDao = new LabMarksDao();
+	
+	String teacherId = (String)session.getAttribute("teacherId");
+	String YBSId = request.getParameter("YBSId");
+	%>
+	<%! int leftAttr = 100; %>
+	<%! void initLeftAttr(){ leftAttr = 100; } %>
+	<%! void updateLeftAttr(){ leftAttr += 265; } %>
+	<%
+	initLeftAttr();	
+	List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+	List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+	Subject firstTheorySubject = theorySubjects.get(0);
+	Subject firstLabSubject = labSubjects.get(0);
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Lab Marks Entry > <%=subjectDao.getSubject(YBSId).getYear()%>-<%=subjectDao.getSubject(YBSId).getBranch()%>-<%=subjectDao.getSubject(YBSId).getSubjectName()%></p>
 	</div>
 	
 	<div class="top2">
-
 		<%for(Subject labSubject : labSubjects){%>
 		<form action="TeacherLabMarksEntry.jsp">
 			<input type="hidden" name="YBSId" value="<%=labSubject.getYBSId()%>">
@@ -145,7 +145,6 @@ body{
 			<%}%>
 		</form>
 		<% updateLeftAttr(); }%>
-	
 	</div>
 	
 	<div class="vertical_menu_bar">
@@ -186,24 +185,19 @@ body{
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
 		
 	</div>
-	
-	
+
 	<div class="body_bar">
 		<%		
-	  		String mid1OpenDate = "To Be Announced", mid1CloseDate = "To Be Announced", mid1Status = "To Be Announced";
-	  		String asgn1OpenDate = "To Be Announced", asgn1CloseDate = "To Be Announced", asgn1Status = "To Be Announced";
-			String today = new Today().getToday();
+	  	String mid1OpenDate = "TBA", mid1CloseDate = "TBA", mid1Status = "TBA";
+	  	String asgn1OpenDate = "TBA", asgn1CloseDate = "TBA", asgn1Status = "TBA";
+		String today = new Today().getToday();
 			
-			int year = new SubjectDao().getSubject(YBSId).getYear();
-			String branch = new SubjectDao().getSubject(YBSId).getBranch();
+		int year = new SubjectDao().getSubject(YBSId).getYear();
+		String branch = new SubjectDao().getSubject(YBSId).getBranch();
+		List<Student> students = studentDao.getStudents(year, branch);
+		%>
 			
-			StudentDao studentDao = new StudentDao();
-			LabMarksDao labMarksDao = new LabMarksDao();
-			List<Student> students = studentDao.getStudents(year, branch);
-	
-			%>
-			
-		<div style="height:550px;width:35%;position:absolute;top:50px;left:400px;border-radius:10px;">
+		<div style="height:550px;width:35%;position:absolute;top:50px;left:400px;border-radius:10px">
 			<form action="TeacherLabMarksEntry" method="post">
 				<input type="hidden" name="YBSId" value="<%=YBSId%>">
 				<table id="tb">
@@ -234,11 +228,10 @@ body{
 				</table>
 			</form>	
 		</div>
-		
+
 	</div>
 	
 </body>
-
 
 </html>
     

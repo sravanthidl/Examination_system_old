@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExtTeacher" import="com.dao.ExtTeacherDao" import="java.util.List" import="java.util.ArrayList" import="com.dto.SAM" import="com.dao.SAMDao" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - My Home</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -80,9 +77,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -115,23 +110,22 @@ body{
 
 <body>
 
-	<% String extTeacherId = (String)session.getAttribute("extTeacherId");
+	<%
 	ExtTeacherDao extTeacherDao = new ExtTeacherDao();
 	SubjectDao subjectDao = new SubjectDao();
+	String extTeacherId = (String)session.getAttribute("extTeacherId");
+
 	ExtTeacher extTeacher = extTeacherDao.getExtTeacher(extTeacherId);
 	String YBSId = extTeacher.getYBSId();
-	int year = (int)subjectDao.getSubject(YBSId).getYear();
 	int sNo = extTeacher.getSubjectSNo();
+	int year = (int)subjectDao.getSubject(YBSId).getYear();
 	String subjectName = subjectDao.getSubject(YBSId).getSubjectName();
 	%>
-
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Evaluation > Year <%=year%> > <%=subjectName%></p>
 	</div>
 	
-	<div class="top2">
-			
-	</div>
+	<div class="top2"></div>
 	
 	<div class="vertical_menu_bar">
 		<p class="clgName"><strong>ABIT</strong></p>
@@ -148,23 +142,21 @@ body{
 		<a class="options" style="top:208px;padding:17px 85px 17px 65px" href="ExtTeacherProfile.jsp">Profile</a></br>
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:287px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
-		<a class="options" style="top:268px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
+		<a class="options" style="top:268px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>	
 	</div>
-	
-	
+
 	<div class="body_bar">
 		<%! int counter = 1; %>
 		<%! void initCounter(){ counter = 1; }%>
 		<%
-			SAMDao samDao = new SAMDao();
-			List<SAM> sams = samDao.getAllYBSScripts(YBSId);
-			List<SAM> filteredSams = new ArrayList<>();
-			int startPaperNo = 5 * (sNo - 1), incrementer = 0;
-			while(incrementer < 5){
-				filteredSams.add(sams.get(startPaperNo + incrementer));
-				incrementer++;
-			}
+		SAMDao samDao = new SAMDao();
+		List<SAM> sams = samDao.getAllYBSScripts(YBSId);
+		List<SAM> filteredSams = new ArrayList<>();
+		int startPaperNo = 5 * (sNo - 1), incrementer = 0;
+		while(incrementer < 5){
+			filteredSams.add(sams.get(startPaperNo + incrementer));
+			incrementer++;
+		}
 		%>
 		<div style="height:550px;width:30%;position:absolute;top:50px;left:400px">
 			<table id="tb">
@@ -174,8 +166,8 @@ body{
 					<th>Marks</th>
 				</tr>
 				<%
-					initCounter();
-					for(SAM sam : filteredSams){					
+				initCounter();
+				for(SAM sam : filteredSams){					
 				%>
 				<tr>
 					<form action="ExtTeacherScriptEvaluation.jsp">
@@ -190,8 +182,8 @@ body{
 				<% counter++;} %>
 			</table>
 		</div>
-	
 	</div>	
 	
 </body>
+
 </html>

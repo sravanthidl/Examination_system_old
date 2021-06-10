@@ -40,9 +40,7 @@
 	top:0px;
 	left:35%;
 }
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 input[type=Submit] {
   color: white;
   padding: 6px 20px;
@@ -51,20 +49,18 @@ input[type=Submit] {
   width: 80%;
   background:#1669ce;
 }
+
 </style>
 
 <body>
 	<div class="vertical_menu_bar">
-			<p class="clgName"><strong>ABIT</strong></p>
-			<p class="tag">Online Examination Corner</p>
-			
-			<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
+		<p class="clgName"><strong>ABIT</strong></p>
+		<p class="tag">Online Examination Corner</p>	
+		<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
 	</div>
 	
 	<div class="body_bar">
-	
 		<div style="height:540px;width:40%;position:absolute;top:110px;left:17%;border:2px solid #1669ce;border-radius:10px;">
-
 			<p style="font-size:23px;top:0px;left:120px;position:absolute"><strong>External Teacher Sign up</strong></p>
 			<form action="ExtTeacherChooseSubject.jsp" name="thisForm" onsubmit="return validateForm()">
 				<p style="left:70px;top:90px;position:absolute">Ext. Teacher Pass Key<p>
@@ -91,14 +87,12 @@ input[type=Submit] {
 				<input style="left:230px;top:400px;position:absolute" size="25" type="tel" name="mobile" pattern="[0-9]{10}" required>			
 				<input style="left:60px;top:460px;position:absolute" type="submit" value="Continue">
 			</form>
-			
 		</div>
-		
 	</div>
 	
 </body>
-<script>
 
+<script>
 function validateForm(){
 	var passkey = document.forms["thisForm"]["passkey"].value;
 	var name = document.forms["thisForm"]["name"].value;
@@ -108,13 +102,13 @@ function validateForm(){
 	var branch = document.forms["thisForm"]["branch"].value;
 	var mobile = document.forms["thisForm"]["mobile"].value;
 	if(passkey.localeCompare("ExternalTeacher") != 0){
-		  alert("Incorrect passkey!");
-		  return false;
-	 }
+		alert("Incorrect passkey!");
+		return false;
+	}
 	if(password.localeCompare(rePassword) != 0){
-		  alert("Passwords did not match!\nPlease try again!");
-		  return false;
-	 }
+		alert("Passwords did not match!\nPlease try again!");
+		return false;
+	}
 	if(name.length() > 30){
 		alert("Name should not be more than 30 characters!");
 		return false;
@@ -127,7 +121,6 @@ function validateForm(){
 		alert("Password should not be more than 15 characters!");
 		return false;
 	}
-	
 }
 </script>
 

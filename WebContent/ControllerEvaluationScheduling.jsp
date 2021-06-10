@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Controller" import="com.dao.AcadYearDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="java.util.ArrayList" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Schedule Paper Setting</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{ font-family:arial; }
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -58,9 +56,7 @@ body{
 	background-color:#7382c8;
 	color:#f7f7f7;
 }
-.subs:hover{
-	background-color:#5a6bbc;
-}
+.subs:hover{ background-color:#5a6bbc; }
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -81,7 +77,6 @@ body{
 	top:57px;
 	left:202px;
 }
-
 .body_bar{
 	position:absolute;
 	background-color:white;
@@ -109,34 +104,29 @@ body{
   color: #4a4a4a;
   text-align: center;
 }
-#tb tr:hover {background-color: #f7f7f7}
-
-.border-bottom td { 
-    border-bottom: 3px solid black;
- }
-
-input[type=text]::placeholder { 
-     text-align: center;
-}
-input[type=text]{ 
-     text-align: center;
-}
-
+#tb tr:hover { background-color:#f7f7f7}
+.border-bottom td { border-bottom:3px solid black; }
+input[type=text]::placeholder { text-align:center; }
+input[type=text]{ text-align:center; }
 
 </style>
 
 <body>
-	<%int year = Integer.parseInt(request.getParameter("year"));%>
+	<%
+	AcadYearDao acadYearDao = new AcadYearDao();
+	ExamTaskDao examTaskDao = new ExamTaskDao();
+	int year = Integer.parseInt(request.getParameter("year"));
+	%>
+
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Schedule Evaluation > Year <%=year%> > Sem <%=new AcadYearDao().getSemester(year)%></p>
 	</div>
 	
 	<div class="top2">
-	
 		<%!	int leftAttr = 110; %>
 		<%! void initLeftAttr(){ leftAttr = 110; } %>
 		<%! void updateLeftAttr(){ leftAttr += 250; } %>
-		<%initLeftAttr();
+		<%  initLeftAttr();
 		for(int i = 1; i <= 4; i++){%>
 		<form action="ControllerEvaluationScheduling.jsp">
 			<input type="hidden" name="year" value="<%=i%>">
@@ -147,10 +137,9 @@ input[type=text]{
 			<%}%>
 		</form>
 		<%updateLeftAttr();}%>
-
 	</div>
 	
-		<div class="vertical_menu_bar">
+	<div class="vertical_menu_bar">
 			<p class="clgName"><strong>ABIT</strong></p>
 			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
 			<p class="tag"> EXAM CORNER</p>
@@ -196,43 +185,37 @@ input[type=text]{
 			
 			<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
 			<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
-		
 	</div>
-	
-	
-	<div class="body_bar">
 
+	<div class="body_bar">
 		<p style="position:absolute;color:#5a6bbc;left:10px;top:-15px">* Click on the dates to update schedule</p>
 	
 		<div style="width:50%;position:absolute;top:100px;left:23%">
 			<table id="tb">
-					<tr>
-						<th>Exam</th>
-						<th>Open Date</th>
-						<th>Close Date</th>
-						<th>Schedule</th>
-					</tr>
-						<%
-						AcadYearDao acadYearDao = new AcadYearDao();
-						ExamTaskDao examTaskDao = new ExamTaskDao();
-						List<String> examTypeDisplay = new ArrayList<>();
-						List<String> examType = new ArrayList<>();
-						examTypeDisplay.add("Mid 1");examTypeDisplay.add("Mid 2");examTypeDisplay.add("Semester");
-						examType.add("mid1");examType.add("mid2");examType.add("sem");
-						
-							for(int j = 0; j < 3; j++){
-								ExamTask examTask = examTaskDao.getExamTask(year, examType.get(j));
-								String openDatePH = "NA", closeDatePH = "NA";
-								if(examTask != null){
-									if(examTask.getEvaluationOpenDate() != null) openDatePH = examTask.getEvaluationOpenDate();
-									if(examTask.getEvaluationCloseDate() != null) closeDatePH = examTask.getEvaluationCloseDate();
-								}	
-						%>
-					<tr>
+				<tr>
+					<th>Exam</th>
+					<th>Open Date</th>
+					<th>Close Date</th>
+					<th>Schedule</th>
+				</tr>
+					<%
+					List<String> examTypeDisplay = new ArrayList<>();
+					List<String> examType = new ArrayList<>();
+					examTypeDisplay.add("Mid 1");examTypeDisplay.add("Mid 2");examTypeDisplay.add("Semester");
+					examType.add("mid1");examType.add("mid2");examType.add("sem");
+					for(int j = 0; j < 3; j++){
+						ExamTask examTask = examTaskDao.getExamTask(year, examType.get(j));
+						String openDatePH = "NA", closeDatePH = "NA";
+						if(examTask != null){
+							if(examTask.getEvaluationOpenDate() != null) openDatePH = examTask.getEvaluationOpenDate();
+							if(examTask.getEvaluationCloseDate() != null) closeDatePH = examTask.getEvaluationCloseDate();
+						}	
+					%>
+				<tr>
 					<form action="ControllerEvaluationScheduling" method="post">
 						<input type="hidden" name="year" value="<%=year%>">
-						<td><%=examTypeDisplay.get(j)%></td>
 						<input type="hidden" name="examType" value="<%=examType.get(j)%>">
+						<td><%=examTypeDisplay.get(j)%></td>
 						<%if(!openDatePH.equals("NA")){ %>
 						<td><input type="text" style="border:none;color:#585858;width:130px" name="openDate" placeholder="<%=openDatePH%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" required></td>
 						<td><input type="text" style="border:none;color:#585858;width:130px" name="closeDate" placeholder="<%=closeDatePH%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" required></td>
@@ -243,26 +226,20 @@ input[type=text]{
 						<td><input type="Submit" value="Schedule"></td>
 						<%}%>
 					</form>
-					</tr>
+				</tr>
 					<%}%>
-				</table>
-			
-			</div>
-
+			</table>
+		</div>
 	</div>	
 	
 </body>
 
 <script>
 function myFunction() {
-	alert("ko");
-	return false;
 	var approve = confirm("Are you sure you want to update the schedule?");
-	  if (approve == true) {
-		  return true;
-	  } else {
-	    return false;
-	  }
+	if (approve == true) return true;
+	else return false;
 }
+</script>
 
 </html>

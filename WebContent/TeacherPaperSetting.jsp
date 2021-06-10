@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dao.DescriptiveDao" import="com.dto.Descriptive" import="com.dao.QuizDao" import="com.dto.Quiz" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="com.dao.Today" import="java.util.Enumeration"%>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="com.dao.Today" import="java.util.Enumeration"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Paper Setting</title>
@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-body{
-	font-family:arial;
-}
+body{font-family:arial;}
 .vertical_menu_bar{
 	position:absolute;
 	background-color:#30333d;
@@ -50,7 +48,6 @@ body{
 	background-color:#16181d;
 	color:#80b5eb;
 }
-
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
@@ -110,40 +107,36 @@ body{
   color: #4a4a4a;
   text-align: center;
 }
-
-input[type=date]{
-	width:134px;
-}
-
-input[type=text]{
-	text-align:center;
-}
-
+input[type=date]{width:134px;}
+input[type=text]{text-align:center;}
 
 </style>
 
 <body>
-
-		<%! int leftAttr = 40; %>
-		<%! void initLeftAttr(){ leftAttr = 40; } %>
-		<%! void updateLeftAttr(){ leftAttr += 265; } %>
-		<%
-		String YBSId = request.getParameter("YBSId");
-		initLeftAttr();
-		String teacherId = (String)session.getAttribute("teacherId");
-		SubjectDao subjectDao = new SubjectDao();
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
-		Subject firstTheorySubject = theorySubjects.get(0);
-		Subject firstLabSubject = labSubjects.get(0);
-		%>
+	<%
+	SubjectDao subjectDao = new SubjectDao();
+	DescriptiveDao descriptiveDao = new DescriptiveDao();
+	QuizDao quizDao = new QuizDao();
+	ExamTaskDao examTaskDao = new ExamTaskDao();
+	String teacherId = (String)session.getAttribute("teacherId");
+	String YBSId = request.getParameter("YBSId");
+	%>
+	<%! int leftAttr = 40; %>
+	<%! void initLeftAttr(){ leftAttr = 40; } %>
+	<%! void updateLeftAttr(){ leftAttr += 265; } %>
+	<%	
+	initLeftAttr();	
+	List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+	List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+	Subject firstTheorySubject = theorySubjects.get(0);
+	Subject firstLabSubject = labSubjects.get(0);
+	%>
 
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Paper Setting > <%=subjectDao.getSubject(YBSId).getYear()%>-<%=subjectDao.getSubject(YBSId).getBranch()%>-<%=subjectDao.getSubject(YBSId).getSubjectName()%></p>
 	</div>
 	
 	<div class="top2">
-
 		<%for(Subject theorySubject : theorySubjects){	%>
 		<form action="TeacherPaperSetting.jsp">
 			<input type="hidden" name="YBSId" value="<%=theorySubject.getYBSId()%>">
@@ -154,7 +147,6 @@ input[type=text]{
 			<%}%>
 		</form>
 		<% updateLeftAttr(); }%>
-	
 	</div>
 	
 	<div class="vertical_menu_bar">
@@ -193,224 +185,205 @@ input[type=text]{
 		
 		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
 		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
-		
 	</div>
 
-	
  	<div class="body_bar">
 		
-	  	<%		
-			//System.out.println(teacherId);
-	  		//System.out.println("YOO:" + YBSId);
-	  		String mid1OpenDate = "TBA", mid1CloseDate = "TBA", mid1Status = "TBA";
-			String mid2OpenDate = "TBA", mid2CloseDate = "TBA", mid2Status = "TBA";
-			String semOpenDate = "TBA", semCloseDate = "TBA", semStatus = "TBA";
-			String today = new Today().getToday();
-			
-			int year = new SubjectDao().getSubject(YBSId).getYear();
-			DescriptiveDao descriptiveDao = new DescriptiveDao();
-			QuizDao quizDao = new QuizDao();
-			
-			ExamTaskDao examTaskDao = new ExamTaskDao();
-			ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
-			ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
-			ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");
+	  	<%
+	  	String mid1OpenDate = "TBA", mid1CloseDate = "TBA", mid1Status = "TBA";
+		String mid2OpenDate = "TBA", mid2CloseDate = "TBA", mid2Status = "TBA";
+		String semOpenDate = "TBA", semCloseDate = "TBA", semStatus = "TBA";
+		String today = new Today().getToday();
+		int year = new SubjectDao().getSubject(YBSId).getYear();
 
-			if(mid1ExamTask != null){
-				System.out.println("HERE");
-				mid1OpenDate = mid1ExamTask.getSettingOpenDate();
-				mid1CloseDate = mid1ExamTask.getSettingCloseDate();
-				if(mid1OpenDate != null && mid1CloseDate != null){
-					if(today.compareTo(mid1CloseDate) > 0) mid1Status = "Expired";
-					else if(today.compareTo(mid1OpenDate) >= 0 && today.compareTo(mid1CloseDate) <= 0) mid1Status = "Active";
-					else if(today.compareTo(mid1OpenDate) < 0) mid1Status = "Opens Soon";
-				}
+		ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
+		ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
+		ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");
+
+		if(mid1ExamTask != null){
+			System.out.println("HERE");
+			mid1OpenDate = mid1ExamTask.getSettingOpenDate();
+			mid1CloseDate = mid1ExamTask.getSettingCloseDate();
+			if(mid1OpenDate != null && mid1CloseDate != null){
+				if(today.compareTo(mid1CloseDate) > 0) mid1Status = "Expired";
+				else if(today.compareTo(mid1OpenDate) >= 0 && today.compareTo(mid1CloseDate) <= 0) mid1Status = "Active";
+				else if(today.compareTo(mid1OpenDate) < 0) mid1Status = "Opens Soon";
 			}
-			if(mid2ExamTask != null){
-				mid2OpenDate = mid2ExamTask.getSettingOpenDate();
-				mid2CloseDate = mid2ExamTask.getSettingCloseDate();
-				if(mid2OpenDate != null && mid2CloseDate != null){
-					if(today.compareTo(mid2CloseDate) > 0) mid2Status = "Expired";
-					else if(today.compareTo(mid2OpenDate) >= 0 && today.compareTo(mid2CloseDate) <= 0) mid2Status = "Active";
-					else if(today.compareTo(mid2OpenDate) < 0) mid2Status = "Opens Soon";
-				}
-				
-			}
-			if(semExamTask != null){
-				semOpenDate = semExamTask.getSettingOpenDate();
-				semCloseDate = semExamTask.getSettingCloseDate();
-				if(semOpenDate != null && semCloseDate != null){
-					if(today.compareTo(semCloseDate) > 0) semStatus = "Expired";
-					else if(today.compareTo(semOpenDate) >= 0 && today.compareTo(semCloseDate) <= 0) semStatus = "Active";
-					else if(today.compareTo(semOpenDate) < 0) semStatus = "Opens Soon";
-				}
-				
-			}
-			Descriptive mid1Descriptive = descriptiveDao.getDescriptive(YBSId, "mid1");
-			Descriptive mid2Descriptive = descriptiveDao.getDescriptive(YBSId, "mid2");
-			Descriptive semDescriptive = descriptiveDao.getDescriptive(YBSId, "sem");
-			String mid1QPaper = null, mid2QPaper = null, semQPaper = null;
-				
-			%>
-		<div style="height:550px;width:80%;position:absolute;top:30px;left:8%;border-radius:10px;">
-					
+		}
+		if(mid2ExamTask != null){
+			mid2OpenDate = mid2ExamTask.getSettingOpenDate();
+			mid2CloseDate = mid2ExamTask.getSettingCloseDate();
+			if(mid2OpenDate != null && mid2CloseDate != null){
+				if(today.compareTo(mid2CloseDate) > 0) mid2Status = "Expired";
+				else if(today.compareTo(mid2OpenDate) >= 0 && today.compareTo(mid2CloseDate) <= 0) mid2Status = "Active";
+				else if(today.compareTo(mid2OpenDate) < 0) mid2Status = "Opens Soon";
+			}				
+		}
+		if(semExamTask != null){
+			semOpenDate = semExamTask.getSettingOpenDate();
+			semCloseDate = semExamTask.getSettingCloseDate();
+			if(semOpenDate != null && semCloseDate != null){
+				if(today.compareTo(semCloseDate) > 0) semStatus = "Expired";
+				else if(today.compareTo(semOpenDate) >= 0 && today.compareTo(semCloseDate) <= 0) semStatus = "Active";
+				else if(today.compareTo(semOpenDate) < 0) semStatus = "Opens Soon";
+			}		
+		}
+		Descriptive mid1Descriptive = descriptiveDao.getDescriptive(YBSId, "mid1");
+		Descriptive mid2Descriptive = descriptiveDao.getDescriptive(YBSId, "mid2");
+		Descriptive semDescriptive = descriptiveDao.getDescriptive(YBSId, "sem");
+		String mid1QPaper = null, mid2QPaper = null, semQPaper = null;
+		%>
+
+		<div style="height:550px;width:80%;position:absolute;top:30px;left:8%;border-radius:10px">
+			<table id="tb">
+				<tr>
+					<th>Descriptive</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Status</th>
+					<th style="padding-left:95px">Select File</th>
+					<th>Upload</th>
+				</tr>
+				<tr>
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="examType" value="mid1">
+						<input type="hidden" name="YBSId" value="<%=YBSId%>">
+						<td>Mid 1</td>
+						<td><%=mid1OpenDate%></td>
+						<td><%=mid1CloseDate%></td>
+						<td><%=mid1Status%></td>
+						<%if(mid1Status.equals("Active")){ if(mid1Descriptive != null){ mid1QPaper = mid1Descriptive.getQPaperPath(); }%>
+						<td><input  type="file" name="file" required></td>
+						<td><input type="submit" value="Upload"> <%if(mid1QPaper != null){%> <a target="_blank" href="pics/<%=mid1QPaper%>" style="font-size:15px;position:absolute;top:70px;left:990px">&#x2705</a> <%}%> </td>
+						<%}else{%>
+						<td><input type="file" name="file" disabled></td>
+						<td><input type="submit" value="Upload" disabled></td>
+						<%}%>		
+					</form>
+				</tr>
+				<tr>
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="examType" value="mid2">
+						<input type="hidden" name="YBSId" value="<%=YBSId%>">
+						<td>Mid 2</p>
+						<td><%=mid2OpenDate%></td>
+						<td><%=mid2CloseDate%></td>
+						<td><%=mid2Status%></td>
+						<%if(mid2Status.equals("Active")){ if(mid2Descriptive != null){ mid2QPaper = mid2Descriptive.getQPaperPath(); }%>
+						<td><input  type="file" name="file" required></td>
+						<td><input type="submit" value="Upload"> <%if(mid2QPaper != null){%> <a target="_blank" href="pics/<%=mid2QPaper%>" style="font-size:15px;position:absolute;top:110px;left:990px">&#x2705</a> <%}%> </td>
+						<%}else{%>
+						<td><input  type="file" name="file" disabled></td>
+						<td><input type="submit" value="Upload" disabled></td>
+						<%}%>
+					</form>
+				</tr>
+				<tr>
+					<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="examType" value="sem">
+						<input type="hidden" name="YBSId" value="<%=YBSId%>">
+						<td>Semester</td>
+						<td><%=semOpenDate%></td>
+						<td><%=semCloseDate%></td>
+						<td><%=semStatus%></td>
+						<%if(semStatus.equals("Active")){ if(semDescriptive != null){ semQPaper = semDescriptive.getQPaperPath(); }%>
+						<td><input  type="file" name="file" required></td>
+						<td><input type="submit" value="Upload"> <%if(semQPaper != null){%> <a target="_blank" href="pics/<%=semQPaper%>" style="font-size:15px;position:absolute;top:155px;left:990px">&#x2705</a> <%}%> </td>
+						<%}else{%>
+						<td><input  type="file" name="file" disabled></td>
+						<td><input type="submit" value="Upload" disabled></td>
+						<%}%>
+					</form>	
+				</tr>
+				</table>
+				</br>
 				<table id="tb">
 					<tr>
-						<th>Descriptive</th>
+						<th>Quiz</th>
 						<th>Start Date</th>
 						<th>End Date</th>
 						<th>Status</th>
-						<th style="padding-left:95px">Select File</th>
-						<th>Upload</th>
+						<th>Create</th>
 					</tr>
 					<tr>
-						<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+						<form action="TeacherQuizSetting.jsp">
 							<input type="hidden" name="examType" value="mid1">
 							<input type="hidden" name="YBSId" value="<%=YBSId%>">
-							<td>Mid 1</td>
+							<td>Mid 1</p>
 							<td><%=mid1OpenDate%></td>
 							<td><%=mid1CloseDate%></td>
 							<td><%=mid1Status%></td>
-							<%if(mid1Status.equals("Active")){ if(mid1Descriptive != null){ mid1QPaper = mid1Descriptive.getQPaperPath(); }%>
-							<td><input  type="file" name="file" required></td>
-							<td><input type="submit" value="Upload"> <%if(mid1QPaper != null){%> <a target="_blank" href="pics/<%=mid1QPaper%>" style="font-size:15px;position:absolute;top:70px;left:990px">&#x2705</a> <%}%> </td>
+							<%
+							if(mid1Status.equals("Active")){ Quiz quiz = quizDao.getQuiz(YBSId, "mid1", 1); %>
+							<td><input type="submit" value="Create Quiz"> <%if(quiz != null){%> <p style="font-size:15px;position:absolute;top:278px;left:990px"> &#x2705 </p> <%}%> </td>
 							<%}else{%>
-							<td><input type="file" name="file" disabled></td>
-							<td><input type="submit" value="Upload" disabled></td>
+							<td><input type="submit" value="Create Quiz" disabled></td>
 							<%}%>
-							
 						</form>
 					</tr>
 					<tr>
-						<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
+						<form action="TeacherQuizSetting.jsp">
 							<input type="hidden" name="examType" value="mid2">
 							<input type="hidden" name="YBSId" value="<%=YBSId%>">
 							<td>Mid 2</p>
 							<td><%=mid2OpenDate%></td>
 							<td><%=mid2CloseDate%></td>
 							<td><%=mid2Status%></td>
-							<%if(mid2Status.equals("Active")){ if(mid2Descriptive != null){ mid2QPaper = mid2Descriptive.getQPaperPath(); }%>
-							<td><input  type="file" name="file" required></td>
-							<td><input type="submit" value="Upload"> <%if(mid2QPaper != null){%> <a target="_blank" href="pics/<%=mid2QPaper%>" style="font-size:15px;position:absolute;top:110px;left:990px">&#x2705</a> <%}%> </td>
+							<%
+							if(mid2Status.equals("Active")){ Quiz quiz = quizDao.getQuiz(YBSId, "mid2", 1); %>
+							<td><input type="submit" value="Create Quiz"> <%if(quiz != null){%> <p style="font-size:15px;position:absolute;top:332px;left:990px"> &#x2705 </p> <%}%> </td>
 							<%}else{%>
-							<td><input  type="file" name="file" disabled></td>
-							<td><input type="submit" value="Upload" disabled></td>
+							<td><input type="submit" value="Create Quiz" disabled></td>
 							<%}%>
 						</form>
 					</tr>
+				</table>
+				</br>
+				<table id="tb">
 					<tr>
-						<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="examType" value="sem">
-							<input type="hidden" name="YBSId" value="<%=YBSId%>">
-							<td>Semester</td>
-							<td><%=semOpenDate%></td>
-							<td><%=semCloseDate%></td>
-							<td><%=semStatus%></td>
-							<%if(semStatus.equals("Active")){ if(semDescriptive != null){ semQPaper = semDescriptive.getQPaperPath(); }%>
-							<td><input  type="file" name="file" required></td>
-							<td><input type="submit" value="Upload"> <%if(semQPaper != null){%> <a target="_blank" href="pics/<%=semQPaper%>" style="font-size:15px;position:absolute;top:155px;left:990px">&#x2705</a> <%}%> </td>
-							<%}else{%>
-							<td><input  type="file" name="file" disabled></td>
-							<td><input type="submit" value="Upload" disabled></td>
-							<%}%>
-						</form>	
+						<th>Assignment</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th style="padding-left:95px">Select File</th>
+						<th>Upload</th>
 					</tr>
-					</table>
-					</br>
-					<table id="tb">
-						<tr>
-							<th>Quiz</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>Status</th>
-							<th>Create</th>
-						</tr>
-						<tr>
-							<form action="TeacherQuizSetting.jsp">
-								<input type="hidden" name="examType" value="mid1">
-								<input type="hidden" name="YBSId" value="<%=YBSId%>">
-								<td>Mid 1</p>
-								<td><%=mid1OpenDate%></td>
-								<td><%=mid1CloseDate%></td>
-								<td><%=mid1Status%></td>
-								<%
-								if(mid1Status.equals("Active")){ Quiz quiz = quizDao.getQuiz(YBSId, "mid1", 1); %>
-								<td><input type="submit" value="Create Quiz"> <%if(quiz != null){%> <p style="font-size:15px;position:absolute;top:278px;left:990px"> &#x2705 </p> <%}%> </td>
-								<%}else{%>
-								<td><input type="submit" value="Create Quiz" disabled></td>
-								<%}%>
-								
-							</form>
-						</tr>
-						<tr>
-							<form action="TeacherQuizSetting.jsp">
-								<input type="hidden" name="examType" value="mid2">
-								<input type="hidden" name="YBSId" value="<%=YBSId%>">
-								<td>Mid 2</p>
-								<td><%=mid2OpenDate%></td>
-								<td><%=mid2CloseDate%></td>
-								<td><%=mid2Status%></td>
-								<%
-								if(mid2Status.equals("Active")){ Quiz quiz = quizDao.getQuiz(YBSId, "mid2", 1); %>
-								<td><input type="submit" value="Create Quiz"> <%if(quiz != null){%> <p style="font-size:15px;position:absolute;top:332px;left:990px"> &#x2705 </p> <%}%> </td>
-								<%}else{%>
-								<td><input type="submit" value="Create Quiz" disabled></td>
-								<%}%>
-							</form>
-						</tr>
-					</table>
-					</br>
-					<table id="tb">
-						<tr>
-							<th>Assignment</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th style="padding-left:95px">Select File</th>
-							<th>Upload</th>
-						</tr>
-							<%Descriptive asgn1 = descriptiveDao.getDescriptive(YBSId, "mid1"), asgn2 = descriptiveDao.getDescriptive(YBSId, "mid2");
-								
-							%>
-						<tr>
-							<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
-								
-								<input type="hidden" name="examType" value="asgn1">
-								<input type="hidden" name="YBSId" value="<%=YBSId%>">
-								<td>Mid 1</td>
-								<%if(asgn1 != null && asgn1.getAsgnOpenDate() != null){%>
-								<td><input type="text" style="border:none;width:130px" placeholder="<%=asgn1.getAsgnOpenDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="openDate" required></td>
-								<td><input type="text" style="border:none;width:130px" placeholder="<%=asgn1.getAsgnCloseDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="closeDate" required></td>
-								<%}else{%>
-								<td><input type="date" onkeydown="return false" name="openDate" required></td>
-								<td><input type="date" onkeydown="return false" name="closeDate" required></td>
-								<%}%>
-								<td><input type="file" name="file" required></td>
-								<td><input type="submit" value="Upload"> <%if(asgn1 != null && asgn1.getAsgnPaperPath() != null){%> <a target="_blank" href="pics/<%=asgn1.getAsgnPaperPath()%>" style="font-size:15px;position:absolute;top:462px;left:990px">&#x2705</a> <%}%> </td>
-							</form>
-						</tr>
-						<tr>
-							<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">
-								
-								<input type="hidden" name="examType" value="asgn2">
-								<input type="hidden" name="YBSId" value="<%=YBSId%>">
-								<td>Mid 2</td>
-								<%if(asgn2 != null && asgn2.getAsgnOpenDate() != null){%>
-								<td><input type="text" style="border:none" placeholder="<%=asgn2.getAsgnOpenDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="openDate" required></td>
-								<td><input type="text" style="border:none;width:130px" placeholder="<%=asgn2.getAsgnOpenDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="closeDate" required></td>
-								<%}else{%>
-								<td><input type="date" onkeydown="return false" name="openDate" required></td>
-								<td><input type="date" onkeydown="return false" name="closeDate" required></td>
-								<%}%>
-								<td><input type="file" name="file" required></td>
-								<td><input type="submit" value="Upload"> <%if(asgn2 != null && asgn2.getAsgnPaperPath() != null){%> <a target="_blank" href="pics/<%=asgn2.getAsgnPaperPath()%>" style="font-size:15px;position:absolute;top:506px;left:990px">&#x2705</a> <%}%> </td>
-							</form>
-						</tr>
-					</table>
-					
+					<%Descriptive asgn1 = descriptiveDao.getDescriptive(YBSId, "mid1"), asgn2 = descriptiveDao.getDescriptive(YBSId, "mid2");%>
+					<tr>
+						<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">		
+							<input type="hidden" name="examType" value="asgn1">
+							<input type="hidden" name="YBSId" value="<%=YBSId%>">
+							<td>Mid 1</td>
+							<%if(asgn1 != null && asgn1.getAsgnOpenDate() != null){%>
+							<td><input type="text" style="border:none;width:130px" placeholder="<%=asgn1.getAsgnOpenDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="openDate" required></td>
+							<td><input type="text" style="border:none;width:130px" placeholder="<%=asgn1.getAsgnCloseDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="closeDate" required></td>
+							<%}else{%>
+							<td><input type="date" onkeydown="return false" name="openDate" required></td>
+							<td><input type="date" onkeydown="return false" name="closeDate" required></td>
+							<%}%>
+							<td><input type="file" name="file" required></td>
+							<td><input type="submit" value="Upload"> <%if(asgn1 != null && asgn1.getAsgnPaperPath() != null){%> <a target="_blank" href="pics/<%=asgn1.getAsgnPaperPath()%>" style="font-size:15px;position:absolute;top:462px;left:990px">&#x2705</a> <%}%> </td>
+						</form>
+					</tr>
+					<tr>
+						<form action="TeacherDescSetting" method="post" enctype="multipart/form-data">		
+							<input type="hidden" name="examType" value="asgn2">
+							<input type="hidden" name="YBSId" value="<%=YBSId%>">
+							<td>Mid 2</td>
+							<%if(asgn2 != null && asgn2.getAsgnOpenDate() != null){%>
+							<td><input type="text" style="border:none" placeholder="<%=asgn2.getAsgnOpenDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="openDate" required></td>
+							<td><input type="text" style="border:none;width:130px" placeholder="<%=asgn2.getAsgnOpenDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" name="closeDate" required></td>
+							<%}else{%>
+							<td><input type="date" onkeydown="return false" name="openDate" required></td>
+							<td><input type="date" onkeydown="return false" name="closeDate" required></td>
+							<%}%>
+							<td><input type="file" name="file" required></td>
+							<td><input type="submit" value="Upload"> <%if(asgn2 != null && asgn2.getAsgnPaperPath() != null){%> <a target="_blank" href="pics/<%=asgn2.getAsgnPaperPath()%>" style="font-size:15px;position:absolute;top:506px;left:990px">&#x2705</a> <%}%> </td>
+						</form>
+					</tr>
+				</table>	
 			</div>
 		</div> 	
 </body>
-
 
 </html>
     
