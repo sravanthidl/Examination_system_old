@@ -277,7 +277,7 @@ body{font-family:arial;}
 				<%for(String branch : branches){%>
 				<tr><td style="background-color: #f7f7f7" colspan="4" height=15 ><%=branch%></td></tr>
 				<%
-					List<Subject> subjects = subjectDao.getSubjectsByParams(year, branch, "Theory");
+					List<Subject> subjects = subjectDao.getSubjects(year, branch, "Theory");
 					for(Subject subject : subjects){
 				%>
 				<tr>

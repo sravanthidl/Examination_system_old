@@ -152,8 +152,8 @@ body{font-family:arial;}
 		
 		<% 
 		Subject firstTheorySubject = null, firstLabSubject = null;
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+		List<Subject> theorySubjects = subjectDao.getSubjects(teacherId, "Theory");
+		List<Subject> labSubjects = subjectDao.getSubjects(teacherId, "Lab");
 		if(theorySubjects.size() > 0) firstTheorySubject = theorySubjects.get(0);
 		if(labSubjects.size() > 0) firstLabSubject = labSubjects.get(0);
 		%>
@@ -216,7 +216,7 @@ body{font-family:arial;}
 					<%for(String branch : branches){%>
 					<input type="hidden" name="branch<%=branchIndex + 1%>" value="<%=branch%>">
 					<%	
-					List<Subject> subjects = subjectDao.getSubjectsByParams(year, branch);
+					List<Subject> subjects = subjectDao.getSubjects(year, branch);
 					if(subjects.size() > 0){
 					%>
 					<tr>

@@ -133,8 +133,8 @@ body{font-family:arial;}
 		<% 
 		String today = new Today().getToday();
 		Subject firstTheorySubject = null, firstLabSubject = null;
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+		List<Subject> theorySubjects = subjectDao.getSubjects(teacherId, "Theory");
+		List<Subject> labSubjects = subjectDao.getSubjects(teacherId, "Lab");
 		if(theorySubjects.size() > 0) firstTheorySubject = theorySubjects.get(0);
 		if(labSubjects.size() > 0) firstLabSubject = labSubjects.get(0);
 		%>
@@ -185,7 +185,7 @@ body{font-family:arial;}
 	<div class="body_bar">
 		<p style="font-size:20px;top:25px;left:70px;position:absolute">Quick access</p>
 		<% 
-		List<Subject> subjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+		List<Subject> subjects = subjectDao.getSubjects(teacherId, "Theory");
 		HashSet<Integer> yearsTaken = new HashSet<>();
 		for(Subject subject : subjects) yearsTaken.add(subject.getYear());%>
 			<table id="tb" style="position:absolute;top:120px;left:160px">

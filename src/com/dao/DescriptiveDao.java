@@ -12,7 +12,6 @@ public class DescriptiveDao {
 	public int addDescriptive(Descriptive descriptive) {
 		return HibernateTemplate.addObject(descriptive);
 	}
-
 	
 	public int updateExamTimeStamp(String YBSId, String examType, String examDate, String openTime, String closeTime) {
 		DescriptiveDao descriptiveDao = new DescriptiveDao();
@@ -42,7 +41,7 @@ public class DescriptiveDao {
 	}
 	
 	public Descriptive getDescriptive(String YBSId, String examType) {
-		return HibernateTemplate.getDescriptiveByYBSIdAndExamType(YBSId, examType);
+		return HibernateTemplate.getDescriptive(YBSId, examType);
 	}
 	
 	public List<Descriptive> getAllDescriptive() {

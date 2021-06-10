@@ -41,7 +41,6 @@ public class LabMarksDao {
 	}
 	
 	public List<LabMarks> getLabMarks(String YBSId){
-		
 		List<Object> labMarksObjects = HibernateTemplate.getLabMarks(YBSId);
 		List<LabMarks> labMarks = new ArrayList<>();
 		for(Object labMarksObject : labMarksObjects) {

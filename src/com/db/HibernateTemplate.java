@@ -383,30 +383,7 @@ public class HibernateTemplate {
 		return status;
 	}*/
 	
-	public static ExamTask getExamTask(int year, String examType) {
-		String queryString="from ExamTask where year = :year and examType = :examType";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setInteger("year", year);
-		query.setString("examType", examType);
-		return (ExamTask)query.uniqueResult();
-	}
-	
-	public static List<Object> getExamTask(int year) {
-		String queryString="from ExamTask where year = :year";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setInteger("year", year);
-		return  query.list();
-	}
-	
-	public static Subject getSubject(String YBSId) {
-		String queryString="from Subject where YBSId = :YBSId";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("YBSId", YBSId);
-		return (Subject)query.uniqueResult();
-	}
-	
-	public static Object getUser(String user, String id)
-	{
+	public static Object getUser(String user, String id){
 		String queryString = null;
 		if(user.equals("student")) queryString="from Student where studentId = :id";
 		else if(user.equals("teacher")) queryString="from Teacher where teacherId = :id";
@@ -416,84 +393,75 @@ public class HibernateTemplate {
 		query.setString("id", id);
 		return query.uniqueResult();
 	}
-	
-	public static Descriptive getDescriptiveByYBSIdAndExamType(String YBSId, String examType) {
+	public static List<Object> getAllObjects(String tableName){
+		String queryString = null;
+		if(tableName.equals("Descriptive")) queryString = "from Descriptive";
+		else if(tableName.equals("ExamTask")) queryString = "from ExamTask";
+		else if(tableName.equals("ExtTeacher")) queryString = "from ExtTeacher";
+		else if(tableName.equals("Subject")) queryString = "from Subject";
+		else if(tableName.equals("SAM")) queryString = "from ScriptsAndMarks";
+		else if(tableName.equals("LabMarks")) queryString = "from LabMarks";
+		else if(tableName.equals("Quiz")) queryString = "from Quiz";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		return query.list();
+	}
+	public static AcadYear getSemester(int year){
+		String queryString="from AcadYear where year = :year";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setInteger("year", year);
+		return (AcadYear)query.uniqueResult();
+	}
+	public static Descriptive getDescriptive(String YBSId, String examType) {
 		String queryString="from Descriptive where YBSId = :YBSId and examType = :examType";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("YBSId", YBSId);
 		query.setString("examType", examType);
 		return (Descriptive)query.uniqueResult();
 	}
-	
-	public static List<Object> getAllSubjects()
-	{
-		String queryString = "from Subject where subjectCategory = :theory";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("theory", "Theory");
-		return query.list();
-	}
-	
-	public static List<Object> getSubjectObjectsByParams(String teacherId)
-	{
-		String queryString = "from Subject where teacherId = :teacherId";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("teacherId", teacherId);
-		return query.list();
-	}
-	
-	public static List<Object> getSubjectObjectsByParams(String teacherId, String subjectCategory)
-	{
-		String queryString = "from Subject where teacherId = :teacherId and subjectCategory = :subjectCategory";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("teacherId", teacherId);
-		query.setString("subjectCategory", subjectCategory);
-		return query.list();
-	}
-	
-	public static List<Object> getSubjectObjectsByParams(int year, String branch, String subjectCategory)
-	{
-		String queryString = "from Subject where year = :year and branch = :branch and subjectCategory = :subjectCategory";
+	public static ExamTask getExamTask(int year, String examType) {
+		String queryString="from ExamTask where year = :year and examType = :examType";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setInteger("year", year);
-		query.setString("branch", branch);
-		query.setString("subjectCategory", subjectCategory);
-		return query.list();
+		query.setString("examType", examType);
+		return (ExamTask)query.uniqueResult();
 	}
-	
-	public static List<Object> getSubjectObjectsByParams(int year, String branch)
-	{
-		String queryString = "from Subject where year = :year and branch = :branch";
+	public static List<Object> getExamTask(int year) {
+		String queryString="from ExamTask where year = :year";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setInteger("year", year);
-		query.setString("branch", branch);
-		return query.list();
+		return  query.list();
 	}
-	
-	public static List<Object> getStudents(int year, String branch)
-	{
-		String queryString = "from Student where currentyear = :year and branch = :branch";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setInteger("year", year);
-		query.setString("branch", branch);
-		return query.list();
-	}
-	
-	public static List<Object> getAllYBSScripts(String YBSId)
-	{
-		String queryString = "from SAM where YBSId = :YBSId";
+	public static List<Object> getExtTeacherWithYBSId(String YBSId){
+		String queryString = "from ExtTeacher where YBSId = :YBSId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("YBSId", YBSId);
 		return query.list();
 	}
-	
-	public static List<Object> getStudentSAMs(String studentId)
-	{
-		String queryString = "from SAM where studentId = :studentId";
+	public static List<Object> getExtTeacherWithSubjectCode(String subjectCode){
+		String queryString = "from ExtTeacher where subjectCode = :subjectCode";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("subjectCode", subjectCode);
+		return query.list();
+	}
+	public static List<Object> getLabMarks(String YBSId){
+		String queryString = "from LabMarks where YBSId = :YBSId";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("YBSId", YBSId);
+		return query.list();
+	}
+	public static LabMarks getLabMarks(String studentId, String YBSId) {
+		String queryString="from LabMarks where YBSId = :YBSId and studentId = :studentId";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("YBSId", YBSId);
+		query.setString("studentId", studentId);
+		return (LabMarks)query.uniqueResult();
+	}
+	public static List<Object> getStudentLabs(String studentId){
+		String queryString = "from LabMarks where studentId = :studentId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("studentId", studentId);
 		return query.list();
 	}
-	
 	public static Quiz getQuiz(String YBSId, String examType, int questionNo) {
 		String queryString="from Quiz where YBSId = :YBSId and examType = :examType and questionNo = :questionNo";
 		Query query = sessionFactory.openSession().createQuery(queryString);
@@ -502,74 +470,76 @@ public class HibernateTemplate {
 		query.setInteger("questionNo", questionNo);
 		return (Quiz)query.uniqueResult();
 	}
+	public static List<Object> getStudents(int year, String branch){
+		String queryString = "from Student where currentyear = :year and branch = :branch";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setInteger("year", year);
+		query.setString("branch", branch);
+		return query.list();
+	}
+
+	public static Subject getSubject(String YBSId) {
+		String queryString="from Subject where YBSId = :YBSId";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("YBSId", YBSId);
+		return (Subject)query.uniqueResult();
+	}
+
+	public static List<Object> getAllSubjects(){
+		String queryString = "from Subject where subjectCategory = :theory";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("theory", "Theory");
+		return query.list();
+	}
 	
-	public static List<Object> getLabMarks(String YBSId)
-	{
-		String queryString = "from LabMarks where YBSId = :YBSId";
+	public static List<Object> getSubjects(String teacherId){
+		String queryString = "from Subject where teacherId = :teacherId";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("teacherId", teacherId);
+		return query.list();
+	}
+	
+	public static List<Object> getSubjects(String teacherId, String subjectCategory){
+		String queryString = "from Subject where teacherId = :teacherId and subjectCategory = :subjectCategory";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setString("teacherId", teacherId);
+		query.setString("subjectCategory", subjectCategory);
+		return query.list();
+	}
+	public static List<Object> getSubjects(int year, String branch, String subjectCategory){
+		String queryString = "from Subject where year = :year and branch = :branch and subjectCategory = :subjectCategory";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setInteger("year", year);
+		query.setString("branch", branch);
+		query.setString("subjectCategory", subjectCategory);
+		return query.list();
+	}
+	public static List<Object> getSubjects(int year, String branch){
+		String queryString = "from Subject where year = :year and branch = :branch";
+		Query query = sessionFactory.openSession().createQuery(queryString);
+		query.setInteger("year", year);
+		query.setString("branch", branch);
+		return query.list();
+	}
+	public static List<Object> getAllYBSScripts(String YBSId){
+		String queryString = "from ScriptsAndMarks where YBSId = :YBSId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("YBSId", YBSId);
 		return query.list();
 	}
 	
-	public static List<Object> getStudentLabs(String studentId)
-	{
-		String queryString = "from LabMarks where studentId = :studentId";
+	public static List<Object> getStudentSAMs(String studentId){
+		String queryString = "from ScriptsAndMarks where studentId = :studentId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("studentId", studentId);
 		return query.list();
-	}
-	
-	public static LabMarks getLabMarks(String studentId, String YBSId) {
-		String queryString="from LabMarks where YBSId = :YBSId and studentId = :studentId";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("YBSId", YBSId);
-		query.setString("studentId", studentId);
-		return (LabMarks)query.uniqueResult();
-	}
-	
+	}	
 	public static SAM getSam(String studentId, String YBSId) {
-		String queryString="from SAM where YBSId = :YBSId and studentId = :studentId";
+		String queryString="from ScriptsAndMarks where YBSId = :YBSId and studentId = :studentId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("YBSId", YBSId);
 		query.setString("studentId", studentId);
 		return (SAM)query.uniqueResult();
-	}
-	
-	public static AcadYear getSemester(int year) {
-		String queryString="from AcadYear where year = :year";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setInteger("year", year);
-		return (AcadYear)query.uniqueResult();
-	}
-	
-	public static List<Object> getExtTeacherWithYBSId(String YBSId)
-	{
-		String queryString = "from ExtTeacher where YBSId = :YBSId";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("YBSId", YBSId);
-		return query.list();
-	}
-	
-	public static List<Object> getExtTeacherWithSubjectCode(String subjectCode)
-	{
-		String queryString = "from ExtTeacher where subjectCode = :subjectCode";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		query.setString("subjectCode", subjectCode);
-		return query.list();
-	}
-	
-	public static List<Object> getAllObjects(String tableName)
-	{
-		String queryString = null;
-		if(tableName.equals("Descriptive")) queryString = "from Descriptive";
-		else if(tableName.equals("ExamTask")) queryString = "from ExamTask";
-		else if(tableName.equals("ExtTeacher")) queryString = "from ExtTeacher";
-		else if(tableName.equals("Subject")) queryString = "from Subject";
-		else if(tableName.equals("SAM")) queryString = "from SAM";
-		else if(tableName.equals("LabMarks")) queryString = "from LabMarks";
-		else if(tableName.equals("Quiz")) queryString = "from Quiz";
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		return query.list();
 	}
 	
 	public static int deleteObjectByQuery(String query)

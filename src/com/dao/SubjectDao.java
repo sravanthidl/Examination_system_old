@@ -30,6 +30,57 @@ private SessionFactory factory = null;
 		return HibernateTemplate.getSubject(YBSId);
 	}
 	
+	public List<Subject> getSubjects(String teacherId){
+		List<Object> subjectObjects = HibernateTemplate.getSubjects(teacherId);
+		List<Subject> subjects = new ArrayList<>();
+		for(Object subjectObject : subjectObjects) {
+			subjects.add((Subject)subjectObject);
+			System.out.println((Subject)subjectObject);
+		}
+		return subjects;
+	}
+	
+	public List<Subject> getSubjects(String teacherId, String subjectCategory){
+		List<Object> subjectObjects = HibernateTemplate.getSubjects(teacherId, subjectCategory);
+		List<Subject> subjects = new ArrayList<>();
+		for(Object subjectObject : subjectObjects) {
+			subjects.add((Subject)subjectObject);
+			System.out.println((Subject)subjectObject);
+		}
+		System.out.println("-->" + subjects);
+		return subjects;
+	}
+	
+	public List<Subject> getSubjects(int year, String branch, String subjectCategory){
+		List<Object> subjectObjects = HibernateTemplate.getSubjects(year, branch, subjectCategory);
+		if(subjectObjects == null) return null;
+		List<Subject> subjects = new ArrayList<Subject>();
+		for(Object subjectObject : subjectObjects){
+			subjects.add((Subject)subjectObject);
+		}
+		return subjects;	
+	}
+	
+	public List<Subject> getSubjects(int year, String branch){
+		List<Object> subjectObjects = HibernateTemplate.getSubjects(year, branch);
+		if(subjectObjects == null) return null;
+		List<Subject> subjects = new ArrayList<Subject>();
+		for(Object subjectObject : subjectObjects){
+			subjects.add((Subject)subjectObject);
+		}
+		return subjects;	
+	}
+	
+	public List<Subject> getAllSubjects(){
+		List<Object> subjectObjects = HibernateTemplate.getAllObjects("Subject");
+		List<Subject> subjects = new ArrayList<>();
+		for(Object subjectObject : subjectObjects) {
+			subjects.add((Subject)subjectObject);
+			System.out.println((Subject)subjectObject);
+		}
+		return subjects;
+	}
+
 	public String getYBSIdFromSubjectList(List<Subject> subjects, int year){
 		for(Subject subject : subjects) {
 			if(subject.getYear() == year) return subject.getYBSId();
@@ -43,17 +94,6 @@ private SessionFactory factory = null;
 		if(branch.equals("EEE")) return "EE";
 		return branch;	
 	}
-	
-	public List<Subject> getAllSubjects(){
-		
-		List<Object> subjectObjects = HibernateTemplate.getAllObjects("Subject");
-		List<Subject> subjects = new ArrayList<>();
-		for(Object subjectObject : subjectObjects) {
-			subjects.add((Subject)subjectObject);
-			System.out.println((Subject)subjectObject);
-		}
-		return subjects;
-	}
 
 	public List<Subject> getSubjectsByShortBranch(String shortBranch) {
 		List<Subject> allSubjects = getAllSubjects();
@@ -63,52 +103,7 @@ private SessionFactory factory = null;
 		}
 		return subjects;
 	}
-	
-	public List<Subject> getSubjectsByParams(String teacherId){
-		
-		List<Object> subjectObjects = HibernateTemplate.getSubjectObjectsByParams(teacherId);
-		List<Subject> subjects = new ArrayList<>();
-		for(Object subjectObject : subjectObjects) {
-			subjects.add((Subject)subjectObject);
-			System.out.println((Subject)subjectObject);
-		}
-		return subjects;
-	}
-	
-	public List<Subject> getSubjectsByParams(String teacherId, String subjectCategory){
-		
-		List<Object> subjectObjects = HibernateTemplate.getSubjectObjectsByParams(teacherId, subjectCategory);
-		List<Subject> subjects = new ArrayList<>();
-		for(Object subjectObject : subjectObjects) {
-			subjects.add((Subject)subjectObject);
-			System.out.println((Subject)subjectObject);
-		}
-		System.out.println("-->" + subjects);
-		return subjects;
-	}
-	
-	public List<Subject> getSubjectsByParams(int year, String branch, String subjectCategory){
-		
-		List<Object> subjectObjects = HibernateTemplate.getSubjectObjectsByParams(year, branch, subjectCategory);
-		if(subjectObjects == null) return null;
-		List<Subject> subjects = new ArrayList<Subject>();
-		for(Object subjectObject : subjectObjects){
-			subjects.add((Subject)subjectObject);
-		}
-		return subjects;	
-	}
-	
-	public List<Subject> getSubjectsByParams(int year, String branch){
-		
-		List<Object> subjectObjects = HibernateTemplate.getSubjectObjectsByParams(year, branch);
-		if(subjectObjects == null) return null;
-		List<Subject> subjects = new ArrayList<Subject>();
-		for(Object subjectObject : subjectObjects){
-			subjects.add((Subject)subjectObject);
-		}
-		return subjects;	
-	}
-	
+
 	public void deleteSubject(int year) {
 		List<Subject> subjects = getAllSubjects();
 		for(Subject subject : subjects) {			

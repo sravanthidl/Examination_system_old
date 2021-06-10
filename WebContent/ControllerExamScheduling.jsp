@@ -193,7 +193,7 @@ input[type=text]{text-align: center;}
 					<td style="background-color: #f7f7f7" colspan="5" height=15 ><%=branch%></td>
 					<input type="hidden" name="examType" value="<%=examType%>">
 					<%
-					List<Subject> subjects = subjectDao.getSubjectsByParams(year, branch, "Theory");
+					List<Subject> subjects = subjectDao.getSubjects(year, branch, "Theory");
 					for(Subject subject : subjects){
 						String subjectName = subject.getSubjectName();
 						String subjectCode = subject.getSubjectCode();

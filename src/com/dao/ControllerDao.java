@@ -8,9 +8,7 @@ import com.db.HibernateTemplate;
 import com.dto.Controller;
 import com.dto.Teacher;
 
-
 public class ControllerDao {
-	private SessionFactory factory = null;
 	
 	public int add(Controller controller) {
 		System.out.println(controller.toString());

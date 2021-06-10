@@ -127,8 +127,8 @@ input[type=text] {
 	String examType = (String)request.getParameter("examType");
 	String teacherId = (String)session.getAttribute("teacherId");
 	
-	List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-	List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+	List<Subject> theorySubjects = subjectDao.getSubjects(teacherId, "Theory");
+	List<Subject> labSubjects = subjectDao.getSubjects(teacherId, "Lab");
 	Subject firstTheorySubject = theorySubjects.get(0);
 	Subject firstLabSubject = labSubjects.get(0);
 	%>

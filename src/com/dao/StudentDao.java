@@ -45,21 +45,20 @@ public class StudentDao {
 		return student;
 	}
 	
-	public int getCredits(int gradePoints) {
-		if(gradePoints == 10) return 4;
-		else if(gradePoints == 9) return 3;
-		else if(gradePoints == 8) return 2;
-		return 1;
-	}
-	
 	public List<Student> getStudents(int year, String branch){
-		
 		List<Object> studentObjects = HibernateTemplate.getStudents(year, branch);
 		List<Student> students = new ArrayList<>();
 		for(Object studentObject : studentObjects) {
 			students.add((Student)studentObject);
 		}
 		return students;
+	}
+	
+	public int getCredits(int gradePoints) {
+		if(gradePoints == 10) return 4;
+		else if(gradePoints == 9) return 3;
+		else if(gradePoints == 8) return 2;
+		return 1;
 	}
 	
 	public float calculateSgpa(List<SAM> studentTheorys, List<LabMarks> studentLabs) {

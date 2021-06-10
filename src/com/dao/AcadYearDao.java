@@ -19,16 +19,16 @@ public class AcadYearDao {
 		new SubjectDao().deleteSubject(year);
 	}
 	
+	public int getSemester(int year) {
+		AcadYear acadYear = HibernateTemplate.getSemester(year);
+		return acadYear.getSemester();
+	}
+	
 	public void startNewAcademicYear() {
 		updateSemester(1,1);
 		updateSemester(2,1);
 		updateSemester(3,1);
 		updateSemester(4,1);
-	}
-	
-	public int getSemester(int year) {
-		AcadYear acadYear = HibernateTemplate.getSemester(year);
-		return acadYear.getSemester();
 	}
 
 }

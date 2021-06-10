@@ -126,8 +126,8 @@ body{font-family:arial;}
 		</div></a>
 		
 		<% 
-		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
-		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+		List<Subject> theorySubjects = subjectDao.getSubjects(teacherId, "Theory");
+		List<Subject> labSubjects = subjectDao.getSubjects(teacherId, "Lab");
 		Subject firstTheorySubject = theorySubjects.get(0);
 		Subject firstLabSubject = labSubjects.get(0);
 		%>
@@ -166,7 +166,7 @@ body{font-family:arial;}
 	<div class="body_bar">
 		<div style="height:550px;width:57%;position:absolute;top:60px;left:250px;white-space:nowrap">
 			<%
-			List<Subject> subjects = subjectDao.getSubjectsByParams(teacherId);	
+			List<Subject> subjects = subjectDao.getSubjects(teacherId);	
 			if(subjects.size() == 0){%>
 			<p>You did not take up any subjects yet! </p>
 			<%}else{%>

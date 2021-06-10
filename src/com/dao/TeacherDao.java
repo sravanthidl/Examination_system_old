@@ -23,10 +23,5 @@ public class TeacherDao {
 		Teacher teacher = (Teacher)HibernateTemplate.getUser("teacher", teacherId);
 		return teacher;
 	}
-	
-	public String getBranchByTeacherId(String teacherId) {
-		Teacher teacher = (Teacher) HibernateTemplate.getObjectByQuery("from Teacher where teacherId = :teacherId");
-		System.out.println(teacher.getBranch());
-		return teacher.getBranch();
-	}
+
 }
