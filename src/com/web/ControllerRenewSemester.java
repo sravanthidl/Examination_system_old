@@ -24,7 +24,7 @@ public class ControllerRenewSemester extends HttpServlet {
 		int semester = Integer.parseInt(request.getParameter("semester"));
 		AcadYearDao acadYearDao = new AcadYearDao();
 		System.out.println("year: " + year);
-		acadYearDao.updateSemester(year, semester);
+		acadYearDao.startNewSemester(year, semester);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("ControllerNewSemester.jsp");
 		rd.include(request, response);

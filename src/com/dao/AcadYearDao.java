@@ -5,8 +5,8 @@ import com.dto.AcadYear;
 
 public class AcadYearDao {
 	
-	public void updateSemester(int year, int semester) {
-		AcadYear acadYear = HibernateTemplate.getSemester(year);
+	public void startNewSemester(int year, int semester) {
+		AcadYear acadYear = HibernateTemplate.getAcadYear(year);
 		acadYear.setSemester(semester);
 		HibernateTemplate.updateObject(acadYear);
 
@@ -17,18 +17,26 @@ public class AcadYearDao {
 		new QuizDao().deleteQuiz(year);
 		new LabMarksDao().deleteLabMarks(year);
 		new SubjectDao().deleteSubject(year);
+
+		StudentDao studentDao = new StudentDao();
+		studentDao.updateStudentsSemester(year);
 	}
 	
 	public int getSemester(int year) {
-		AcadYear acadYear = HibernateTemplate.getSemester(year);
+		AcadYear acadYear = HibernateTemplate.getAcadYear(year);
 		return acadYear.getSemester();
 	}
 	
 	public void startNewAcademicYear() {
-		updateSemester(1,1);
-		updateSemester(2,1);
-		updateSemester(3,1);
-		updateSemester(4,1);
+		startNewSemester(1,1);
+		startNewSemester(2,1);
+		startNewSemester(3,1);
+		startNewSemester(4,1);
+		StudentDao studentDao = new StudentDao();
+		studentDao.deleteStudents(4);
+		studentDao.updateStudentsAcadYear(3);
+		studentDao.updateStudentsAcadYear(2);
+		studentDao.updateStudentsAcadYear(1);
 	}
 
 }

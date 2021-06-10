@@ -162,25 +162,31 @@ public class HibernateTemplate {
 		return result;
 	}
 	
-	/*public static int updatePassword(String user, String id, String password) {
+	public static int updateStudentsAcadYear(int year) {
 		Session session=sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		String queryString = null;
-		if(user.equals("controller")) queryString = "update Controller set password= :password where controllerId = :id";
-		else if(user.equals("teacher")) queryString = "update Teacher set password= :password where teacherId = :id";
-		else queryString = "update ExtTeacher set password= :password where extTeacherId = :id";
-		Query query = session.createQuery(queryString);  
-		query.setString("id", id);  
-		query.setString("password", password);  
+		int nextYear = year + 1;
+		Query query = session.createQuery("update Student set currentYear= :nextYear, currentSem = 1 where currentYear = :year"); 
+		query.setInteger("nextYear", nextYear);
+		query.setInteger("year", year);  
+		int status = query.executeUpdate();   
+		tx.commit();
+		return status;
+	}
+	public static int updateStudentsSemester(int year) {
+		Session session=sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("update Student set currentSem = 2 where currentYear = :year"); 
+		query.setInteger("year", year);  
 		int status = query.executeUpdate();   
 		tx.commit();
 		return status;
 	}
 
-	public static int updateTeacherId(String YBSId, String teacherId) {
+	/*public static int updateTeacherId(String YBSId, String teacherId) {
 		Session session=sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();  
-		Query query = session.createQuery("update Subject set teacherId= :teacherId where YBSId= :YBSId");  
+		 
 		query.setString("teacherId", teacherId);  
 		query.setString("YBSId", YBSId);  
 		int status = query.executeUpdate();   
@@ -405,7 +411,7 @@ public class HibernateTemplate {
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		return query.list();
 	}
-	public static AcadYear getSemester(int year){
+	public static AcadYear getAcadYear(int year){
 		String queryString="from AcadYear where year = :year";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setInteger("year", year);
@@ -540,6 +546,17 @@ public class HibernateTemplate {
 		query.setString("YBSId", YBSId);
 		query.setString("studentId", studentId);
 		return (SAM)query.uniqueResult();
+	}
+	
+	public static int deleteStudents(int year){
+		Session session = sessionFactory.openSession();
+		Transaction tx =  session.beginTransaction();
+		String queryString="delete from Student where year = :year";
+		Query query = session.createQuery(queryString);	
+		query.setInteger("year", year);
+		int result = query.executeUpdate();
+		tx.commit();
+		return result;		
 	}
 	
 	public static int deleteObjectByQuery(String query)

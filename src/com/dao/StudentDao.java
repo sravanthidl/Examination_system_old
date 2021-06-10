@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.db.HibernateTemplate;
+import com.dto.ExamTask;
 import com.dto.LabMarks;
 import com.dto.SAM;
 import com.dto.Student;
@@ -38,6 +39,14 @@ public class StudentDao {
 		float cgpa = calculateCgpa(studentId);
 		student.setCgpa(cgpa);
 		return HibernateTemplate.updateObject(student);
+	}
+	
+	public int updateStudentsAcadYear(int year) {
+		return HibernateTemplate.updateStudentsAcadYear(year);
+	}
+	
+	public int updateStudentsSemester(int year) {
+		return HibernateTemplate.updateStudentsSemester(year);
 	}
 
 	public Student getStudent(String studentId) {
@@ -91,6 +100,10 @@ public class StudentDao {
 		if(sgpa8 != 0) { num += 4 * sgpa8; denom += 4; }
 		
 		return num/denom;	
+	}
+	
+	public int deleteStudents(int year) {
+		return HibernateTemplate.deleteStudents(year);
 	}
 	
 }

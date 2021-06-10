@@ -112,6 +112,42 @@ body{font-family:arial;}
   margin-right:20px;
   background-color: #eee;
 }
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal-content {
+  position:absolute;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #888;
+  height:500px;
+  width: 45%;
+  left:500px;
+  top:170px;
+}
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 </style>
 
@@ -202,16 +238,15 @@ body{font-family:arial;}
 	</div>
 
 	<div class="body_bar">
-		<a style="position:absolute;top:0px;left:1045px;padding:16px 50px 16px 50px;background-color:#5a6bbc;color:white;text-decoration:none;border-radius:5px" href="TeacherViewSubjects.jsp">My Subjects</a>
+		<input style="width:13%;height:10%;position:absolute;top:-3px;left:1065px;background-color:#5a6bbc;color:white;border-radius:5px;border:none;cursor:pointer" id="modalTrigger" type="Submit" value="My Subjects"></br>
 		<%
-		session.setAttribute("year", year);
-		session.setAttribute("teacherId", teacherId);
 		List<String> branches = new ArrayList<>();
 		branches.add("CE");branches.add("CSE");branches.add("ECE");branches.add("EEE");branches.add("IT");branches.add("ME");
 		int branchIndex = 0;
 		%>
 		<div style="height:370px;width:45%;position:absolute;top:70px;left:25%">
 			<form action="TeacherRegisterSubjects" method="post">
+				<input type="hidden" name="year" value="<%=year%>">
 				<table id="tb">
 					<%for(String branch : branches){%>
 					<input type="hidden" name="branch<%=branchIndex + 1%>" value="<%=branch%>">
@@ -237,8 +272,57 @@ body{font-family:arial;}
 				<input style="position:absolute;top:350px;left:200px" type="Submit" value="Register to Subjects">
 			</form>
 		</div>
+		
+		<div id="myModal" class="modal">
+		<div class="modal-content">
+	    	<span class="close">&times;</span>
+	    	<%
+			List<Subject> subjects = subjectDao.getSubjects(teacherId);	
+			if(subjects.size() == 0){%>
+			<p>You did not take up any subjects yet! </p>
+			<%}else{%>
+				<table id="tb">
+					<tr><th colspan="5" style="padding-left:220px">Your Subjects</th></tr>
+					<tr>
+						<th>Year</th>
+						<th>Semester</th>
+						<th>Branch</th>
+						<th>Theory/Lab</th>
+						<th width="200">Subject</th>
+					</tr>
+					<% 
+					for(Subject subject : subjects){%>
+					<tr>
+						<td><%=subject.getYear()%></td>
+						<td><%=new AcadYearDao().getSemester(subject.getYear())%></td>
+						<td><%=subject.getBranch()%></td>
+						<td><%=subject.getSubjectCategory()%></td>
+						<td><%=subject.getSubjectName()%></td>
+					</tr>
+					<%}%>
+				</table>
+			<%}%>
+		</div>
+	</div>
 
 </body>
+
+<script>
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("modalTrigger");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 
 </html>
     

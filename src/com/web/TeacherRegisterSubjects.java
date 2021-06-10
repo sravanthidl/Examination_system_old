@@ -28,9 +28,10 @@ public class TeacherRegisterSubjects extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		String teacherId = (String)session.getAttribute("teacherId"); 
-		int year = (int)session.getAttribute("year"); 
+		int year = Integer.parseInt(request.getParameter("year")); 
 		String branch = "";
 		Enumeration enumeration = request.getParameterNames();
+		enumeration.nextElement();
         while(enumeration.hasMoreElements()){
             String parameterName = (String) enumeration.nextElement();
             System.out.println(parameterName + "@" + request.getParameter(parameterName));
@@ -49,7 +50,7 @@ public class TeacherRegisterSubjects extends HttpServlet {
             }
         }
         
-        RequestDispatcher rd = request.getRequestDispatcher("TeacherViewSubjects.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("TeacherRegisterSubjects.jsp");
 		rd.include(request, response);
 
 	}

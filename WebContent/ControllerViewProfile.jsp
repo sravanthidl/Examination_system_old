@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*"import="java.util.List"%>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - My Profile</title>

@@ -75,13 +75,9 @@ public class ControllerRegisterSubjects extends HttpServlet {
 			}
 			branchIndex++;
 		}
-		if(flag > 0) {
-			RequestDispatcher rd = request.getRequestDispatcher("ControllerRegisterSubjects.jsp");
-			rd.include(request, response);
-		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("ControllerHome.jsp");
-			rd.include(request, response);
-		}
+
+		RequestDispatcher rd = request.getRequestDispatcher("ControllerRegisterSubjects.jsp");
+		rd.include(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

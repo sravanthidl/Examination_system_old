@@ -221,7 +221,8 @@ body{font-family:arial;}
 
 	<div class="body_bar">
 		<input style="width:13%;height:10%;position:absolute;top:-3px;left:1065px;background-color:#5a6bbc;color:white;border-radius:5px;border:none;cursor:pointer" id="modalTrigger" type="Submit" value="View Subjects"></br>
-			<div style="height:460px;width:73%;position:absolute;top:100px;left:12%">
+		
+		<div style="height:460px;width:73%;position:absolute;top:100px;left:12%">
 			<form action="ControllerRegisterSubjects" method="post">
 				<input type="hidden" name="year" value="<%=year%>">	
 					<table id="tb">
