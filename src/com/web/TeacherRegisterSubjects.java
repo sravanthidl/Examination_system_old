@@ -37,8 +37,9 @@ public class TeacherRegisterSubjects extends HttpServlet {
             if(parameterName.equals("branch1") || parameterName.equals("branch2") || parameterName.equals("branch3") || parameterName.equals("branch4") || parameterName.equals("branch5") || parameterName.equals("branch6")) {
             	branch = request.getParameter(parameterName);
             }else {
+            	String subjectCode = parameterName;
             	String subjectName = request.getParameter(parameterName);
-            	String YBSId = year + "/" + branch + "/" + subjectName;
+            	String YBSId = year + "/" + branch + "/" + subjectCode;
             	System.out.println(YBSId);
             	SubjectDao subjectDao = new SubjectDao();
             	int status = subjectDao.updateTeacherId(YBSId, teacherId);
@@ -48,7 +49,7 @@ public class TeacherRegisterSubjects extends HttpServlet {
             }
         }
         
-        RequestDispatcher rd = request.getRequestDispatcher("TeacherSubjectsDashboard.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("TeacherViewSubjects.jsp");
 		rd.include(request, response);
 
 	}

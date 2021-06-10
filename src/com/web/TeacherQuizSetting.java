@@ -28,16 +28,15 @@ public class TeacherQuizSetting extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		String YBSId = (String)session.getAttribute("YBSId");
+		QuizDao quizDao = new QuizDao();
 		String teacherId = (String)session.getAttribute("teacherId");
-		String examType = (String)session.getAttribute("examType");
-		if(examType.contentEquals("quiz1")) examType = "mid1";
-		else examType = "mid2";
+		String YBSId = request.getParameter("YBSId");
+		String examType = request.getParameter("examType");
 		String question = null, optionA = null, optionB = null, optionC = null, optionD = null, answerOption = null;
         int questionNo = 0;
         
 		Enumeration enumeration = request.getParameterNames();
-        Map<String, Object> modelMap = new HashMap<>();
+		enumeration.nextElement();enumeration.nextElement();
         Pattern questionNoP = Pattern.compile("(questionNo)[0-9]*");
         Pattern questionP = Pattern.compile("(question)[0-9]*");
         Pattern optionAP = Pattern.compile("(optionA)[0-9]*");
@@ -48,7 +47,6 @@ public class TeacherQuizSetting extends HttpServlet {
         
         while(enumeration.hasMoreElements()){
             String parameterName = (String) enumeration.nextElement();
-            modelMap.put(parameterName, request.getParameter(parameterName));
             System.out.println(parameterName + "@" + request.getParameter(parameterName));
             Matcher questionNoM = questionNoP.matcher(parameterName);
             Matcher questionM = questionP.matcher(parameterName);
@@ -63,20 +61,26 @@ public class TeacherQuizSetting extends HttpServlet {
             else if(optionAM.find()) optionA = request.getParameter(parameterName);
             else if(optionBM.find()) optionB = request.getParameter(parameterName);
             else if(optionCM.find()) optionC = request.getParameter(parameterName);
-            else if(optionDM.find()) optionD = request.getParameter(parameterName);
+            else if(optionDM.find()) {
+            	optionD = request.getParameter(parameterName);
+            	Quiz quizExists = quizDao.getQuiz(YBSId, examType, questionNo);
+            	if(quizExists == null) {
+            		Quiz quiz = new Quiz(YBSId, examType, questionNo, question, optionA, optionB, optionC, optionD, answerOption);
+            		System.out.println(quiz.toString());
+            		int status = quizDao.addQuestion(quiz);
+            	}else quizDao.updateQuiz(YBSId, examType, questionNo, question, optionA, optionB, optionC, optionD, answerOption);
+            }
             else if(answerOptionM.find()) {
             	System.out.println("FoundAnswerOption");
             	answerOption = request.getParameter(parameterName);
-            	Quiz quiz = new Quiz(YBSId, examType, questionNo, question, optionA, optionB, optionC, optionD, answerOption);
-            	System.out.println(quiz.toString());
-            	QuizDao quizDao = new QuizDao();
-            	int status = quizDao.addQuestion(quiz);
-            	
-            }
+            }	
             	
         }
-        //session.setAttribute("teacherId", teacherId);
-        RequestDispatcher rd = request.getRequestDispatcher("TeacherSettingDashboard.jsp");
+        System.out.println("YBS000:" + YBSId);
+        out.println("<html><body");
+        out.println("<input type=\"hidden\" name=\"YBSId\" value=" + YBSId + ">");
+		out.println("</body></html>");
+        RequestDispatcher rd = request.getRequestDispatcher("TeacherPaperSetting.jsp");
 		rd.include(request, response);
 		
 	}

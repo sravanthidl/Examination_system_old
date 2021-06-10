@@ -26,22 +26,20 @@ public class ControllerExamScheduling extends HttpServlet {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		int year = (int)session.getAttribute("year");
-		System.out.println("Y:" + year);
-		String branch = request.getParameter("branch");
-		String examType = (String)session.getAttribute("examType");
+		//String YBSId = request.getParameter("YBSId");
+		String examType = request.getParameter("examType");
 		Enumeration enumeration = request.getParameterNames();
-        Map<String, Object> modelMap = new HashMap<>();
+		enumeration.nextElement();
+		
 		while(enumeration.hasMoreElements()){
-            String subjectName = (String)enumeration.nextElement();
-            String examDate = request.getParameter(subjectName);
-            modelMap.put(subjectName, examDate);
-            System.out.println(subjectName + "@" + examDate);
-            if(!subjectName.equals("branch") && !subjectName.equals("Submit")) {
+            String param = (String)enumeration.nextElement();
+            String paramValue = request.getParameter(param);
+            System.out.println(param + "@" + paramValue);
+            if(!param.equals("Submit")) {
+            	String YBSId = param;
+            	String examDate = request.getParameter((String)enumeration.nextElement());
             	String openTime = request.getParameter((String)enumeration.nextElement());
             	String closeTime = request.getParameter((String)enumeration.nextElement());
-            	String YBSId = year + "/" + branch + "/" + subjectName;
-            	System.out.println(openTime + "!" + closeTime);
             	Descriptive descriptive = new Descriptive();
             	descriptive.setYBSId(YBSId);
             	descriptive.setExamType(examType);
@@ -52,10 +50,10 @@ public class ControllerExamScheduling extends HttpServlet {
             		DescriptiveDao descriptiveDao = new DescriptiveDao();
                 	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
                 	if(descriptiveExists == null) {
-                		int status = descriptiveDao.addTimeStamp(descriptive);
+                		int status = descriptiveDao.addDescriptive(descriptive);
                 		//System.out.println("HERE");
                 	}else {
-                		int status = descriptiveDao.updateTimeStamp(YBSId, examType, examDate, openTime, closeTime);
+                		int status = descriptiveDao.updateExamTimeStamp(YBSId, examType, examDate, openTime, closeTime);
                 		//System.out.println("THERE");
                 	}
             	}	

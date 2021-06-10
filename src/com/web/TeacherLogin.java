@@ -25,7 +25,7 @@ public class TeacherLogin extends HttpServlet {
 		String teacherId = request.getParameter("teacherId");
 		String password = request.getParameter("password");
 		TeacherDao teacherDao = new TeacherDao();
-		Teacher teacher = teacherDao.getTeacherById(teacherId);
+		Teacher teacher = teacherDao.getTeacher(teacherId);
 		if(teacher != null) {
 			String correctPassword = teacher.getPassword();
 			if(password.equals(correctPassword)) {

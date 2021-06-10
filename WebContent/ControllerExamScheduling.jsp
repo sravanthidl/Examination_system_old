@@ -1,280 +1,244 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="java.util.List"%>
+    pageEncoding="UTF-8" import="com.dao.DescriptiveDao" import="com.dto.Descriptive" import="com.dao.AcadYearDao" import="com.dto.ExamTask" import="com.dto.Subject" import="com.dao.SubjectDao" import="java.util.List" import="java.util.ArrayList" import="com.dao.Today" %>
+<!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>ABIT EC - Schedule Exams</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-.head_bar {
-	background-color:#0a2081;
-	color: white;
-	height:130px;
+body{
+	font-family:arial;
 }
-.head1_bar{
-	font-size:26px;
-	padding-left:540px;
-	padding-top:12px;
-}
-.head2_bar{
-	font-size:13px;
-	padding-left:670px;
-	padding-top:0px;
-}
-.head3_bar{
-	font-size:22px;
-	padding-left:615px;
-	padding-top:10px;
-}
-.menu_bar{
+.vertical_menu_bar{
 	position:absolute;
-	background-color:#b9c4f9;
-	height:50px;
-	width:100%;
+	background-color:#30333d;
+	height:100%;
+	width:14%;
 	text-decoration:none;
 	font-size:17px;
-}
-.body_bar{
-	background-color:#f0f0f0;
-	height:1000px;
-	width:90%;
-	position:absolute;
-	top:180px;
-	left:5%;
-}
-
-.dropdown {
-	position:absolute;
-	padding:12.5px 50px;
-	display: inline-block;
-}
-.dropdown:hover{
-	background-color: #0a2081;
-	color:white;
-}
-
-.dropdown_content_box {
-	display: none;
-	color:black;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	top:50px;
+	top:0px;
+	left:0px;
 	z-index:1;
 }
-.dropdown:hover .dropdown_content_box {
+.clgName{
+	font-size:35px;
+	color:#b3b3b3;
+	top:-10px;
+	padding-left:57px;
 	position:absolute;
-	display: block;
 }
-
-.dropdown_content_options{
-	position:absolute;
-	background-color:#b9c4f9;
-  	min-width:284px;
-  	min-height:40px;
-	top:0px;
-	padding-top:7px;
-	text-align:center;
+.tag{
 	font-size:15px;
+	color:#b3b3b3;
+	padding-left:42px;
+	padding-top:55px;
+	position:absolute;
+}
+.options{
+	position:absolute;
+	background-color:#30333d;
+	color:#cccccc;
+	font-size:18px;
 	text-decoration:none;
 }
-.dropdown_content_options:hover{
-	background-color:#a1aff7;
+.options:hover{
+	background-color:#16181d;
+	color:#80b5eb;
 }
 
+.top1{
+	position:absolute;
+	background-color:#5a6bbc;
+	height:57px;
+	width:86%;
+	text-decoration:none;
+	font-size:17px;
+	top:0px;
+	left:202px;
+}
+.top2{
+	position:absolute;
+	background-color:#7382c8;
+	height:67px;
+	width:86%;
+	text-decoration:none;
+	font-size:17px;
+	top:57px;
+	left:202px;
+}
+.subs{
+	position:absolute;
+	top:0px;
+	padding:20px 80px 20px 80px;
+	border:none;
+	cursor:pointer;
+	background-color:#7382c8;
+	color:#f7f7f7;
+}
+.subs:hover{
+	background-color:#5a6bbc;
+}
+.body_bar{
+	position:absolute;
+	background-color:white;
+	height:83%;
+	width:88%;
+	top:17%;
+	left:14%;
+}
+#tb {
+  border-collapse: collapse;
+  width: 100%;
+}
+#tb td, #tb th {
+  white-space: nowrap;
+  border: 1px solid #e4e4e4;
+  padding: 10px;
+  color:#585858;
+  column-width:100px;
+  text-align:center;
+}
+#tb th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #f7f7f7;
+  color: #4a4a4a;
+  text-align: center;
+}
+input[type=text]::placeholder { 
+     text-align: center;
+}
+input[type=text]{ 
+     text-align: center;
+}
 
 </style>
 
 <body>
-	<div class="head_bar">
-		<div class="head1_bar">XYZ Institute of Technology</div>
-		<div class="head2_bar">(Autonomous)</div> 
-		<div class="head3_bar">Examination Corner</div>
+	<%
+	int year = Integer.parseInt(request.getParameter("year"));
+	int semester = new AcadYearDao().getSemester(year);
+	String examType = request.getParameter("examType");
+	%>
+
+	<div class="top1">
+		<p style="margin-left:30px;color:#e7e9f4">Schedule Exams > Year <%=year%> > Sem <%=semester%> > <%=examType%></p>
 	</div>
 	
-	<div class="menu_bar">
-		<div class="dropdown" style="left:80px">
-		<a style="text-decoration:none;cursor:pointer"">General Control</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:234px" href="#">Set New Semester</a></br>
-		      <a class="dropdown_content_options" style="min-width:234px;top:40px" href="ControllerRegisterSubjects.html">Register Semester Subjects</a></br>
-		      <a class="dropdown_content_options" style="min-width:234px;top:80px" href="#">Set Date</a></br>
-		    </div>
+	<div class="top2"></div>
+	
+		<div class="vertical_menu_bar">
+			<p class="clgName"><strong>ABIT</strong></p>
+			<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+			<p class="tag"> EXAM CORNER</p>
 			
-		</div>
+			<i class="fa fa-refresh" style="position:absolute;top:160px;left:22px;color:#cccccc;z-index:1"></i>
+			<a class="options" style="position:absolute;top:140px;padding:17px 31px 17px 52px" href="ControllerNewSemester.jsp">New Semester</a></br>
+			
+			<i class='fas fa-book-open' style="position:absolute;top:220px;left:22px;color:#cccccc;z-index:1"></i>
+			<form action="ControllerRegisterSubjects.jsp">
+			<input type="hidden" name="year" value="1">
+		    <input class="options" style="top:200px;padding:17px 80px 17px 55px;border:none;cursor:pointer" type="Submit" value="Courses"></br>
+			</form>
+			
+			<i class="material-icons" style="position:absolute;top:280px;left:22px;color:#cccccc;z-index:1">perm_data_setting</i>
+			<form action="ControllerSettingScheduling.jsp">
+			<input type="hidden" name="year" value="1">
+		    <input class="options" style="top:260px;padding:17px 35px 17px 56px;border:none;cursor:pointer" type="Submit" value="Paper Setting"></br>
+			</form>
+			
+			<i class='fas fa-edit' style="position:absolute;top:340px;left:22px;color:#cccccc;z-index:1"></i>
+			<a class="options" style="top:320px;padding:17px 90px 17px 57px;background-color:#16181d;color:#80b5eb" href="ControllerExamSchedulingDashboard.jsp">Exams</a>
+			
+			<i class='fas fa-check-double' style="position:absolute;top:400px;left:22px;color:#cccccc;z-index:1"></i>
+			<form action="ControllerEvaluationScheduling.jsp">
+			<input type="hidden" name="year" value="1">
+		    <input class="options" style="top:380px;padding:17px 61px 17px 57px;border:none;cursor:pointer" type="Submit" value="Evaluation"></br>
+			</form>
+			
+			<i class='fas fa-chalkboard-teacher' style="position:absolute;top:460px;left:22px;color:#cccccc;z-index:1"></i>
+			<form action="ControllerExtTeacherMap.jsp">
+			<input type="hidden" name="year" value="1">
+		    <input class="options" style="top:440px;padding:17px 29px 17px 57px;border:none;cursor:pointer" type="Submit" value="Map Externals"></br>
+			</form>
+			
+			<i class="material-icons" style="position:absolute;top:515px;left:22px;color:#cccccc;z-index:1">grade</i>
+			<form action="ControllerResultScheduling.jsp">
+			<input type="hidden" name="year" value="1">
+		    <input class="options" style="top:500px;padding:17px 85px 17px 57px;border:none;cursor:pointer" type="Submit" value="Results"></br>
+			</form>
+			
+			<i class='fas fa-user-circle' style="position:absolute;top:580px;left:22px;color:#cccccc;z-index:1"></i>
+			<a class="options" style="top:560px;padding:17px 90px 17px 60px" href="ControllerViewProfile.jsp">Profile</a>
+			
+			<i class='fa fa-sign-out' style="position:absolute;top:640px;left:22px;color:#cccccc;z-index:1;font-size:23px"></i>
+			<a class="options" style="top:620px;padding:17px 87px 17px 60px" href="AllLoginPage.html">Logout</a>
 		
-		<div class="dropdown" style="left:340px">
-		<a style="text-decoration:none;cursor:pointer"">Paper Setting</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:216px" href="ControllerSettingScheduling.jsp">Schedule Setting</a></br>
-		       <a class="dropdown_content_options" style="min-width:216px;top:40px" href="#">View Status</a></br>
-		    </div>
-			
-		</div>
-		
-		<div class="dropdown" style="left:590px">
-		<a style="text-decoration:none;cursor:pointer"">Evaluation</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:189px" href="ControllerEvaluationScheduling.jsp">Schedule Evaluation</a></br>
-		      <a class="dropdown_content_options" style="min-width:189px;top:40px" href="#">View Status</a></br>
-		      <a class="dropdown_content_options" style="min-width:189px;top:80px" href="#">Map External Papers</a></br>
-		    </div>
-			
-		</div>
-
-		<div class="dropdown" style="left:815px">
-			<a style="text-decoration:none;cursor:pointer">Exams</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:156px" href="ControllerExamSchedulingDashboard.jsp">Schedule Exams</a></br>
-		      <a class="dropdown_content_options" style="min-width:156px;top:40px" href="*">View Exam Schedule</a></br>
-		    </div>
-		</div>
-
-		<div class="dropdown" style="left:1005px">
-			<a style="text-decoration:none;cursor:pointer" >Results</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:162px"href="ControllerResultScheduling.jsp">Schedule Results</a></br>
-		       <a class="dropdown_content_options" style="min-width:162px;top:40px" href="ControllerResultScheduling.html">View Results</a></br>
-		    </div>
-		</div>
-
-		<div class="dropdown" style="left:1200px">
-			<a style="text-decoration:none;cursor:pointer">Profile</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:153px" href="ControllerViewProfile.jsp">View Profile</a></br>
-		      <a class="dropdown_content_options" style="min-width:153px;top:40px" href="#">Logout</a></br>
-		    </div>
-		</div>
 	</div>
 	
 	
 	<div class="body_bar">
 	
 		<%	
-			int year = Integer.parseInt(request.getParameter("year"));
-			System.out.println("Y:" + year);
-			String examType = request.getParameter("examType");
-			//HttpSession session = request.getSession();
-			session.setAttribute("year", year);
-			session.setAttribute("examType", examType);
-			
+			ArrayList<String> branches = new ArrayList<>();
+			branches.add("CE");branches.add("CSE");branches.add("ECE");branches.add("EEE");branches.add("IT");branches.add("ME");
 			SubjectDao subjectDao = new SubjectDao();
+			DescriptiveDao descriptiveDao = new DescriptiveDao();
 		%>
-		<%! int topAttr = 70; %>
-		<%! void initTopAttr(){ topAttr = 70; } %>
-		<%! void updateTopAttr(){ topAttr += 100; } %>
 		
-		<div style="height:700px;width:25%;position:absolute;top:100px;left:80px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerExamScheduling" method="post">
-				<p style="left:130px;top:10px;position:absolute">CE</p>
-				<input type="hidden" name="branch" value="CE">
-				<%
-					initTopAttr();
-					List<String> subjectNames = subjectDao.getAllSubjectNamesByYearAndBranch(year, "CE");
-					for(String subjectName : subjectNames){
-				%>
-				<p style="left:50px;top:<%=topAttr%>px;position:absolute"><%=subjectName%><p>
-				<input style="left:100px;top:<%=topAttr+10%>px;position:absolute" type="date" name="<%=subjectName%>Date">
-				<input style="left:50px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>FromTime">
-				<input style="left:170px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>ToTime">
-				
-				<% updateTopAttr(); } %>
-				<input style="left:130px;top:620px;position:absolute" type="Submit" name = "Submit" value="Submit">
-			</form>
+		
+		<div style="width:55%;position:absolute;top:20px;left:300px;">
+			
+			<table id="tb">
+				<tr>
+					<th width="230px">Subject</th>
+					<th width="180px">Exam Date</th>
+					<th>Open Time</th>
+					<th>Close Time</th>
+				</tr>
+			</table>
+			
+			<%for(String branch : branches){%>
+			
+			<table id="tb">
+				<form action="ControllerExamScheduling" method="post">
+					<td style="background-color: #f7f7f7" colspan="5" height=15 ><%=branch%></td>
+					<input type="hidden" name="examType" value="<%=examType%>">
+					<%
+						List<Subject> subjects = subjectDao.getSubjectsByParams(year, branch, "Theory");
+						for(Subject subject : subjects){
+							String subjectName = subject.getSubjectName();
+							String subjectCode = subject.getSubjectCode();
+							String YBSId = year + "/" + branch + "/" + subjectCode;
+							Descriptive descriptive = descriptiveDao.getDescriptive(YBSId, examType);
+					%>
+					<tr>
+					<td><input type="hidden" name="<%=YBSId%>" value="<%=YBSId%>"><%=subjectName%></td>
+					<%if(descriptive != null && descriptive.getExamDate() != null){%>
+					<td><input type="text" style="border:none;color:#585858;width:130px" name="<%=subjectName%>Date" placeholder="<%=descriptive.getExamDate()%>" onfocus="(this.type='date')" onblur="(this.type='text')" onkeydown="return false" required></td>
+					<td><input type="text" style="border:none;color:#585858;width:100px" name="<%=subjectName%>FromTime" placeholder="<%=descriptive.getExamOpenTime()%>" onfocus="(this.type='time')" onblur="(this.type='text')" required></td>
+					<td><input type="text" style="border:none;color:#585858;width:100px" name="<%=subjectName%>ToTime" placeholder="<%=descriptive.getExamCloseTime()%>" onfocus="(this.type='time')" onblur="(this.type='text')" required></td>
+					<%}else{%>
+					<td><input type="date" name="<%=subjectName%>Date" style="width:135px" onkeydown="return false" required></td>
+					<td><input  type="time" name="<%=subjectName%>FromTime" required></td>
+					<td><input type="time" name="<%=subjectName%>ToTime" required></td>
+					<%}%>
+					</tr>
+					<%}if(subjects.size() > 0){%>
+					<tr><td colspan="4"><input style="width:678px" name="Submit" type="Submit" value="Submit"></td></tr>
+					<%}%>
+				</form>
+			</table>
+					
+			<%}%>
+
 		</div>
-		
-		<div style="height:700px;width:25%;position:absolute;top:100px;left:480px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerExamScheduling" method="post">
-				<p style="left:130px;top:10px;position:absolute">CSE</p>
-				<input type="hidden" name="branch" value="CSE">
-				<%
-					initTopAttr();
-					subjectNames = subjectDao.getAllSubjectNamesByYearAndBranch(year, "CSE");
-					for(String subjectName : subjectNames){
-				%>
-				<p style="left:50px;top:<%=topAttr%>px;position:absolute"><%=subjectName%><p>
-				<input style="left:100px;top:<%=topAttr+10%>px;position:absolute" type="date" onkeydown="return false" name="<%=subjectName%>">
-				<input style="left:50px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>FromTime" >
-				<input style="left:170px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>ToTime" >
-				<% updateTopAttr(); } %>
-				<input style="left:130px;top:620px;position:absolute" type="Submit" name = "Submit" value="Submit">
-			</form>
-		</div>
-		
-		<div style="height:700px;width:25%;position:absolute;top:100px;left:880px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerExamScheduling" method="post">
-				<p style="left:130px;top:10px;position:absolute">ECE</p>
-				<input type="hidden" name="branch" value="ECE">
-				<%
-					initTopAttr();
-					subjectNames = subjectDao.getAllSubjectNamesByYearAndBranch(year, "ECE");
-					for(String subjectName : subjectNames){
-				%>
-				<p style="left:50px;top:<%=topAttr%>px;position:absolute"><%=subjectName%><p>
-				<input style="left:100px;top:<%=topAttr+10%>px;position:absolute" type="date" name="<%=subjectName%>">
-				<input style="left:50px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>FromTime">
-				<input style="left:170px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>ToTime">
-				<% updateTopAttr(); } %>
-				<input style="left:130px;top:620px;position:absolute" type="Submit" name = "Submit" value="Submit">
-			</form>
-		</div>
-		
-		<div style="height:700px;width:25%;position:absolute;top:900px;left:80px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerExamScheduling" method="post">
-				<p style="left:130px;top:10px;position:absolute">EEE</p>
-				<input type="hidden" name="branch" value="EEE">
-				<%
-					initTopAttr();
-					subjectNames = subjectDao.getAllSubjectNamesByYearAndBranch(year, "EEE");
-					for(String subjectName : subjectNames){
-				%>
-				<p style="left:50px;top:<%=topAttr%>px;position:absolute"><%=subjectName%><p>
-				<input style="left:100px;top:<%=topAttr+10%>px;position:absolute" type="date" name="<%=subjectName%>">
-				<input style="left:50px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>FromTime">
-				<input style="left:170px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>ToTime">
-				<% updateTopAttr(); } %>
-				<input style="left:130px;top:620px;position:absolute" type="Submit" name = "Submit" value="Submit">
-			</form>
-		</div>
-		
-		<div style="height:700px;width:25%;position:absolute;top:900px;left:480px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerExamScheduling" method="post">
-				<p style="left:130px;top:10px;position:absolute">IT</p>
-				<input type="hidden" name="branch" value="IT">
-				<%
-					initTopAttr();
-					subjectNames = subjectDao.getAllSubjectNamesByYearAndBranch(year, "IT");
-					for(String subjectName : subjectNames){
-				%>
-				<p style="left:50px;top:<%=topAttr%>px;position:absolute"><%=subjectName%><p>
-				<input style="left:100px;top:<%=topAttr+10%>px;position:absolute" type="date" name="<%=subjectName%>">
-				<input style="left:50px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>FromTime">
-				<input style="left:170px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>ToTime">
-				<% updateTopAttr(); } %>
-				<input style="left:130px;top:620px;position:absolute" type="Submit" name = "Submit" value="Submit">
-			</form>
-		</div>
-		
-		<div style="height:700px;width:25%;position:absolute;top:900px;left:880px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerExamScheduling" method="post">
-				<p style="left:130px;top:10px;position:absolute">ME</p>
-				<input type="hidden" name="branch" value="ME">
-				<%
-					initTopAttr();
-					subjectNames = subjectDao.getAllSubjectNamesByYearAndBranch(year, "ME");
-					for(String subjectName : subjectNames){
-				%>
-				<p style="left:50px;top:<%=topAttr%>px;position:absolute"><%=subjectName%><p>
-				<input style="left:100px;top:<%=topAttr+10%>px;position:absolute" type="date" name="<%=subjectName%>">
-				<input style="left:50px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>FromTime">
-				<input style="left:170px;top:<%=topAttr+50%>px;position:absolute" type="time" name="<%=subjectName%>ToTime">
-				<% updateTopAttr(); } %>
-				<input style="left:130px;top:620px;position:absolute" type="Submit" name = "Submit" value="Submit">
-			</form>
-		</div>
-		
 	</div>
 	
 </body>
-
-
 
 </html>

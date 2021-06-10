@@ -1,89 +1,141 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>ABIT EC Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-
-.head_bar {
-	background-color:#0a2081;
-	color: white;
-	height:180px;
+.vertical_menu_bar{
+	position:absolute;
+	background-color:#30333d;
+	height:100%;
+	width:35%;
+	text-decoration:none;
+	font-size:17px;
+	top:0px;
+	left:0px;
+	z-index:1;
 }
-.head1_bar{
-	font-size:28px;
-	padding-left:530px;
-	padding-top:24px;
+.clgName{
+	font-size:60px;
+	color:#b3b3b3;
+	top:30px;
+	left:170px;
+	position:absolute;
 }
-.head2_bar{
-	font-size:15px;
-	padding-left:665px;
-	padding-top:3px;
-}
-.head3_bar{
-	font-size:25px;
-	padding-left:600px;
-	padding-top:20px;
+.tag{
+	font-size:30px;
+	color:#b3b3b3;
+	left:65px;
+	top:150px;
+	position:absolute;
 }
 .body_bar{
-	background-color:#f0f0f0;
-	height:650px;
+	background-color:white;
+	height:798px;
 	width:90%;
 	position:absolute;
-	top:180px;
-	left:5%;
+	top:0px;
+	left:35%;
 }
-
-
-
+.login_div{
+	height:230px;
+	width:20%;
+	color:#808080;
+	border-radius:5px;
+}
+.icon {
+  padding: 9.5px;
+  color: white;
+  min-width: 35px;
+  text-align: center;
+}
+body{
+	font-family:arial;
+}
+input[type=text], input[type=password] {
+  background-color: #f0f0f0;
+  width: 70%;
+  padding: 5px 10px;
+  margin: 8px 0;
+  display: inline-block;
+}
+input[type=text]:hover {
+  opacity: 0.8;
+}
+input[type=Submit] {
+  color: white;
+  padding: 6px 20px;
+  border: none;
+  cursor: pointer;
+  width: 67%;
+}
 </style>
 
 <body>
 
-	<div class="head_bar">
-		<div class="head1_bar">XYZ Institute of Technology</div>
-		<div class="head2_bar">(Autonomous)</div>
-		<div class="head3_bar">Examination Corner</div>
+	<div class="vertical_menu_bar">
+			<p class="clgName"><strong>ABIT</strong></p>
+			<p class="tag">Online Examination Corner</p>
+			
+			<img src="pics/picture.png" width="600" height="600" style="position:absolute;top:195px;left:-50px">
 	</div>
 	
 	<div class="body_bar">
-		<p style="font-size:23px;top:60px;left:160px;position:absolute"><strong>Student Login</strong></p>
-		<div style="height:300px;width:25%;position:absolute;top:160px;left:90px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="/action_page.php">
-				<p style="left:70px;top:20px;position:absolute">Student Id<p>
-				<input style="left:70px;top:67px;position:absolute" size="20" type="text" name="browser">  
-				<p style="left:70px;top:100px;position:absolute">Password<p>
-				<input style="left:70px;top:147px;position:absolute" size="20" type="password" name="browser">
-				<a style="left:80px;top:190px;position:absolute" href="#">New User? Signup here</a>
-				<input style="left:120px;top:230px;position:absolute" type="submit" value="Submit">
+		<div class="login_div" style="position:absolute;top:130px;left:170px;border:2px solid #3e8920">
+			<form action="StudentLogin" method="post">
+				<p style="left:20px;top:0px;position:absolute"><b>Student Id</b><p>
+				<input style="left:55px;top:35px;position:absolute;border: 1px solid #3e8920" type="text" name="studentId" required>  
+				<p style="left:20px;top:75px;position:absolute"><b>Password</b><p>
+				<input style="left:55px;top:110px;position:absolute;border: 1px solid #3e8920" type="password" name="password" required>
+				<i  style="left:20px;top:43px;position:absolute;background-color: #3e8920;" class="fa fa-user icon"></i>
+				<i  style="left:20px;top:118px;position:absolute;background-color: #3e8920;" class="fa fa-lock icon"></i>
+				<input style="left:20px;top:170px;position:absolute;background-color:#3e8920;" type="submit" value="Login">
 			</form>
-		</div>
-			
-		<p style="font-size:23px;top:60px;left:560px;position:absolute"><strong>Teacher Login</strong></p>
-		<div style="height:300px;width:25%;position:absolute;top:160px;left:490px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="TeacherLogin" method="post">
-				<p style="left:70px;top:20px;position:absolute">Teacher Id<p>
-				<input style="left:70px;top:67px;position:absolute" size="20" type="text" name="teacherId">  
-				<p style="left:70px;top:100px;position:absolute">Password<p>
-				<input style="left:70px;top:147px;position:absolute" size="20" type="password" name="password">
-				<a style="left:80px;top:190px;position:absolute" href="TeacherRegister.html">New User? Signup here</a>
-				<input style="left:120px;top:230px;position:absolute" type="Submit" value="Submit">
-			</form>
-		</div>	
-			
-		<p style="font-size:23px;top:60px;left:940px;position:absolute"><strong>Controller Login</strong></p>
-		 <div style="height:300px;width:25%;position:absolute;top:160px;left:890px;background-color:#d0d7fb;border-radius:10px;">
-			<form action="ControllerLogin" method="post">
-				<p style="left:70px;top:20px;position:absolute">Controller Id<p>
-				<input style="left:70px;top:67px;position:absolute" size="20" type="text" name="controllerId">  
-				<p style="left:70px;top:100px;position:absolute">Password<p>
-				<input style="left:70px;top:147px;position:absolute" size="20" type="password" name="password">
-				<a style="left:80px;top:190px;position:absolute" href="ControllerRegister.html">New User? Signup here</a>
-				<input style="left:120px;top:230px;position:absolute" type="submit" value="Submit">
-			</form>
+			<a href="StudentRegister.html"><i style="left:200px;top:170px;position:absolute;background-color:#3e8920;" class="fa fa-user-plus icon"></i></a>
 		</div>
 		
+		<div class="login_div" style="position:absolute;top:130px;left:500px;border:2px solid #e2363e">
+			<form action="TeacherLogin" method="post">
+				<p style="left:20px;top:0px;position:absolute"><b>Teacher Id</b><p>
+				<input style="left:55px;top:35px;position:absolute;border: 1px solid #e2363e" type="text" name="teacherId" required>  
+				<p style="left:20px;top:75px;position:absolute"><b>Password</b><p>
+				<input style="left:55px;top:110px;position:absolute;border: 1px solid #e2363e" type="password" name="password" required>
+				<i  style="left:20px;top:43px;position:absolute;background:#e2363e" class="fa fa-user icon"></i>
+				<i  style="left:20px;top:118px;position:absolute;background:#e2363e" class="fa fa-lock icon"></i>
+				<input style="left:20px;top:170px;position:absolute;background:#e2363e" type="submit" value="Login">
+			</form>
+			<a href="TeacherRegister.html"><i style="left:200px;top:170px;position:absolute;background:#e2363e" class="fa fa-user-plus icon"></i></a>
+		</div>
+		
+		<div class="login_div" style="position:absolute;top:430px;left:170px;border:2px solid #f5a641">
+			<form action="ControllerLogin" method="post">
+				<p style="left:20px;top:0px;position:absolute"><b>Controller Id</b><p>
+				<input style="left:55px;top:35px;position:absolute;border: 1px solid #f5a641" type="text" name="controllerId" required>  
+				<p style="left:20px;top:75px;position:absolute"><b>Password</b><p>
+				<input style="left:55px;top:110px;position:absolute;border: 1px solid #f5a641" type="password" name="password" required>
+				<i  style="left:20px;top:43px;position:absolute;background: #f5a641;" class="fa fa-user icon"></i>
+				<i  style="left:20px;top:118px;position:absolute;background: #f5a641;" class="fa fa-lock icon"></i>
+				<input style="left:20px;top:170px;position:absolute;background:#f5a641;" type="submit" value="Login">
+			</form>
+			<a href="ControllerRegister.html"><i style="left:200px;top:170px;position:absolute;background: #f5a641;" class="fa fa-user-plus icon"></i></a>
+		</div>
+		
+		<div class="login_div" style="position:absolute;top:430px;left:500px;border:2px solid #1669ce">
+			<form action="ExtTeacherLogin" method="post">
+				<p style="left:20px;top:0px;position:absolute"><b>External Teacher Id</b><p>
+				<input style="left:55px;top:35px;position:absolute;border: 1px solid #1669ce" type="text" name="extTeacherId" required>  
+				<p style="left:20px;top:75px;position:absolute"><b>Password</b><p>
+				<input style="left:55px;top:110px;position:absolute;border: 1px solid #1669ce" type="password" name="password" required>
+				<i  style="left:20px;top:43px;position:absolute;background:#1669ce" class="fa fa-user icon"></i>
+				<i  style="left:20px;top:118px;position:absolute;background:#1669ce" class="fa fa-lock icon"></i>
+				<input style="left:20px;top:170px;position:absolute;background:#1669ce" type="submit" value="Login">
+			</form>
+			<a href="ExtTeacherRegister.jsp"><i style="left:200px;top:170px;position:absolute;background:#1669ce" class="fa fa-user-plus icon"></i></a>
+		</div>
+
 	</div>
 	
 </body>
+
 </html>

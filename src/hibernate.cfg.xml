@@ -11,9 +11,14 @@
     <property name="hbm2ddl.auto">update</property>
     <mapping class="com.dto.Controller"/>
     <mapping class="com.dto.Teacher"/>
-    <mapping class="com.dto.Subject"/>
     <mapping class="com.dto.Descriptive"/>
     <mapping class="com.dto.Quiz"/>
     <mapping class="com.dto.ExamTask"/>
+    <mapping class="com.dto.SAM"/>
+    <mapping class="com.dto.AcadYear"/>
+    <mapping class="com.dto.Subject"/>
+    <mapping class="com.dto.LabMarks"/>
+    <mapping class="com.dto.Student"/>
+    <mapping class="com.dto.ExtTeacher"/>
   </session-factory>
 </hibernate-configuration>

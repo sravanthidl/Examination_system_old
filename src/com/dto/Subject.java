@@ -1,6 +1,5 @@
 package com.dto;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,15 +10,17 @@ import javax.persistence.Table;
 public class Subject {
 	
 	@Column
-	private int year;
+	private Integer year;
 	@Column
 	private String branch;
 	@Column
-	private String subjectName;
+	private String subjectCode;
 	@Id
 	private String YBSId;
 	@Column
-	private String BSId;
+	private String subjectName;
+	@Column
+	private String subjectCategory;
 	@Column
 	private String teacherId;
 	
@@ -28,20 +29,22 @@ public class Subject {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Subject(int year, String branch, String subjectName, String yBSId, String bSId, String teacherId) {
+	public Subject(Integer year, String branch, String subjectCode, String yBSId, String subjectName,
+			String subjectCategory, String teacherId) {
 		super();
 		this.year = year;
 		this.branch = branch;
-		this.subjectName = subjectName;
+		this.subjectCode = subjectCode;
 		YBSId = yBSId;
-		BSId = bSId;
+		this.subjectName = subjectName;
+		this.subjectCategory = subjectCategory;
 		this.teacherId = teacherId;
 	}
 	
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 	public String getBranch() {
@@ -50,11 +53,11 @@ public class Subject {
 	public void setBranch(String branch) {
 		this.branch = branch;
 	}
-	public String getSubjectName() {
-		return subjectName;
+	public String getSubjectCode() {
+		return subjectCode;
 	}
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
+	public void setSubjectCode(String subjectCode) {
+		this.subjectCode = subjectCode;
 	}
 	public String getYBSId() {
 		return YBSId;
@@ -62,11 +65,17 @@ public class Subject {
 	public void setYBSId(String yBSId) {
 		YBSId = yBSId;
 	}
-	public String getBSId() {
-		return BSId;
+	public String getSubjectName() {
+		return subjectName;
 	}
-	public void setBSId(String bSId) {
-		BSId = bSId;
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
+	public String getSubjectCategory() {
+		return subjectCategory;
+	}
+	public void setSubjectCategory(String subjectCategory) {
+		this.subjectCategory = subjectCategory;
 	}
 	public String getTeacherId() {
 		return teacherId;
@@ -77,9 +86,9 @@ public class Subject {
 	
 	@Override
 	public String toString() {
-		return "Subject [year=" + year + ", branch=" + branch + ", subjectName=" + subjectName + ", YBSId=" + YBSId + ", BSId="
-				+ BSId + ", teacherId=" + teacherId + "]";
+		return "Subject [year=" + year + ", branch=" + branch + ", subjectCode=" + subjectCode + ", YBSId=" + YBSId
+				+ ", subjectName=" + subjectName + ", subjectCategory=" + subjectCategory + ", teacherId=" + teacherId
+				+ "]";
 	}
-	
 	
 }

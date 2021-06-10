@@ -24,7 +24,7 @@ public class ControllerLogin extends HttpServlet {
 		String controllerId = request.getParameter("controllerId");
 		String password = request.getParameter("password");
 		ControllerDao controllerDao = new ControllerDao();
-		Controller controller = controllerDao.getControllerById(controllerId);
+		Controller controller = controllerDao.getController(controllerId);
 		System.out.println(controller);
 		if(controller != null){
 			String correctPassword = controller.getPassword();

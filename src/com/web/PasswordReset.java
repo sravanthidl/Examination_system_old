@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.dao.ControllerDao;
+import com.dao.ExtTeacherDao;
 import com.dao.TeacherDao;
 
 
@@ -29,15 +30,21 @@ public class PasswordReset extends HttpServlet {
 		if(user.equals("controller")) {
 			String controllerId = (String)session.getAttribute("controllerId");
 			ControllerDao controllerDao = new ControllerDao();
-			int status = controllerDao.updateControllerPassword(controllerId, password);
+			int status = controllerDao.updatePassword(controllerId, password);
 			RequestDispatcher rd = request.getRequestDispatcher("ControllerViewProfile.jsp");
 			rd.include(request, response);
 		}else if(user.equals("teacher")){
 			String teacherId = (String)session.getAttribute("teacherId");
 			System.out.println(teacherId);
 			TeacherDao teacherDao = new TeacherDao();
-			int status = teacherDao.updateTeacherPassword(teacherId, password);
-			RequestDispatcher rd = request.getRequestDispatcher("TeacherViewProfile.jsp");
+			int status = teacherDao.updatePassword(teacherId, password);
+			RequestDispatcher rd = request.getRequestDispatcher("TeacherProfile.jsp");
+			rd.include(request, response);
+		}else{
+			String extTeacherId = (String)session.getAttribute("extTeacherId");
+			ExtTeacherDao extTeacherDao = new ExtTeacherDao();
+			int status = extTeacherDao.updateExtTeacherPassword(extTeacherId, password);
+			RequestDispatcher rd = request.getRequestDispatcher("ExtTeacherProfile.jsp");
 			rd.include(request, response);
 		}
 		

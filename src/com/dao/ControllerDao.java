@@ -12,18 +12,21 @@ import com.dto.Teacher;
 public class ControllerDao {
 	private SessionFactory factory = null;
 	
-	public int register(Controller controller) {
+	public int add(Controller controller) {
 		System.out.println(controller.toString());
 		return HibernateTemplate.addObject(controller);
 	}
 	
-	public Controller getControllerById(String controllerId) {
-		Controller controller = HibernateTemplate.getControllerById(controllerId);
-		return controller;
+	public int updatePassword(String controllerId, String password) {
+		ControllerDao controllerDao = new ControllerDao();
+		Controller controller = getController(controllerId);
+		controller.setPassword(password);
+		return HibernateTemplate.updateObject(controller);
 	}
 	
-	public int updateControllerPassword(String controllerId, String password) {
-		return HibernateTemplate.updateControllerPassword(controllerId, password);
+	public Controller getController(String controllerId) {
+		Controller controller = (Controller)HibernateTemplate.getUser("controller", controllerId);
+		return controller;
 	}
 
 }

@@ -27,7 +27,7 @@ public class TeacherRegister extends HttpServlet {
 		String mobile = request.getParameter("mobile");
 		String email = request.getParameter("email");
 		TeacherDao teacherDao = new TeacherDao();
-		Teacher userExists = teacherDao.getTeacherById(teacherId);
+		Teacher userExists = teacherDao.getTeacher(teacherId);
 		if(userExists == null) {
 			Teacher teacher = new Teacher(teacherId, password, name, branch, designation, mobile, email); 
 			int x = teacherDao.register(teacher);

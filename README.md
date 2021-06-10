@@ -30,8 +30,29 @@ Table Name : ExamTask
 Schema :
 > | **year(int) | examType(5)** | settingOpenDate(12) | settingCloseDate(12) | evaluationOpenDate(12) | evaluationCloseDate(12) | resultOpenDate(12) |
 
-Table Name : ScriptsAndMarks
+Table Name : SAM
 
 Schema:
-> | **studentId(20) | BSId(12)** | desc1Script(40) | desc1Marks(int) | quiz1Script(40) | quiz1Marks(int) | asgn1Script(40) | asgn1Marks(int) | mid1Marks(int) | desc2Script(40) | desc2Marks(int) | quiz2Script(40) | quiz2Marks(int) | asgn2Script(40) | asgn2Marks(int) | mid2Marks(int) | midNetMarks(int) | semScript(40) | semMarks(40) | semNetMarks(40) |
+> | **studentId(20) | YBSId(12)** | desc1Script(40) | desc1Marks(int) | quiz1Script(40) | quiz1Marks(int) | asgn1Script(40) | asgn1Marks(int) | mid1NetMarks(int) | desc2Script(40) | desc2Marks(int) | quiz2Script(40) | quiz2Marks(int) | asgn2Script(40) | asgn2Marks(int) | mid2NetMarks(int) | midNetMarks(int) | semScript(40) | semMarks(40) | semNetMarks(40) |
 
+
+To - Do:
+1. Change title names on tabs(Done)
+2. Add paths on top bar(Done)
+3. YBS Id change(Done)
+4. Add sem at each scheduling, mayb both controller and teacher(Done)
+4. Add Lab marks entering(Done)
+5. Start new sem(Done)
+6. View statuses(Done)
+7. Quiz front end(Done)
+8. Front end proper(Done)
+9.Notifications(Done)
+10.Results(Done)
+11.Marks min/max choice-(Done)
+12. Login, Register front end(Done)
+13.Code refactoring________________________________________________(7)
+14.External Teacher(Done)
+15. Controller statuses(Done)
+16.PassKeys(Done)
+17.Question paper display for correction(Done)
+18.Home button(Done)

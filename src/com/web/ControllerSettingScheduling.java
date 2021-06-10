@@ -25,7 +25,7 @@ public class ControllerSettingScheduling extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		int year = Integer.parseInt(request.getParameter("year"));
-		String examType = request.getParameter("examType");		
+		String examType = request.getParameter("examType");
 		String openDate = request.getParameter("openDate");
 		String closeDate = request.getParameter("closeDate");
 		

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +46,7 @@ public class TeacherDescSetting extends HttpServlet {
         if(examType.equals("mid1") || examType.equals("mid2") || examType.equals("sem")){
         	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
         	if(descriptiveExists == null) {
-        		Descriptive  descriptive = null;
+        		Descriptive  descriptive = new Descriptive();
         		descriptive.setYBSId(YBSId);
         		descriptive.setExamType(examType);
         		descriptive.setTeacherId(teacherId);
@@ -59,7 +60,7 @@ public class TeacherDescSetting extends HttpServlet {
         	else examType = "mid2";
         	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
         	if(descriptiveExists == null) {
-        		Descriptive  descriptive = null;
+        		Descriptive  descriptive = new Descriptive();
         		descriptive.setYBSId(YBSId);
         		descriptive.setExamType(examType);
         		descriptive.setTeacherId(teacherId);
@@ -71,6 +72,8 @@ public class TeacherDescSetting extends HttpServlet {
         		int status = descriptiveDao.updateAsgnPaperPath(YBSId, examType, teacherId, paperPath, asgnOpenDate, asgnCloseDate);
         	}
         }
+        RequestDispatcher rd = request.getRequestDispatcher("TeacherPaperSetting.jsp");
+		rd.include(request, response);
         
 		
 	}

@@ -1,107 +1,125 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.ExamTask" import="com.dao.ExamTaskDao" import="java.util.List" import="java.time.LocalDate" %>%>
+    pageEncoding="UTF-8" import="com.dto.Subject" import="com.dao.SubjectDao" import="com.dto.Quiz" import="com.dao.QuizDao" import="java.util.List" import="com.dao.Today" %>
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>ABIT EC - Quiz Setting</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
-.head_bar {
-	background-color:#0a2081;
-	color: white;
-	height:130px;
+body{
+	font-family:arial;
 }
-.head1_bar{
-	font-size:26px;
-	padding-left:540px;
-	padding-top:12px;
-}
-.head2_bar{
-	font-size:13px;
-	padding-left:670px;
-	padding-top:0px;
-}
-.head3_bar{
-	font-size:22px;
-	padding-left:615px;
-	padding-top:10px;
-}
-.menu_bar{
+.vertical_menu_bar{
 	position:absolute;
-	background-color:#b9c4f9;
-	height:50px;
-	width:100%;
+	background-color:#30333d;
+	height:1500px;
+	width:14%;
 	text-decoration:none;
 	font-size:17px;
-}
-.body_bar{
-	background-color:#f0f0f0;
-	height:2200px;
-	width:90%;
-	position:absolute;
-	top:180px;
-	left:5%;
-}
-
-.dropdown {
-	position:absolute;
-	padding:12.5px 60px;
-	display: inline-block;
-}
-.dropdown:hover{
-	background-color: #0a2081;
-	color:white;
-}
-
-.dropdown_content_box {
-	display: none;
-	color:black;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	top:50px;
+	top:0px;
+	left:0px;
 	z-index:1;
 }
-.dropdown:hover .dropdown_content_box {
+.clgName{
+	font-size:35px;
+	color:#b3b3b3;
+	top:-10px;
+	padding-left:57px;
 	position:absolute;
-	display: block;
 }
-
-.dropdown_content_options{
-	position:absolute;
-	background-color:#b9c4f9;
-  	min-width:284px;
-  	min-height:40px;
-	top:0px;
-	padding-top:7px;
-	text-align:center;
+.tag{
 	font-size:15px;
+	color:#b3b3b3;
+	padding-left:42px;
+	padding-top:55px;
+	position:absolute;
+}
+.options{
+	
+	position:absolute;
+	background-color:#30333d;
+	color:#cccccc;
+	font-size:18px;
 	text-decoration:none;
 }
-.dropdown_content_options:hover{
-	background-color:#a1aff7;
+.options:hover{
+	background-color:#16181d;
+	color:#80b5eb;
 }
 
-.button {
-  border: none;
-  color: white;
-  padding: 8px 12px;
+.top1{
+	position:absolute;
+	background-color:#5a6bbc;
+	height:57px;
+	width:86%;
+	text-decoration:none;
+	font-size:17px;
+	top:0px;
+	left:202px;
+}
+.top2{
+	position:absolute;
+	background-color:#7382c8;
+	height:67px;
+	width:86%;
+	text-decoration:none;
+	font-size:17px;
+	top:57px;
+	left:202px;
+}
+.subs{
+	position:absolute;
+	top:0px;
+	padding:20px 80px 20px 80px;
+	border:none;
+	cursor:pointer;
+	background-color:#7382c8;
+	color:#f7f7f7;
+}
+.subs:hover{
+	background-color:#5a6bbc;
+}
+.body_bar{
+	position:absolute;
+	background-color:white;
+	height:100%%;
+	width:88%;
+	top:17%;
+	left:14%;
+}
+#tb {
+  border-collapse: collapse;
+  width: 100%;
+}
+#tb td, #tb th {
+  border: 1px solid grey;
+  padding: 15px 12px;
+  color:#585858;
+  background-color: #f7f7f7;
+  column-width:100px;
+  text-align:center;
+}
+#tb th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #f7f7f7;
+  color: #4a4a4a;
   text-align: center;
-  text-decoration: none;
-  font-size: 15px;
-  cursor: pointer;
-  background-color: #a1aff7;
-  color:black;
-  border-radius:5px;
-  box-shadow: 3px 3px #8a9af5;
 }
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
+input[type=text] {
+  border: 2px solid #e4e4e4;
+  line-height:2;
+}
+.radioButton {
+  height:25px;
+  width:25px;
   background-color: #eee;
+  border-radius: 50%;
 }
 
 
@@ -109,60 +127,60 @@
 </style>
 
 <body>
-	<div class="head_bar">
-		<div class="head1_bar">XYZ Institute of Technology</div>
-		<div class="head2_bar">(Autonomous)</div> 
-		<div class="head3_bar">Examination Corner</div>
+
+		<%
+		String YBSId = (String)request.getParameter("YBSId");
+		String examType = (String)request.getParameter("examType");
+		String teacherId = (String)session.getAttribute("teacherId");
+		SubjectDao subjectDao = new SubjectDao();
+		List<Subject> theorySubjects = subjectDao.getSubjectsByParams(teacherId, "Theory");
+		List<Subject> labSubjects = subjectDao.getSubjectsByParams(teacherId, "Lab");
+		Subject firstTheorySubject = theorySubjects.get(0);
+		Subject firstLabSubject = labSubjects.get(0);
+		%>
+
+	<div class="top1">
+		<p style="margin-left:30px;color:#e7e9f4">Paper Setting > <%=subjectDao.getSubject(YBSId).getYear()%>-<%=subjectDao.getSubject(YBSId).getBranch()%>-<%=subjectDao.getSubject(YBSId).getSubjectName()%> > Quiz</p>
 	</div>
 	
-	<div class="menu_bar">
+	<div class="top2"></div>
 	
-		<div class="dropdown" style="left:240px">
-			<a style="text-decoration:none">Courses</a>
-			<div class="dropdown_content_box" style="left:0px">
-		    	<a class="dropdown_content_options" style="min-width:188px" href="TeacherSubjectsDashboard.jsp">Register to Courses</a></br>
-		    </div>
-		</div>
+	<div class="vertical_menu_bar">
+		<a href="TeacherHome.jsp"><div>
+		<p class="clgName"><strong>ABIT</strong></p>
+		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
+		<p class="tag"> EXAM CORNER</p>
+		</div></a>
 		
-		<div class="dropdown" style="left:510px">
-			<a style="text-decoration:none" >Set Papers</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		    	<%		
-				String teacherId = (String)session.getAttribute("teacherId");
-				SubjectDao subjectDao = new SubjectDao();
-				List<Subject> subjects = subjectDao.getAllSubjectsByTeacherId(teacherId);
-				Subject firstSubject = subjects.get(0);
-				%>
-				<form action="TeacherPaperSetting.jsp">
-		    		<input type="hidden" name="YBSId" value="<%=firstSubject.getYBSId()%>">
-		      		<input class="dropdown_content_options" style="min-width:212px;border:none;cursor:pointer" type="Submit" value="Setting Dashboard"></br>
-		      	</form>
-		      	<form action="#">
-		      		<input class="dropdown_content_options" style="min-width:212px;border:none;cursor:pointer;top:40px" type="submit" value="Setting Status"></br>
-		    	</form>
-		    </div>
-		</div>
-
-		<div class="dropdown" style="left:800px">
-			<a style="text-decoration:none">Evaluation & Marks</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		    	<form action="TeacherEvaluation.jsp">
-		    		<input type="hidden" name="YBSId" value="<%=firstSubject.getYBSId()%>">
-		      		<input class="dropdown_content_options" style="min-width:284px;border:none;cursor:pointer" type="Submit" value="Evaluation Dashboard"></br>
-		      	</form>
-		      	<form action="#">
-		      		<input class="dropdown_content_options" style="min-width:284px;border:none;cursor:pointer;top:40px" type="submit" value="Evaluation Status"></br>
-		    	</form>
-		    </div>
-		</div>
-
-		<div class="dropdown" style="left:1140px">
-			<a style="text-decoration:none" >Profile</a>
-		    <div class="dropdown_content_box" style="left:0px">
-		      <a class="dropdown_content_options" style="min-width:173px"href="TeacherViewProfile.jsp">View Profile</a></br>
-		       <a class="dropdown_content_options" style="min-width:173px;top:40px" href="AllLoginPage.html">Logout</a></br>
-		    </div>
-		</div>
+		<i class='fas fa-book-reader' style="position:absolute;top:167px;left:30px;color:#cccccc;z-index:1"></i>
+		<form action="TeacherRegisterSubjects.jsp">
+			<input type="hidden" name="year" value="1">
+		    <input class="options" style="top:148px;padding:17px 69px 17px 65px;border:none;cursor:pointer" type="Submit" value="Courses"></br>
+		</form>
+		
+		<i class="material-icons" style="position:absolute;top:227px;left:30px;color:#cccccc;z-index:1">perm_data_setting</i>
+		<form action="TeacherPaperSetting.jsp">
+			<input type="hidden" name="YBSId" value="<%=firstTheorySubject.getYBSId()%>">
+		    <input class="options" style="top:208px;padding:17px 27px 17px 65px;border:none;cursor:pointer;background-color:#16181d;color:#80b5eb" type="Submit" value="Paper Setting"></br>
+		</form>
+		
+		<i class='fas fa-check-double' style="position:absolute;top:287px;left:30px;color:#cccccc;z-index:1"></i>
+		<form action="TeacherEvaluation.jsp">
+		    <input type="hidden" name="YBSId" value="<%=firstTheorySubject.getYBSId()%>">
+		    <input class="options" style="top:268px;padding:17px 52px 17px 65px;border:none;cursor:pointer" type="Submit" value="Evaluation"></br>
+		</form>
+		
+		<i class='fas fa-desktop' style="position:absolute;top:347px;left:30px;color:#cccccc;z-index:1"></i>
+		<form action="TeacherLabMarksEntry.jsp">
+		    <input type="hidden" name="YBSId" value="<%=firstLabSubject.getYBSId()%>">
+		    <input class="options" style="top:327px;padding:17px 52px 17px 65px;border:none;cursor:pointer" type="Submit" value="Lab Marks"></br>
+		</form>
+		
+		<i class='fas fa-user-circle' style="position:absolute;top:407px;left:30px;color:#cccccc;z-index:1"></i>
+		<a class="options" style="top:388px;padding:17px 85px 17px 65px" href="TeacherProfile.jsp">Profile</a></br>
+		
+		<i class='fa fa-sign-out' style="position:absolute;top:467px;left:30px;color:#cccccc;z-index:1;font-size:23px"></i>
+		<a class="options" style="top:448px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>
 		
 	</div>
 	
@@ -172,39 +190,50 @@
 		<%! int noOfQs = 5; %>
 		<%! int topAttr = 60; %>
 		<%! public void initTopAttr(){ topAttr = 100; } %>
-		<%! public void UpdateTopAttr(){ topAttr += 125; } %>
+		<%! public void UpdateTopAttr(){ topAttr += 0; } %>
 	
-		<% initTopAttr();
-			String YBSId = (String)request.getParameter("YBSId");
-			String examType = (String)request.getParameter("examType");
-			session.setAttribute("YBSId", YBSId);
-			session.setAttribute("examType", examType);
-			System.out.println("YBS:" + YBSId);
-			System.out.println("examType:" + examType);
-			
-			%>
-			<p style="left:40px;top:15px;position:absolute;color:#0a2081;font-size:20px">Currently setting : <%=YBSId%> - <%=examType%></p>
+		<% initTopAttr();%>
 			<form action="TeacherQuizSetting" method="post" id="thisForm" onsubmit="return validateForm()">
-			<% for(int i = 1; i <= noOfQs; i++){ %>
-					<div style="height:100px;width:95%;position:absolute;top:<%=topAttr%>px;left:2.5%;background-color:#d0d7fb;border-radius:10px;">
-						<p style="left:170px;top:-8px;position:absolute">Q<%=i%><p>
+				<div style="height:550px;width:80%;position:absolute;top:50px;left:9%;border-radius:10px;">
+				<input type="hidden" name="YBSId" value="<%=YBSId%>">
+				<input type="hidden" name="examType" value="<%=examType%>">
+				<% for(int i = 1; i <= 2; i++){ 
+					QuizDao quizDao = new QuizDao();
+					Quiz quiz = quizDao.getQuiz(YBSId, examType, i);
+					String question="", optionA = "", optionB = "", optionC = "", optionD = "", answerOption = "";
+					if(quiz != null){
+						question = quiz.getQuestion();
+						optionA = quiz.getOptionA();
+						optionB = quiz.getOptionB();
+						optionC = quiz.getOptionC();
+						optionD = quiz.getOptionD();
+						answerOption = quiz.getAnswerOption();
+					}
+				%>
+					<table id="tb" style="top:100px">
 						<input type="hidden" name="questionNo<%=i%>" value="<%=i%>">
-						<textarea name="question<%=i%>" rows="2" cols="30" style="left:30px;top:37px;position:absolute"></textarea>
-						<p style="left:410px;top:0px;position:absolute">Option A<p>
-						<textarea name="optionA<%=i%>" rows="1" cols="15" style="left:365px;top:50px;position:absolute"></textarea>
-						<p style="left:610px;top:0px;position:absolute">Option B<p>
-						<textarea name="optionB<%=i%>" rows="1" cols="15" style="left:565px;top:50px;position:absolute"></textarea>
-						<p style="left:810px;top:0px;position:absolute">Option C<p>
-						<textarea name="optionC<%=i%>" rows="1" cols="15" style="left:765px;top:50px;position:absolute"></textarea>
-						<p style="left:1010px;top:0px;position:absolute">Option D<p>
-						<textarea name="optionD<%=i%>" rows="1" cols="15" style="left:965px;top:50px;position:absolute"></textarea>
-						<p style="left:1150px;top:0px;position:absolute">Answer<p>
-						<textarea name="answerOption<%=i%>" rows="1" cols="2" style="left:1160px;top:50px;position:absolute"></textarea>
-					</div>
-					<% 
-					UpdateTopAttr();
-				}%>
-				<input style="left:600px;top:<%=topAttr%>px;position:absolute" type="Submit" value="Set Quiz">
+						
+						<tr><td rowspan="5">Q<%=i%></td>
+						<td colspan="2" ><textarea cols="105" rows="3" type="text" name="question<%=i%>" placeholder="Type question here"><%=question%></textarea></td></tr>
+						
+						
+						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="A" required <%if(answerOption.equals("A")){%> checked <%}%> >					
+						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionA<%=i%>" placeholder="Option A" value="<%=optionA%>"></td></tr>
+						
+						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="B" required <%if(answerOption.equals("B")){%> checked <%}%> >
+						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionB<%=i%>" placeholder="Option B" value="<%=optionB%>"></td></tr>
+						
+						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="C" required <%if(answerOption.equals("C")){%> checked <%}%> >
+						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionC<%=i%>" placeholder="Option C" value="<%=optionC%>"></td></tr>
+						
+						<tr><td><input style="margin-top:8px;margin-left:-50px" class="radioButton" type="radio" name="answerOption<%=i%>" value="D" required <%if(answerOption.equals("D")){%> checked <%}%> >
+						<input style="position:absolute;margin-left:20px" size="98" type="text" name="optionD<%=i%>" placeholder="Option D" value="<%=optionD%>"></td></tr>
+	
+							
+					</table>
+				<%}%>
+					<input style="left:480px;top:820px;position:absolute" type="Submit" value="Set Quiz">
+				</div>
 			</form>
 	</div>
 	

@@ -28,10 +28,10 @@ public class ControllerRegister extends HttpServlet {
 		String mobile = request.getParameter("mobile");
 		String email = request.getParameter("email"); 
 		ControllerDao controllerDao = new ControllerDao();
-		Controller userExists = controllerDao.getControllerById(controllerId);
+		Controller userExists = controllerDao.getController(controllerId);
 		if(userExists == null) {
 			Controller controller = new Controller(controllerId, password, name, designation, mobile, email);
-			int x = controllerDao.register(controller);
+			int x = controllerDao.add(controller);
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Sign up success!Click to continue...');");
 			out.println("location='AllLoginPage.html';");
