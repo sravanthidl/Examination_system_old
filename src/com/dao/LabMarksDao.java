@@ -31,6 +31,7 @@ public class LabMarksDao {
 	public int updateNetLabMarks(String studentId, String YBSId){
 		LabMarksDao labMarksDao = new LabMarksDao();
 		LabMarks labMarks = labMarksDao.getLabMarks(studentId, YBSId);
+		System.out.println("!:"+labMarks.toString());
 		labMarks.setNetMarks(labMarks.getInternalMarks() + labMarks.getExternalMarks());
 		return HibernateTemplate.updateObject(labMarks);
 	}

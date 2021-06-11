@@ -50,6 +50,7 @@ body{font-family:arial;}
 .top1{
 	position:absolute;
 	background-color:#5a6bbc;
+	color:#e7e9f4;
 	height:57px;
 	width:86%;
 	text-decoration:none;
@@ -60,7 +61,7 @@ body{font-family:arial;}
 .top2{
 	position:absolute;
 	background-color:#7382c8;
-	height:67px;
+	height:50px;
 	width:86%;
 	text-decoration:none;
 	font-size:17px;
@@ -79,10 +80,9 @@ body{font-family:arial;}
 .subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
-	background-color:white;
-	height:83%;
-	width:88%;
-	top:7%;
+	height:87%;
+	width:80%;
+	top:13.4%;
 	left:14%;
 }
 #tb {
@@ -124,7 +124,15 @@ body{font-family:arial;}
 	%>
 
 	<div class="top1">
-		<p style="margin-left:30px;color:#e7e9f4">Evaluation > <%=firstTheorySubject.getYear()%>-<%=firstTheorySubject.getBranch()%>-<%=firstTheorySubject.getSubjectName()%> > <%=examType%> > All Scripts > <%=SNo%></p>
+		<p style="margin-left:30px">Evaluation > <%=subjectDao.getSubject(YBSId).getYear()%>-<%=subjectDao.getSubject(YBSId).getBranch()%>-<%=subjectDao.getSubject(YBSId).getSubjectName()%> > <%=examType%> > All Scripts > <%=SNo%></p>
+	</div>
+	
+	<div class="top2">
+		<form action="TeacherViewScripts.jsp">
+			<input type="hidden" name="YBSId" value="<%=YBSId%>">
+			<input type="hidden" name="examType" value="<%=examType%>">
+		    <input style="position:absolute;top:12px;left:32px;;cursor:pointer;border:none;background-color:#7382c8;color:#e7e9f4;text-decoration:underline" type="Submit" value="&lt Back">
+		</form>
 	</div>
 
 	<div class="vertical_menu_bar">
@@ -166,30 +174,38 @@ body{font-family:arial;}
 	</div>
 
 	<div class="body_bar">
-		<iframe src="pics/<%=script%>" name="iframe_a" height="745px" width="75%"></iframe>
-		<div style="height:550px;width:10%;position:absolute;top:100px;left:1020px">
+		<iframe src="pics/<%=script%>" name="iframe_a" height="693px" width="75%"></iframe>
+		<div style="height:550px;width:10%;position:absolute;top:100px;left:980px">
 			<form action="TeacherScriptEvaluation" method="post">
 				<input type="hidden" name="studentId" value="<%=studentId%>">
 				<input type="hidden" name="YBSId" value="<%=YBSId%>">
 				<input type="hidden" name="examType" value="<%=examType%>">
-				<table id="tb">
-					<tr>
-						<th>Question</th>
-						<th>Marks</th>
-					</tr>
-					<%
-					int qs = 0, maxMarks = 0;
-					String pattern = "";
-					if(examType.equals("mid1") || examType.equals("mid2")){qs = 4;pattern="([0-9])|([0-1][0-5])"; maxMarks = 15;}
-					else{qs = 3;pattern="([0-9])|([0-1][0])"; maxMarks = 10;}
-					for(int i = 1; i <= qs; i++){%>				
-					<tr>
-						<td>Q<%=i%></td>
-						<td><input type="text" name="Q<%=i%>Marks" value="0" onfocus="this.value=''" size="2" pattern="<%=pattern%>" title="Max marks are <%=maxMarks%>" required></td>
-					</tr>
-					<%}%>
-					<tr><td colspan="2"><input type="submit" name="Submit" value="Submit"></td></tr>
-				</table>
+				<%if(examType.equals("mid1") || examType.equals("mid2")){%>
+					<table id="tb">
+						<tr>
+							<th>Question</th>
+							<th>Marks</th>
+						</tr>
+						<%
+						for(int i = 1; i <= 4; i++){%>				
+						<tr>
+							<td>Q<%=i%></td>
+							<td><input type="text" name="Q<%=i%>Marks" size="2" pattern="(([0-9])|(10))" title="Max marks are 10" required></td>
+						</tr>
+						<%}%>
+						<tr><td colspan="2"><input type="submit" name="Submit" value="Submit"></td></tr>
+					</table>
+				<%}else{%>
+					<table id="tb">
+						<tr>
+							<th>Marks</th>
+						</tr>				
+						<tr>
+							<td><input type="text" name="marks" size="10" pattern="(([0-9])|(10))" title="Max marks are 10" required></td>
+						</tr>
+						<tr><td><input type="submit" name="Submit" value="Submit"></td></tr>
+					</table>
+				<%}%>
 			</form>
 		</div>
 	</div>

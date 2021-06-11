@@ -32,6 +32,7 @@ public class TeacherQuizSetting extends HttpServlet {
 		String teacherId = (String)session.getAttribute("teacherId");
 		String YBSId = request.getParameter("YBSId");
 		String examType = request.getParameter("examType");
+		System.out.println(YBSId + "@@" + examType);
 		String question = null, optionA = null, optionB = null, optionC = null, optionD = null, answerOption = null;
         int questionNo = 0;
         
@@ -76,7 +77,6 @@ public class TeacherQuizSetting extends HttpServlet {
             }	
             	
         }
-        System.out.println("YBS000:" + YBSId);
         out.println("<html><body");
         out.println("<input type=\"hidden\" name=\"YBSId\" value=" + YBSId + ">");
 		out.println("</body></html>");

@@ -14,7 +14,7 @@
     <mapping class="com.dto.Descriptive"/>
     <mapping class="com.dto.Quiz"/>
     <mapping class="com.dto.ExamTask"/>
-    <mapping class="com.dto.SAM"/>
+    <mapping class="com.dto.ScriptsAndMarks"/>
     <mapping class="com.dto.AcadYear"/>
     <mapping class="com.dto.Subject"/>
     <mapping class="com.dto.LabMarks"/>

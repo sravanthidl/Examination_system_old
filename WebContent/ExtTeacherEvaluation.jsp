@@ -149,15 +149,15 @@ body{font-family:arial;}
 		<%! int counter = 1; %>
 		<%! void initCounter(){ counter = 1; }%>
 		<%
-		SAMDao samDao = new SAMDao();
-		List<SAM> sams = samDao.getAllYBSScripts(YBSId);
-		List<SAM> filteredSams = new ArrayList<>();
-		int startPaperNo = 5 * (sNo - 1), incrementer = 0;
-		while(incrementer < 5){
+			SAMDao samDao = new SAMDao();
+				List<ScriptsAndMarks> sams = samDao.getAllYBSScripts(YBSId);
+				List<ScriptsAndMarks> filteredSams = new ArrayList<>();
+				int startPaperNo = 5 * (sNo - 1), incrementer = 0;
+				while(incrementer < 5){
 			filteredSams.add(sams.get(startPaperNo + incrementer));
 			incrementer++;
-		}
-		%>
+				}
+				%>
 		<div style="height:550px;width:30%;position:absolute;top:50px;left:400px">
 			<table id="tb">
 				<tr>
@@ -167,10 +167,10 @@ body{font-family:arial;}
 				</tr>
 				<%
 				initCounter();
-				for(SAM sam : filteredSams){					
-				%>
-				<tr>
-					<form action="ExtTeacherScriptEvaluation.jsp">
+					initCounter();
+						for(ScriptsAndMarks sam : filteredSams){%>
+						<tr>
+							<form action="ExtTeacherScriptEvaluation.jsp">
 						<input type="hidden" name="studentId" value="<%=sam.getStudentId()%>">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<input type="hidden" name="examType" value="sem">

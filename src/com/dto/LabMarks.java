@@ -16,15 +16,15 @@ public class LabMarks implements Serializable{
 	@Id
 	private String YBSId;
 	@Column
-	private Integer internalMarks;
+	private Integer internalMarks = 0;
 	@Column
-	private Integer externalMarks;
+	private Integer externalMarks = 0;
 	@Column
-	private Integer netMarks;
+	private Integer netMarks = 0;
 	@Column
-	private String grade;
+	private String grade = "F";
 	@Column
-	private Integer gradePoints;
+	private Integer gradePoints = 0;
 	
 	public LabMarks() {
 		super();

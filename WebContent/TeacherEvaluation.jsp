@@ -260,7 +260,7 @@ body{font-family:arial;}
 					<form action="TeacherViewScripts.jsp">
 						<input type="hidden" name="examType" value="mid1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<td>Mid 1 Desc</td>
+						<td>Mid 1</td>
 						<td><%=mid1OpenDate%></td>
 						<td><%=mid1CloseDate%></td>
 						<td><%=mid1Status%></td>
@@ -275,7 +275,7 @@ body{font-family:arial;}
 					<form action="TeacherViewScripts.jsp">
 						<input type="hidden" name="examType" value="mid2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<td>Mid 2 Desc</td>
+						<td>Mid 2</td>
 						<td><%=mid2OpenDate%></td>
 						<td><%=mid2CloseDate%></td>
 						<td><%=mid2Status%></td>
@@ -290,7 +290,7 @@ body{font-family:arial;}
 					<form action="TeacherViewScripts.jsp">
 						<input type="hidden" name="examType" value="asgn1">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<td>Asgn 1</td>
+						<td>Assignment 1</td>
 						<td><%=asgn1OpenDate%></td>
 						<td><%=asgn1CloseDate%></td>
 						<td><%=asgn1Status%></td>
@@ -305,7 +305,7 @@ body{font-family:arial;}
 					<form action="TeacherViewScripts.jsp">
 						<input type="hidden" name="examType" value="asgn2">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<td>Asgn 2</td>
+						<td>Assignment 2</td>
 						<td><%=asgn2OpenDate%></td>
 						<td><%=asgn2CloseDate%></td>
 						<td><%=asgn2Status%></td>

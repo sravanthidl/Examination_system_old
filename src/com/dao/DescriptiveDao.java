@@ -37,6 +37,7 @@ public class DescriptiveDao {
 		descriptive.setAsgnPaperPath(asgnPaperPath);
 		descriptive.setAsgnOpenDate(asgnOpenDate);
 		descriptive.setAsgnCloseDate(asgnCloseDate);
+		System.out.println("In descDao"+descriptive.toString());
 		return HibernateTemplate.updateObject(descriptive);
 	}
 	

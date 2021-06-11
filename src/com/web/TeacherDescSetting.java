@@ -1,5 +1,7 @@
 package com.web;
 
+import com.oreilly.servlet.MultipartRequest;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,7 +30,6 @@ public class TeacherDescSetting extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		String teacherId = (String)session.getAttribute("teacherId");
-		System.out.println(teacherId);
 		String YBSId = (String)request.getParameter("YBSId");
 		String examType = (String)request.getParameter("examType");
 		String asgnOpenDate = "", asgnCloseDate = "";
@@ -37,11 +38,10 @@ public class TeacherDescSetting extends HttpServlet {
 			asgnCloseDate = (String)request.getParameter("closeDate");
 		}
 		Part part = request.getPart("file");
-		System.out.println("part:" + part);
-		String paperPath = extractFileName(part);
+		String fileName = extractFileName(part);
         String saveDir = "pics";
-        imageUpload(request, paperPath, saveDir);
-        
+        imageUpload(request, fileName, saveDir);
+		
         DescriptiveDao descriptiveDao = new DescriptiveDao();
         if(examType.equals("mid1") || examType.equals("mid2") || examType.equals("sem")){
         	Descriptive descriptiveExists = descriptiveDao.getDescriptive(YBSId, examType);
@@ -50,10 +50,10 @@ public class TeacherDescSetting extends HttpServlet {
         		descriptive.setYBSId(YBSId);
         		descriptive.setExamType(examType);
         		descriptive.setTeacherId(teacherId);
-        		descriptive.setQPaperPath(paperPath);
+        		descriptive.setQPaperPath(fileName);
         		descriptiveDao.addDescriptive(descriptive);
         	}else {
-        		int status = descriptiveDao.updateQPaperPath(YBSId, examType, teacherId, paperPath);
+        		int status = descriptiveDao.updateQPaperPath(YBSId, examType, teacherId, fileName);
         	}
         }else{
         	if(examType.equals("asgn1")) examType = "mid1";
@@ -64,18 +64,20 @@ public class TeacherDescSetting extends HttpServlet {
         		descriptive.setYBSId(YBSId);
         		descriptive.setExamType(examType);
         		descriptive.setTeacherId(teacherId);
-        		descriptive.setAsgnPaperPath(paperPath);
+        		descriptive.setAsgnPaperPath(fileName);
         		descriptive.setAsgnOpenDate(asgnOpenDate);
         		descriptive.setAsgnCloseDate(asgnCloseDate);
         		descriptiveDao.addDescriptive(descriptive);
         	}else {
-        		int status = descriptiveDao.updateAsgnPaperPath(YBSId, examType, teacherId, paperPath, asgnOpenDate, asgnCloseDate);
+        		int status = descriptiveDao.updateAsgnPaperPath(YBSId, examType, teacherId, fileName, asgnOpenDate, asgnCloseDate);
         	}
+		
         }
+        out.println("<html><body");
+        out.println("<input type=\"hidden\" name=\"YBSId\" value=" + YBSId + ">");
+		out.println("</body></html>");
         RequestDispatcher rd = request.getRequestDispatcher("TeacherPaperSetting.jsp");
 		rd.include(request, response);
-        
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,7 +85,6 @@ public class TeacherDescSetting extends HttpServlet {
 	}
 	
 	private void imageUpload(HttpServletRequest request, String fname, String saveDir) throws ServletException, IOException {
-		
 		String savePath = "/Users/sravanthi/Desktop/Workspace/Examination_system/WebContent/" + saveDir;	 
 		File fileSaveDir = new File(savePath);	 
 		if(!fileSaveDir.exists()) {

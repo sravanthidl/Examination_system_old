@@ -6,7 +6,7 @@ import java.util.List;
 import com.db.HibernateTemplate;
 import com.dto.ExamTask;
 import com.dto.LabMarks;
-import com.dto.SAM;
+import com.dto.ScriptsAndMarks;
 import com.dto.Student;
 import com.dto.Teacher;
 
@@ -70,9 +70,9 @@ public class StudentDao {
 		return 1;
 	}
 	
-	public float calculateSgpa(List<SAM> studentTheorys, List<LabMarks> studentLabs) {
+	public float calculateSgpa(List<ScriptsAndMarks> studentTheorys, List<LabMarks> studentLabs) {
 		int num = 0, denom = 0;
-		for(SAM studentTheory : studentTheorys){
+		for(ScriptsAndMarks studentTheory : studentTheorys){
 			int gradePoints = studentTheory.getGradePoints(), credits = getCredits(gradePoints);
 			num += (credits * gradePoints);
 			denom += credits;

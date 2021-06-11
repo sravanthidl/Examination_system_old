@@ -18,7 +18,7 @@ import com.dto.ExamTask;
 import com.dto.ExtTeacher;
 import com.dto.LabMarks;
 import com.dto.Quiz;
-import com.dto.SAM;
+import com.dto.ScriptsAndMarks;
 import com.dto.Subject;
 import com.dto.Teacher;
 import com.dto.AcadYear;
@@ -528,6 +528,7 @@ public class HibernateTemplate {
 		return query.list();
 	}
 	public static List<Object> getAllYBSScripts(String YBSId){
+		System.out.println("INHERE");
 		String queryString = "from ScriptsAndMarks where YBSId = :YBSId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("YBSId", YBSId);
@@ -540,12 +541,12 @@ public class HibernateTemplate {
 		query.setString("studentId", studentId);
 		return query.list();
 	}	
-	public static SAM getSam(String studentId, String YBSId) {
+	public static ScriptsAndMarks getSam(String studentId, String YBSId) {
 		String queryString="from ScriptsAndMarks where YBSId = :YBSId and studentId = :studentId";
 		Query query = sessionFactory.openSession().createQuery(queryString);
 		query.setString("YBSId", YBSId);
 		query.setString("studentId", studentId);
-		return (SAM)query.uniqueResult();
+		return (ScriptsAndMarks)query.uniqueResult();
 	}
 	
 	public static int deleteStudents(int year){

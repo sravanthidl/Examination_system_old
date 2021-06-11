@@ -80,7 +80,6 @@ body{font-family:arial;}
 .subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
-	background-color:#f7f7f7;
 	height:84.5%;
 	width:88%;
 	top:15.5%;
@@ -148,7 +147,9 @@ body{font-family:arial;}
 		<i class="material-icons" style="position:absolute;top:227px;left:30px;color:#cccccc;z-index:1">perm_data_setting</i>
 		<%if(firstTheorySubject == null){%>
 		<a class="options" style="top:208px;padding:17px 27px 17px 65px" href="TeacherRegisterSubjects.jsp">Paper Setting</a></br>
-		<%}else{%>
+		<%}else{
+		System.out.println("first:"+firstTheorySubject.getYBSId());
+		%>
 		<form action="TeacherPaperSetting.jsp">
 			<input type="hidden" name="YBSId" value="<%=firstTheorySubject.getYBSId()%>">
 		    <input class="options" style="top:208px;padding:17px 27px 17px 65px;border:none;cursor:pointer" type="Submit" value="Paper Setting"></br>

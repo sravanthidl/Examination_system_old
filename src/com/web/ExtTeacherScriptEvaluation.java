@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import com.dao.SAMDao;
 import com.dao.StudentDao;
-import com.dto.SAM;
+import com.dto.ScriptsAndMarks;
 
 
 @WebServlet("/ExtTeacherScriptEvaluation")
@@ -48,7 +48,7 @@ public class ExtTeacherScriptEvaluation extends HttpServlet {
         Iterator it = restQMarks.iterator();
         total += (int)it.next() + (int)it.next() + (int)it.next();
 
-        SAM sam = samDao.getSam(studentId, YBSId);
+        ScriptsAndMarks sam = samDao.getSam(studentId, YBSId);
         System.out.println("a" + examType);
         int status = samDao.updateEvaluatedMarks(studentId, YBSId, examType, total);
         

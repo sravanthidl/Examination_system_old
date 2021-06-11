@@ -122,10 +122,10 @@ body{font-family:arial;}
   margin: auto;
   padding: 30px;
   border: 1px solid #888;
-  height:570px;
-  width: 45%;
+  height:630px;
+  width:45%;
   left:500px;
-  top:170px;
+  top:120px;
 }
 .close {
   color: #aaaaaa;
@@ -169,8 +169,8 @@ body{font-family:arial;}
 			<%}%>
 		</form>
 		<%updateLeftAttr();}%>
-
 	</div>
+
 	<div class="vertical_menu_bar">
 		<p class="clgName"><strong>ABIT</strong></p>
 		<hr width="90px"  style="position:absolute;left:50px;top:48px;border:1px solid;color:#b3b3b3">
@@ -278,7 +278,7 @@ body{font-family:arial;}
 				<%for(String branch : branches){%>
 				<tr><td style="background-color: #f7f7f7" colspan="4" height=15 ><%=branch%></td></tr>
 				<%
-					List<Subject> subjects = subjectDao.getSubjects(year, branch, "Theory");
+					List<Subject> subjects = subjectDao.getSubjects(year, branch);
 					for(Subject subject : subjects){
 				%>
 				<tr>

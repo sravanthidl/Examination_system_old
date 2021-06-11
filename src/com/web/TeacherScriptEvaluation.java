@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.dao.SAMDao;
-import com.dto.SAM;
+import com.dto.ScriptsAndMarks;
 
 
 @WebServlet("/TeacherScriptEvaluation")
@@ -28,24 +28,26 @@ public class TeacherScriptEvaluation extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		String teacherId = (String)session.getAttribute("teacherId");
-		System.out.println(teacherId);
 		String studentId = (String)request.getParameter("studentId");
 		String YBSId = (String)request.getParameter("YBSId");
 		String examType = (String)request.getParameter("examType");
-		ArrayList<Integer> QMarks = new ArrayList<Integer>();
+		int total = 0;
 		
-		Enumeration enumeration = request.getParameterNames();
-		enumeration.nextElement();enumeration.nextElement();enumeration.nextElement();
-        while(enumeration.hasMoreElements()){
-            String param = (String) enumeration.nextElement();
-            if(!param.equals("Submit")) QMarks.add(Integer.parseInt(request.getParameter(param)));
-        }
-        Collections.sort(QMarks, Collections.reverseOrder());
-        Iterator it = QMarks.iterator();
-        int total = (int)it.next() + (int)it.next() + (int)it.next();
-        
+		if(examType.equals("mid1") || examType.equals("mid2")) {
+			ArrayList<Integer> QMarks = new ArrayList<Integer>();
+			QMarks.add(Integer.parseInt(request.getParameter("Q1Marks")));
+			QMarks.add(Integer.parseInt(request.getParameter("Q2Marks")));
+			QMarks.add(Integer.parseInt(request.getParameter("Q3Marks")));
+			QMarks.add(Integer.parseInt(request.getParameter("Q4Marks")));
+			Collections.sort(QMarks, Collections.reverseOrder());
+			total = QMarks.get(0) + QMarks.get(1) + QMarks.get(2);
+			
+		}else {
+			total = Integer.parseInt(request.getParameter("marks"));
+		}
+
         SAMDao samDao = new SAMDao();
-        SAM sam = samDao.getSam(studentId, YBSId);
+        ScriptsAndMarks sam = samDao.getSam(studentId, YBSId);
         System.out.println("a" + examType);
         int status = samDao.updateEvaluatedMarks(studentId, YBSId, examType, total);
         

@@ -62,7 +62,6 @@ body{font-family:arial;}
 	background-color:#7382c8;
 	height:67px;
 	width:86%;
-	text-decoration:none;
 	font-size:17px;
 	top:57px;
 	left:202px;
@@ -106,7 +105,12 @@ body{font-family:arial;}
   color: #4a4a4a;
   text-align: center;
 }
-
+input[type=submit]{
+text-align:center;
+  padding: 5px 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
 
 <body>
@@ -124,10 +128,15 @@ body{font-family:arial;}
 	Subject firstLabSubject = labSubjects.get(0);
 	%>
 	<div class="top1">
-		<p style="margin-left:30px;color:#e7e9f4">Evaluation > <%=firstTheorySubject.getYear()%>-<%=firstTheorySubject.getBranch()%>-<%=firstTheorySubject.getSubjectName()%> > <%=examType%> > All Scripts</p>
+		<p style="margin-left:30px;color:#e7e9f4">Evaluation > <%=subjectDao.getSubject(YBSId).getYear()%>-<%=subjectDao.getSubject(YBSId).getBranch()%>-<%=subjectDao.getSubject(YBSId).getSubjectName()%> > <%=examType%> > All Scripts</p>
 	</div>
 
-	<div class="top2"></div>
+	<div class="top2">
+		<form action="TeacherEvaluation.jsp">
+			<input type="hidden" name="YBSId" value="<%=YBSId%>">
+		    <input style="position:absolute;top:18px;left:32px;;cursor:pointer;border:none;background-color:#7382c8;color:#e7e9f4;text-decoration:underline" type="Submit" value="&lt Back">
+		</form>
+	</div>
 	
 	<div class="vertical_menu_bar">
 		<a href="TeacherHome.jsp"><div>
@@ -171,18 +180,18 @@ body{font-family:arial;}
 		<%! int counter = 1; %>
 		<%! void initCounter(){ counter = 1; }%>
 		<%
-		Descriptive descriptive = null;
-		if(examType.equals("asgn1")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid1");
-		else if(examType.equals("asgn2")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid2");
-		else descriptive = descriptiveDao.getDescriptive(YBSId, examType);
-		System.out.println(descriptive);
-		List<SAM> sams = samDao.getAllYBSScripts(YBSId);
-		%>
-		<div style="height:550px;width:40%;position:absolute;top:50px;left:370px">
-			<table id="tb">
+			Descriptive descriptive = null;
+				if(examType.equals("asgn1")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid1");
+				else if(examType.equals("asgn2")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid2");
+				else descriptive = descriptiveDao.getDescriptive(YBSId, examType);
+				System.out.println(descriptive);
+				List<ScriptsAndMarks> sams = samDao.getAllYBSScripts(YBSId);
+				System.out.println(YBSId);
+			%>
+				<div style="height:550px;width:30%;position:absolute;top:50px;left:370px"><table id="tb">
 				<tr>
 					<th>S No.</th>
-					<th>Script</th>
+					<th width="220px">Script</th>
 					<th>Marks</th>
 				</tr>
 				<tr>
@@ -196,7 +205,8 @@ body{font-family:arial;}
 				</tr>
 				<%
 				initCounter();
-				for(SAM sam : sams){					
+				for(ScriptsAndMarks sam : sams){
+					System.out.println(sam.getYBSId());
 				%>
 				<tr>
 					<form action="TeacherScriptEvaluation.jsp">
@@ -227,4 +237,3 @@ body{font-family:arial;}
 </body>
 
 </html>
-    

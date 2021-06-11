@@ -1,15 +1,16 @@
 package com.dto;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="ScriptsAndMarks")
-public class SAM implements Serializable{
+public class ScriptsAndMarks implements Serializable{
 	
 	@Id
 	private String studentId;
@@ -52,12 +53,12 @@ public class SAM implements Serializable{
 	@Column
 	private Integer gradePoints;
 	
-	public SAM() {
+	public ScriptsAndMarks() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public SAM(String studentId, String yBSId, String desc1Script, Integer desc1Marks, Integer quiz1Marks,
+	public ScriptsAndMarks(String studentId, String yBSId, String desc1Script, Integer desc1Marks, Integer quiz1Marks,
 			String asgn1Script, Integer asgn1Marks, Integer mid1NetMarks, String desc2Script, Integer desc2Marks,
 			Integer quiz2Marks, String asgn2Script, Integer asgn2Marks, Integer mid2NetMarks, Integer midNetMarks,
 			String semScript, Integer semMarks, Integer semNetMarks, String grade, Integer gradePoints) {
@@ -207,13 +208,13 @@ public class SAM implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "SAM [studentId=" + studentId + ", YBSId=" + YBSId + ", desc1Script=" + desc1Script + ", desc1Marks="
-				+ desc1Marks + ", quiz1Marks=" + quiz1Marks + ", asgn1Script=" + asgn1Script + ", asgn1Marks="
-				+ asgn1Marks + ", mid1NetMarks=" + mid1NetMarks + ", desc2Script=" + desc2Script + ", desc2Marks="
-				+ desc2Marks + ", quiz2Marks=" + quiz2Marks + ", asgn2Script=" + asgn2Script + ", asgn2Marks="
-				+ asgn2Marks + ", mid2NetMarks=" + mid2NetMarks + ", midNetMarks=" + midNetMarks + ", semScript="
-				+ semScript + ", semMarks=" + semMarks + ", semNetMarks=" + semNetMarks + ", grade=" + grade
-				+ ", gradePoints=" + gradePoints + "]";
+		return "ScriptsAndMarks [studentId=" + studentId + ", YBSId=" + YBSId + ", desc1Script=" + desc1Script
+				+ ", desc1Marks=" + desc1Marks + ", quiz1Marks=" + quiz1Marks + ", asgn1Script=" + asgn1Script
+				+ ", asgn1Marks=" + asgn1Marks + ", mid1NetMarks=" + mid1NetMarks + ", desc2Script=" + desc2Script
+				+ ", desc2Marks=" + desc2Marks + ", quiz2Marks=" + quiz2Marks + ", asgn2Script=" + asgn2Script
+				+ ", asgn2Marks=" + asgn2Marks + ", mid2NetMarks=" + mid2NetMarks + ", midNetMarks=" + midNetMarks
+				+ ", semScript=" + semScript + ", semMarks=" + semMarks + ", semNetMarks=" + semNetMarks + ", grade="
+				+ grade + ", gradePoints=" + gradePoints + "]";
 	}
 
 }
