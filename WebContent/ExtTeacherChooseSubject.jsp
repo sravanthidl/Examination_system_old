@@ -47,7 +47,7 @@ input[type=Submit] {
   border: none;
   cursor: pointer;
   width: 70%;
-  background:#1669ce;
+  background:#5a6bbc;
 }
 
 </style>
@@ -63,7 +63,7 @@ input[type=Submit] {
 	</div>
 	
 	<div class="body_bar">
-		<div style="height:360px;width:30%;position:absolute;top:150px;left:20%;border:2px solid #1669ce;border-radius:10px;padding:30px">
+		<div style="height:360px;width:30%;position:absolute;top:150px;left:20%;border:2px solid #5a6bbc;border-radius:10px;padding:30px">
 			<form action="ExtTeacherRegister" method="post" name="thisForm" onsubmit="return validateForm()">
 				<input type="hidden" name="name" value="<%=request.getParameter("name")%>">
 				<input type="hidden" name="extTeacherId" value="<%=request.getParameter("extTeacherId")%>">

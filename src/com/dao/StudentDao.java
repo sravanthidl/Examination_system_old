@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,7 @@ public class StudentDao {
 		if(gradePoints == 10) return 4;
 		else if(gradePoints == 9) return 3;
 		else if(gradePoints == 8) return 2;
+		else if(gradePoints == 0) return 0;
 		return 1;
 	}
 	
@@ -74,32 +76,69 @@ public class StudentDao {
 		int num = 0, denom = 0;
 		for(ScriptsAndMarks studentTheory : studentTheorys){
 			int gradePoints = studentTheory.getGradePoints(), credits = getCredits(gradePoints);
+			System.out.println(studentTheory.toString());
+			System.out.println(gradePoints+"#"+credits);
+			if(gradePoints == 0) return 0;
 			num += (credits * gradePoints);
 			denom += credits;
 		}
 		for(LabMarks studentLab : studentLabs){
 			int gradePoints = studentLab.getGradePoints(), credits = getCredits(gradePoints);
+			System.out.println(studentLab.toString());
+			System.out.println(gradePoints+"#"+credits);
+			if(gradePoints == 0) return 0;
 			num += (credits * gradePoints);
 			denom += credits;
 		}
-		return (float)num/denom;	
+		String formattedSgpa = new DecimalFormat("##.##").format((float)num/denom);
+		return Float.parseFloat(formattedSgpa);
 	}
 	
 	public float calculateCgpa(String studentId) {
 		float num = 0, denom = 0;
 		StudentDao studentDao = new StudentDao();
 		Student student = studentDao.getStudent(studentId);
+		int year = student.getCurrentYear(), sem = student.getCurrentSem();
 		float sgpa1 = student.getSgpa1(), sgpa2 = student.getSgpa2(), sgpa3 = student.getSgpa3(), sgpa4 = student.getSgpa4(), sgpa5 = student.getSgpa5(), sgpa6 = student.getSgpa6(), sgpa7 = student.getSgpa7(), sgpa8 = student.getSgpa8();		
-		if(sgpa1 != 0) { num += 4 * sgpa1; denom += 4; }
-		if(sgpa2 != 0) { num += 4 * sgpa2; denom += 4; }
-		if(sgpa3 != 0) { num += 4 * sgpa3; denom += 4; }
-		if(sgpa4 != 0) { num += 4 * sgpa4; denom += 4; }
-		if(sgpa5 != 0) { num += 4 * sgpa5; denom += 4; }
-		if(sgpa6 != 0) { num += 4 * sgpa6; denom += 4; }
-		if(sgpa7 != 0) { num += 4 * sgpa7; denom += 4; }
-		if(sgpa8 != 0) { num += 4 * sgpa8; denom += 4; }
-		
-		return num/denom;	
+		System.out.println(student.toString());
+		List<Float> sgpaList = new ArrayList<>();
+		if(year >= 1) {
+			if(year == 1) {
+				if(sem >= 1) sgpaList.add(sgpa1);
+				if(sem == 2) sgpaList.add(sgpa2);
+			}else{
+				sgpaList.add(sgpa1);
+				sgpaList.add(sgpa2);
+			}	
+		}
+		if(year >= 2) {
+			if(year == 2) {
+				if(sem >= 1) sgpaList.add(sgpa3);
+				if(sem == 2) sgpaList.add(sgpa4);
+			}else {
+				sgpaList.add(sgpa3);
+				sgpaList.add(sgpa4);
+			}
+		}
+		if(year >= 3) {
+			if(year == 3) {
+				if(sem >= 1) sgpaList.add(sgpa5);
+				if(sem == 2) sgpaList.add(sgpa6);
+			}else {
+				sgpaList.add(sgpa5);
+				sgpaList.add(sgpa6);
+			}
+		}
+		if(year == 4) {
+			if(sem >= 1) sgpaList.add(sgpa7);
+			if(sem == 2) sgpaList.add(sgpa8);
+		}
+		for(Float sgpa : sgpaList) {
+			if(sgpa == 0.0) return 0;
+			num += sgpa;
+		}
+		String formattedCgpa = new DecimalFormat("##.##").format(num/sgpaList.size());
+		return Float.parseFloat(formattedCgpa);	
 	}
 	
 	public int deleteStudents(int year) {

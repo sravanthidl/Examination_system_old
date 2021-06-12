@@ -47,7 +47,7 @@ input[type=Submit] {
   border: none;
   cursor: pointer;
   width: 80%;
-  background:#1669ce;
+  background:#5a6bbc;
 }
 
 </style>
@@ -60,7 +60,7 @@ input[type=Submit] {
 	</div>
 	
 	<div class="body_bar">
-		<div style="height:540px;width:40%;position:absolute;top:110px;left:17%;border:2px solid #1669ce;border-radius:10px;">
+		<div style="height:540px;width:40%;position:absolute;top:110px;left:17%;border:2px solid #5a6bbc;border-radius:10px;">
 			<p style="font-size:23px;top:0px;left:120px;position:absolute"><strong>External Teacher Sign up</strong></p>
 			<form action="ExtTeacherChooseSubject.jsp" name="thisForm" onsubmit="return validateForm()">
 				<p style="left:70px;top:90px;position:absolute">Ext. Teacher Pass Key<p>
@@ -96,15 +96,15 @@ input[type=Submit] {
 function validateForm(){
 	var passkey = document.forms["thisForm"]["passkey"].value;
 	var name = document.forms["thisForm"]["name"].value;
-	var teacherId = document.forms["thisForm"]["teacherId"].value;
+	var extTeacherId = document.forms["thisForm"]["extTeacherId"].value;
 	var password = document.forms["thisForm"]["password"].value;
 	var rePassword = document.forms["thisForm"]["rePassword"].value;
 	var branch = document.forms["thisForm"]["branch"].value;
 	var mobile = document.forms["thisForm"]["mobile"].value;
 	if(passkey.localeCompare("ExternalTeacher") != 0){
-		alert("Incorrect passkey!");
-		return false;
-	}
+		  alert("Incorrect passkey!");
+		  return false;
+	 }
 	if(password.localeCompare(rePassword) != 0){
 		alert("Passwords did not match!\nPlease try again!");
 		return false;

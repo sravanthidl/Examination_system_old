@@ -49,7 +49,6 @@ public class ExtTeacherScriptEvaluation extends HttpServlet {
         total += (int)it.next() + (int)it.next() + (int)it.next();
 
         ScriptsAndMarks sam = samDao.getSam(studentId, YBSId);
-        System.out.println("a" + examType);
         int status = samDao.updateEvaluatedMarks(studentId, YBSId, examType, total);
         
         samDao.updateNetMarks(studentId, YBSId, examType);

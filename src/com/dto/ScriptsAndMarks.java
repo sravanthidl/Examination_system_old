@@ -19,39 +19,39 @@ public class ScriptsAndMarks implements Serializable{
 	@Column
 	private String desc1Script;
 	@Column
-	private Integer desc1Marks;
+	private Integer desc1Marks = 0;
 	@Column
-	private Integer quiz1Marks;
+	private Integer quiz1Marks = 0;
 	@Column
 	private String asgn1Script;
 	@Column
-	private Integer asgn1Marks;
+	private Integer asgn1Marks = 0;
 	@Column
-	private Integer mid1NetMarks;
+	private Integer mid1NetMarks = 0;
 	@Column
 	private String desc2Script;
 	@Column
-	private Integer desc2Marks;
+	private Integer desc2Marks = 0;
 	@Column
-	private Integer quiz2Marks;
+	private Integer quiz2Marks = 0;
 	@Column
 	private String asgn2Script;
 	@Column
-	private Integer asgn2Marks;
+	private Integer asgn2Marks = 0;
 	@Column
-	private Integer mid2NetMarks;
+	private Integer mid2NetMarks = 0;
 	@Column
-	private Integer midNetMarks;
+	private Integer midNetMarks = 0;
 	@Column
 	private String semScript;
 	@Column
-	private Integer semMarks;
+	private Integer semMarks = 0;
 	@Column
-	private Integer semNetMarks;
+	private Integer semNetMarks = 0;
 	@Column
-	private String grade;
+	private String grade = "F";
 	@Column
-	private Integer gradePoints;
+	private Integer gradePoints = 0;
 	
 	public ScriptsAndMarks() {
 		super();

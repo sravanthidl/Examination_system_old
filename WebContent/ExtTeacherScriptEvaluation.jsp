@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" import="com.dao.Today" %>
+    pageEncoding="UTF-8" import="com.dto.*" import="com.dao.*" import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <title>ABIT EC - Evaluation</title>
@@ -61,7 +61,7 @@ body{font-family:arial;}
 .top2{
 	position:absolute;
 	background-color:#7382c8;
-	height:67px;
+	height:50px;
 	width:86%;
 	text-decoration:none;
 	font-size:17px;
@@ -80,10 +80,9 @@ body{font-family:arial;}
 .subs:hover{background-color:#5a6bbc;}
 .body_bar{
 	position:absolute;
-	background-color:white;
 	height:83%;
 	width:88%;
-	top:7%;
+	top:13.4%;
 	left:14%;
 }
 #tb {
@@ -125,6 +124,12 @@ body{font-family:arial;}
 	<div class="top1">
 		<p style="margin-left:30px;color:#e7e9f4">Evaluation > Year <%=year%> > <%=subjectName%> > <%=SNo%></p>
 	</div>
+	
+	<div class="top2">
+		<form action="ExtTeacherEvaluation.jsp">
+		    <input style="position:absolute;top:12px;left:32px;cursor:pointer;border:none;background-color:#7382c8;color:#e7e9f4;text-decoration:underline" type="Submit" value="&lt Back">
+		</form>
+	</div>
 
 	<div class="vertical_menu_bar">
 		<p class="clgName"><strong>ABIT</strong></p>
@@ -145,7 +150,7 @@ body{font-family:arial;}
 	</div>
 
 	<div class="body_bar">
-		<iframe src="pics/<%=script%>" name="iframe_a" height="745px" width="75%"></iframe>
+		<iframe src="pics/<%=script%>" name="iframe_a" height="693px" width="75%"></iframe>
 		<div style="height:550px;width:10%;position:absolute;top:100px;left:1020px">
 			<form action="ExtTeacherScriptEvaluation" method="post">
 				<input type="hidden" name="studentId" value="<%=studentId%>">
@@ -157,12 +162,10 @@ body{font-family:arial;}
 						<th>Marks</th>
 					</tr>
 					<%
-					int qs = 7, maxMarks = 15;
-					String pattern = "([0-9])|([0-1][0-5])";
-					for(int i = 1; i <= qs; i++){%>				
+					for(int i = 1; i <= 7; i++){%>				
 					<tr>
 						<td>Q<%=i%></td>
-						<td><input type="text" name="Q<%=i%>Marks" value="0" onfocus="this.value=''" size="2" pattern="<%=pattern%>" title="Max marks are <%=maxMarks%>" required></td>
+						<td><input type="text" name="Q<%=i%>Marks" size="2" pattern="([0-9])|([0-1][0-5])" title="Max marks are 15" required></td>
 					</tr>
 					<%}%>
 					<tr><td colspan="2"><input type="submit" name="Submit" value="Submit"></td></tr>

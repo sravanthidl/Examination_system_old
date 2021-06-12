@@ -74,14 +74,16 @@ public class SAMDao {
 		ScriptsAndMarks sam = getSam(studentId, YBSId);
 		int marks = sam.getSemNetMarks(), gradePoints = 0;
 		String grade = "F";
-		if(marks >= 85) { grade = "O"; gradePoints = 10; }
-		else if(marks >= 75) { grade = "A+"; gradePoints = 9; }
-		else if(marks >= 70) { grade = "A"; gradePoints = 8; }
-		else if(marks >= 65) { grade = "B+"; gradePoints = 7; }
-		else if(marks >= 60) { grade = "B"; gradePoints = 6; }
-		else if(marks >= 50) { grade = "C"; gradePoints = 5; }
-		else if(marks >= 40) { grade = "P"; gradePoints = 4; }
-		
+		if(sam.getMidNetMarks() >= 14 && sam.getSemMarks() >= 21) {
+			if(marks >= 85) { grade = "O"; gradePoints = 10; }
+			else if(marks >= 75) { grade = "A+"; gradePoints = 9; }
+			else if(marks >= 70) { grade = "A"; gradePoints = 8; }
+			else if(marks >= 65) { grade = "B+"; gradePoints = 7; }
+			else if(marks >= 60) { grade = "B"; gradePoints = 6; }
+			else if(marks >= 50) { grade = "C"; gradePoints = 5; }
+			else if(marks >= 40) { grade = "P"; gradePoints = 4; }
+		}
+
 		sam.setGrade(grade);
 		sam.setGradePoints(gradePoints);
 		return HibernateTemplate.updateObject(sam);

@@ -73,6 +73,7 @@ public class TeacherLabMarksEntry extends HttpServlet {
         		}
         		else labMarksDao.updateExternalMarks(studentIdList.get(i), YBSId, externalMarksList.get(i));
         		labMarksDao.updateNetLabMarks(studentIdList.get(i), YBSId);
+        		labMarksDao.updateLabGrade(studentIdList.get(i), YBSId);
         	}
         }
         out.println("<html><body");

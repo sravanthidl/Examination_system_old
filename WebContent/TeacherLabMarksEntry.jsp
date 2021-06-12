@@ -216,8 +216,8 @@ body{font-family:arial;}
 					%>
 					<tr>
 						<td><input type="hidden" name="<%=studentId%>studentId" value="<%=studentId%>"><%=studentId%></td>
-						<td><input type="text" name="<%=studentId%>internalMarks" size="2" value="<%=internalVal%>" onfocus="this.value=''" pattern="([0-9])|([0-1][0-9])|([2][0-5])" required></td>
-						<td><input type="text" name="<%=studentId%>externalMarks" size="2" value="<%=externalVal%>" onfocus="this.value=''" pattern="([0-9])|([0-6][0-9])|([7][0-5])" required></td>
+						<td><input type="text" name="<%=studentId%>internalMarks" size="2" value="<%=internalVal%>" pattern="([0-9])|([0-1][0-9])|([2][0-5])" title="Max marks are 25" required></td>
+						<td><input type="text" name="<%=studentId%>externalMarks" size="2" value="<%=externalVal%>" pattern="([0-9])|([0-6][0-9])|([7][0-5])" title="Max marks are 50" required></td>
 					</tr>
 					<%}%>
 					<tr>

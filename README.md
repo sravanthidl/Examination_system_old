@@ -37,5 +37,4 @@ Schema:
 
 
 Bug fixes:
-1. Set default values in dto
-2. labmarks grade update
+1. Labmarks inclusion in sem marks

@@ -180,58 +180,61 @@ text-align:center;
 		<%! int counter = 1; %>
 		<%! void initCounter(){ counter = 1; }%>
 		<%
-			Descriptive descriptive = null;
-				if(examType.equals("asgn1")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid1");
-				else if(examType.equals("asgn2")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid2");
-				else descriptive = descriptiveDao.getDescriptive(YBSId, examType);
-				System.out.println(descriptive);
-				List<ScriptsAndMarks> sams = samDao.getAllYBSScripts(YBSId);
-				System.out.println(YBSId);
+		Descriptive descriptive = null;
+		if(examType.equals("asgn1")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid1");
+		else if(examType.equals("asgn2")) descriptive = descriptiveDao.getDescriptive(YBSId, "mid2");
+		else descriptive = descriptiveDao.getDescriptive(YBSId, examType);
+		System.out.println(descriptive);
+		List<ScriptsAndMarks> sams = samDao.getAllYBSScripts(YBSId);
+		System.out.println(YBSId);
+		%>
+		<div style="height:550px;width:30%;position:absolute;top:50px;left:370px"><table id="tb">
+			<tr>
+				<th>S No.</th>
+				<th width="220px">Script</th>
+				<th>Marks</th>
+			</tr>
+			<tr>
+				<td>Q Paper</td>
+				<%if(examType.equals("mid1") || examType.equals("mid2")){%>
+				<td><a href="pics/<%=descriptive.getQPaperPath()%>" target="_blank"><%=descriptive.getQPaperPath()%></a></td>
+				<%}else{%>
+				<td><a href="pics/<%=descriptive.getAsgnPaperPath()%>" target="_blank"><%=descriptive.getAsgnPaperPath()%></a></td>
+				<%}%>		
+				<td>NA</td>
+			</tr>
+			<%
+			initCounter();
+			for(ScriptsAndMarks sam : sams){
+				if(examType.equals("mid1") && sam.getDesc1Script() == null) continue;
+				else if(examType.equals("mid2") && sam.getDesc1Script() == null) continue;
+				else if(examType.equals("asgn1") && sam.getDesc1Script() == null) continue;
+				else if(examType.equals("asgn2") && sam.getDesc1Script() == null) continue;
 			%>
-				<div style="height:550px;width:30%;position:absolute;top:50px;left:370px"><table id="tb">
-				<tr>
-					<th>S No.</th>
-					<th width="220px">Script</th>
-					<th>Marks</th>
-				</tr>
-				<tr>
-					<td>Q Paper</td>
-					<%if(examType.equals("mid1") || examType.equals("mid2")){%>
-					<td><a href="pics/<%=descriptive.getQPaperPath()%>" target="_blank"><%=descriptive.getQPaperPath()%></a></td>
-					<%}else{%>
-					<td><a href="pics/<%=descriptive.getAsgnPaperPath()%>" target="_blank"><%=descriptive.getAsgnPaperPath()%></a></td>
-					<%}%>		
-					<td>NA</td>
-				</tr>
-				<%
-				initCounter();
-				for(ScriptsAndMarks sam : sams){
-					System.out.println(sam.getYBSId());
-				%>
-				<tr>
-					<form action="TeacherScriptEvaluation.jsp">
-						<input type="hidden" name="studentId" value="<%=sam.getStudentId()%>">
-						<input type="hidden" name="YBSId" value="<%=YBSId%>">
-						<input type="hidden" name="examType" value="<%=examType%>">					
-						<td><input type="hidden" name="SNo" value="<%=counter%>"><%=counter%></td>	
-						<%if(examType.equals("mid1")){%>
-						<td><input type="Submit" name="script" value="<%=sam.getDesc1Script()%>" target="iframe_a"></td>
-						<td><%=sam.getDesc1Marks()%></td>
-						<%}else if(examType.equals("mid2")){%>
-						<td><input type="Submit" name="script" value="<%=sam.getDesc2Script()%>" target="iframe_a"></td>
-						<td><%=sam.getDesc2Marks()%></td>
-						<%} else if(examType.equals("asgn1")){%>
-						<td><input type="Submit" name="script" value="<%=sam.getAsgn1Script()%>" target="iframe_a"></td>
-						<td><%=sam.getAsgn1Marks()%></td>
-						<%}else if(examType.equals("asgn2")){%>
-						<td><input type="Submit" name="script" value="<%=sam.getAsgn2Script()%>" target="iframe_a"></td>
-						<td><%=sam.getAsgn2Marks()%></td>
-						<%}%>
-					</form>
-				</tr>
-				<% counter++;} %>
-				</table>
-			</div>
+			<tr>
+				<form action="TeacherScriptEvaluation.jsp">
+					<input type="hidden" name="studentId" value="<%=sam.getStudentId()%>">
+					<input type="hidden" name="YBSId" value="<%=YBSId%>">
+					<input type="hidden" name="examType" value="<%=examType%>">					
+					<td><input type="hidden" name="SNo" value="<%=counter%>"><%=counter%></td>	
+					<%if(examType.equals("mid1")){%>
+					<td><input type="Submit" name="script" value="<%=sam.getDesc1Script()%>" target="iframe_a"></td>
+					<td><%=sam.getDesc1Marks()%></td>
+					<%}else if(examType.equals("mid2")){%>
+					<td><input type="Submit" name="script" value="<%=sam.getDesc2Script()%>" target="iframe_a"></td>
+					<td><%=sam.getDesc2Marks()%></td>
+					<%} else if(examType.equals("asgn1")){%>
+					<td><input type="Submit" name="script" value="<%=sam.getAsgn1Script()%>" target="iframe_a"></td>
+					<td><%=sam.getAsgn1Marks()%></td>
+					<%}else if(examType.equals("asgn2")){%>
+					<td><input type="Submit" name="script" value="<%=sam.getAsgn2Script()%>" target="iframe_a"></td>
+					<td><%=sam.getAsgn2Marks()%></td>
+					<%}%>
+				</form>
+			</tr>
+			<% counter++;} %>
+			</table>
+		</div>
 	</div>
 	
 </body>

@@ -192,8 +192,7 @@ body{font-family:arial;}
 		int year = new SubjectDao().getSubject(YBSId).getYear();
 		
 		ExamTask mid1ExamTask = examTaskDao.getExamTask(year, "mid1");
-		ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");
-		ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");	
+		ExamTask mid2ExamTask = examTaskDao.getExamTask(year, "mid2");	
 		Descriptive mid1Desc = descriptiveDao.getDescriptive(YBSId, "mid1");
 		Descriptive mid2Desc = descriptiveDao.getDescriptive(YBSId, "mid2");
 		if(mid1ExamTask != null){

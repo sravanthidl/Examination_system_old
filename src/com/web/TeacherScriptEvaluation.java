@@ -41,7 +41,6 @@ public class TeacherScriptEvaluation extends HttpServlet {
 			QMarks.add(Integer.parseInt(request.getParameter("Q4Marks")));
 			Collections.sort(QMarks, Collections.reverseOrder());
 			total = QMarks.get(0) + QMarks.get(1) + QMarks.get(2);
-			
 		}else {
 			total = Integer.parseInt(request.getParameter("marks"));
 		}

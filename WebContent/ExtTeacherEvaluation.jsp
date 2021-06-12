@@ -105,7 +105,16 @@ body{font-family:arial;}
   color: #4a4a4a;
   text-align: center;
 }
-
+input[type=submit]{
+	text-align:center;
+  padding: 5px 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.disable_class{
+  pointer-events: none;
+  opacity: 0.3;
+}
 </style>
 
 <body>
@@ -113,16 +122,21 @@ body{font-family:arial;}
 	<%
 	ExtTeacherDao extTeacherDao = new ExtTeacherDao();
 	SubjectDao subjectDao = new SubjectDao();
+	SAMDao samDao = new SAMDao();
+	ExamTaskDao examTaskDao = new ExamTaskDao();
+	DescriptiveDao descriptiveDao = new DescriptiveDao();
 	String extTeacherId = (String)session.getAttribute("extTeacherId");
-
 	ExtTeacher extTeacher = extTeacherDao.getExtTeacher(extTeacherId);
-	String YBSId = extTeacher.getYBSId();
-	int sNo = extTeacher.getSubjectSNo();
-	int year = (int)subjectDao.getSubject(YBSId).getYear();
-	String subjectName = subjectDao.getSubject(YBSId).getSubjectName();
+	String YBSId = extTeacher.getYBSId(), subjectName = null;
+	int sNo = 0, year = 0;
+	if(YBSId != null){
+		sNo = extTeacher.getSubjectSNo();
+		year = (int)subjectDao.getSubject(YBSId).getYear();
+		subjectName = subjectDao.getSubject(YBSId).getSubjectName();
+	}
 	%>
 	<div class="top1">
-		<p style="margin-left:30px;color:#e7e9f4">Evaluation > Year <%=year%> > <%=subjectName%></p>
+		<p style="margin-left:30px;color:#e7e9f4">Evaluation <%if(YBSId != null){%> > Year <%=year%> > <%=subjectName%> <%}%></p>
 	</div>
 	
 	<div class="top2"></div>
@@ -145,32 +159,67 @@ body{font-family:arial;}
 		<a class="options" style="top:268px;padding:17px 82px 17px 65px" href="AllLoginPage.html">Logout</a></br>	
 	</div>
 
+	<%if(YBSId == null){%>
+	<div class="body_bar">
+		<p style="position:absolute;top:60px;left:100px;font-size:25px">No scripts assigned yet! Check back later...</p>
+	</div>
+	<%}else{%>
 	<div class="body_bar">
 		<%! int counter = 1; %>
 		<%! void initCounter(){ counter = 1; }%>
 		<%
-			SAMDao samDao = new SAMDao();
-				List<ScriptsAndMarks> sams = samDao.getAllYBSScripts(YBSId);
-				List<ScriptsAndMarks> filteredSams = new ArrayList<>();
-				int startPaperNo = 5 * (sNo - 1), incrementer = 0;
-				while(incrementer < 5){
-			filteredSams.add(sams.get(startPaperNo + incrementer));
+		Descriptive descriptive = descriptiveDao.getDescriptive(YBSId, "sem");
+		List<ScriptsAndMarks> sams = samDao.getAllYBSScripts(YBSId);
+		List<ScriptsAndMarks> filteredSams = new ArrayList<>();
+		
+		String openDate = "TBA", closeDate = "TBA", status = "TBA";
+		year = new SubjectDao().getSubject(YBSId).getYear();
+		ExamTask semExamTask = examTaskDao.getExamTask(year, "sem");
+		String today = new Today().getToday();
+		
+		if(semExamTask != null){
+			openDate = semExamTask.getEvaluationOpenDate();
+			closeDate = semExamTask.getEvaluationCloseDate();
+			if(openDate != null && closeDate != null){
+				if(today.compareTo(closeDate) > 0) status = "Expired";
+				else if(today.compareTo(openDate) >= 0 && today.compareTo(closeDate) <= 0) status = "Active";
+				else if(today.compareTo(openDate) < 0) status = "Opens Soon";
+			}else{
+				openDate = "TBA";
+				closeDate = "TBA";
+			}
+		}
+		int startPaperNo = 5 * (sNo - 1), incrementer = 0;
+		int index = startPaperNo + incrementer;
+		while(incrementer < 5 && index < sams.size()){
+			filteredSams.add(sams.get(index));
 			incrementer++;
-				}
-				%>
-		<div style="height:550px;width:30%;position:absolute;top:50px;left:400px">
+			index = startPaperNo + incrementer;
+		}
+		if(status.equals("Expired")){%>
+			<p style="position:absolute;top:20px;left:60px;font-size:20px">Evaluation activity expired!</p>
+		<%}else if(!status.equals("Active")){%>
+			<p style="position:absolute;top:20px;left:60px;font-size:18px">Evaluation opens on <%=openDate%>...</p>
+		<%}%>
+		<div style="height:550px;width:35%;position:absolute;top:50px;left:380px" <%if(!status.equals("Active")){%>class="disable_class"<%}%> >
 			<table id="tb">
 				<tr>
 					<th>S No.</th>
 					<th>Script</th>
 					<th>Marks</th>
 				</tr>
+				<tr>
+					<td>Q Paper</td>
+					<td><a href="pics/<%=descriptive.getQPaperPath()%>" target="_blank"><%=descriptive.getQPaperPath()%></a></td>
+					<td>NA</td>
+				</tr>
 				<%
 				initCounter();
-					initCounter();
-						for(ScriptsAndMarks sam : filteredSams){%>
-						<tr>
-							<form action="ExtTeacherScriptEvaluation.jsp">
+				for(ScriptsAndMarks sam : filteredSams){
+					if(sam.getSemScript() == null) continue;
+				%>
+				<tr>
+					<form action="ExtTeacherScriptEvaluation.jsp">
 						<input type="hidden" name="studentId" value="<%=sam.getStudentId()%>">
 						<input type="hidden" name="YBSId" value="<%=YBSId%>">
 						<input type="hidden" name="examType" value="sem">
@@ -182,7 +231,8 @@ body{font-family:arial;}
 				<% counter++;} %>
 			</table>
 		</div>
-	</div>	
+	</div>
+	<%}%>	
 	
 </body>
 

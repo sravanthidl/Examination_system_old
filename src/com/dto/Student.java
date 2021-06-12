@@ -28,23 +28,23 @@ public class Student {
 	@Column
 	private Integer currentSem;
 	@Column
-	private Float sgpa1;
+	private Float sgpa1 = (float)0.0;
 	@Column
-	private Float sgpa2;
+	private Float sgpa2 = (float)0.0;
 	@Column
-	private Float sgpa3;
+	private Float sgpa3 = (float)0.0;
 	@Column
-	private Float sgpa4;
+	private Float sgpa4 = (float)0.0;
 	@Column
-	private Float sgpa5;
+	private Float sgpa5 = (float)0.0;
 	@Column
-	private Float sgpa6;
+	private Float sgpa6 = (float)0.0;
 	@Column
-	private Float sgpa7;
+	private Float sgpa7 = (float)0.0;
 	@Column
-	private Float sgpa8;
+	private Float sgpa8 = (float)0.0;
 	@Column
-	private Float cgpa;
+	private Float cgpa = (float)0.0;
 	
 	public Student() {
 		super();
